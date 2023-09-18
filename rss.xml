@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 17 Sep 2023 14:20:07 GMT</lastBuildDate><item><title><![CDATA[Hello, world!]]></title><description><![CDATA[브라이언 커니핸과 데니스 리치의 기념비적인 프로그래밍 서적 “The C Programming
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 18 Sep 2023 11:01:06 GMT</lastBuildDate><item><title><![CDATA[Hello, world!]]></title><description><![CDATA[브라이언 커니핸과 데니스 리치의 기념비적인 프로그래밍 서적 “The C Programming
 Language…]]></description><link>http://onepredict.github.io/hello-world/</link><guid isPermaLink="false">http://onepredict.github.io/hello-world/</guid><pubDate>Sat, 16 Sep 2023 11:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 200px; &quot;
@@ -12,7 +12,7 @@ Language…]]></description><link>http://onepredict.github.io/hello-world/</link
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 140.50632911392407%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAIAAADuuAg3AAAACXBIWXMAAAsTAAALEwEAmpwYAAACeElEQVR42qVUaU/bQBDN///ab63aSohSCbUICgUkjgooV0I4cjQnCY7jI4mvtb2213ukYxto0gYR6Gq1Go/m7cx7ntmcaZphFAUvXAABYA6s8asWAHMBxq8EYzwbLMbjKGaUccYFbPEiMOXioK6uXUnvDpv5Wz27bu7MYmzh6HbolvuW4YYvK5vErNLq75xWd8+qpaYckXhesBDix0Xj/erx8k7x697l25Wf+4X682CRSiPr1sLG2fphCYeEMb6fr8MVjoczOk+CM12rHfXD2vF5uTOp0/OCZeBaV/v47eSg2MqcI9vTRohS9mzZyWkh//N2YWm70JR0deQs71x82jz3cPhX/hmCZfh6V1vaykPxUMLi5nmlrUyK8geMcaaE4IJnlXMusvzt3qAh6SbywQGopNXuw5IA/AhGAVk4bb/Zqx01tC8X3UrfWDy9remoKBnfS/316952SV4p3m2V5ZOWxjifAmNCmzraq6kVxbqSzJueuVtVfilWWTbynWFZTpzXvVFdc25kM07Fw4+cMzIWJhBaVW1Arl5KJ63BQUNrD+yNG7nQGa4Vu5O/bYoznBFlsukpNjb9SHMC1cGag50g6g5d3cF3hpeyvg/GT/X2K+c5uXiiq8SEIeacqnkzI9cLKYsZCwkNCI1iCmKSdIMTVAhInNoc7DBmQQSflDDu+35ON6ye4SqWq9qgii+brmKiu5HTGdqq5dl+CIZkIN32BsgHT2foqJYLYZaD/uH8xAxNx4hZg/HfagvgljBnDMhHQC89KZs5ktOPPvQtdAW0uh/FsJ2AoJCAB+wZjz5CiEGSh0VjeK8phzc7SZbuh894YgEEgL8BY1lJ8KqPUocAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 140.50632911392407%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAIAAADuuAg3AAAACXBIWXMAAAsTAAALEwEAmpwYAAACeElEQVR42qVUaU/bQBDN///ab63aSohSCbUICgUkjgooV0I4cjQnCY7jI4mvtb2213ukYxto0gYR6Gq1Go/m7cx7ntmcaZphFAUvXAABYA6s8asWAHMBxq8EYzwbLMbjKGaUccYFbPEiMOXioK6uXUnvDpv5Wz27bu7MYmzh6HbolvuW4YYvK5vErNLq75xWd8+qpaYckXhesBDix0Xj/erx8k7x697l25Wf+4X682CRSiPr1sLG2fphCYeEMb6fr8MVjoczOk+CM12rHfXD2vF5uTOp0/OCZeBaV/v47eSg2MqcI9vTRohS9mzZyWkh//N2YWm70JR0deQs71x82jz3cPhX/hmCZfh6V1vaykPxUMLi5nmlrUyK8geMcaaE4IJnlXMusvzt3qAh6SbywQGopNXuw5IA/AhGAVk4bb/Zqx01tC8X3UrfWDy9remoKBnfS/316952SV4p3m2V5ZOWxjifAmNCmzraq6kVxbqSzJueuVtVfilWWTbynWFZTpzXvVFdc25kM07Fw4+cMzIWJhBaVW1Arl5KJ63BQUNrD+yNG7nQGa4Vu5O/bYoznBFlsukpNjb9SHMC1cGag50g6g5d3cF3hpeyvg/GT/X2K+c5uXiiq8SEIeacqnkzI9cLKYsZCwkNCI1iCmKSdIMTVAhInNoc7DBmQQSflDDu+35ON6ye4SqWq9qgii+brmKiu5HTGdqq5dl+CIZkIN32BsgHT2foqJYLYZaD/uH8xAxNx4hZg/HfagvgljBnDMhHQC89KZs5ktOPPvQtdAW0uh/FsJ2AoJCAB+wZjz5CiEGSh0VjeK8phzc7SZbuh894YgEEIfQbY1lJ8ASc/9EAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -90,10 +90,31 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
 &lt;div class=&quot;footnotes&quot;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id=&quot;fn-주1&quot;&gt;번역서는 아쉽게도 절판됐습니다. &lt;a href=&quot;http://aladin.kr/p/uFTIK&quot;&gt;http://aladin.kr/p/uFTIK&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주1&quot;&gt;번역서는 아쉽게도 절판됐습니다.&lt;br&gt;…로 알고 있었는데, 도서출판 인사이트 대표님께서 해당 도서가 완전히 새로운 이름으로 다시 나왔다고 알려주셨습니다. &lt;a href=&quot;http://aladin.kr/p/jbDSE&quot;&gt;http://aladin.kr/p/jbDSE&lt;/a&gt;&lt;br&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 400px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAABz0lEQVR42qVTy67aMBDl27vqopuuuulfdFupXVWCVGJx3wl5hzxJIARCEts5nTEEsahU0WvpMJMZ+8yxZ5iBVt/36LqOXYzjqKGUuuKeNeuJ6Of3b5j/+gHHtTGfL7BYGFgulzCM31gYBqSU/ySSUmkhs/Z4wKePH/D1y2fE8Rp+uIZlu3D9UPtltb1PIf+YpgXPdXVAqRFCSH1VrkiPcB8hX6dpGuzqGjWB/e12q3E4nH2O7fd77HY7/c0+x+rLmbKq0LbtmVAIoRWapokgCOD7DB8uKbYdBx75L6+vGkmawvM82hciy3JYqxVWBD/w0Z5Ol6ZQhzkRhiHiJIFtO0TkavKHh0c8P7/AIeIwisDFp6eYJoBvOFlNyEmthoje3kyYlkUVA1Liw7JWCKgQ+xERPj49wSWFnOdb6f1k+WwYRmdCnj8+yAdY5TAMVwWsaJrL8dIwpeR1Xm/z07zORnJO7RFi6PWG966ZpNL7biQoNGTrk0Ivx/8npFugOkqUhKqV2JAd1DsU8pvlxQZZXqCiGduUFdZJhihOEac5sqJEQbE032i7jmMkWUFz2/ydkB+0HwSEVPofwn7XD9QcgUEwpI7zt87fxBQ34wZM+AfUgDWpVXnXEAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;@insightbook&quot;
+        title=&quot;&quot;
+        src=&quot;/static/a04fe254760151804a29e5166892cd79/e17e5/insightbook.png&quot;
+        srcset=&quot;/static/a04fe254760151804a29e5166892cd79/c26ae/insightbook.png 158w,
+/static/a04fe254760151804a29e5166892cd79/6bdcf/insightbook.png 315w,
+/static/a04fe254760151804a29e5166892cd79/e17e5/insightbook.png 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주2&quot;&gt;엔지니어가 모두 한국인일 거라 생각하는 건 편견입니다.&lt;a href=&quot;#fnref-%EC%A3%BC2&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주3&quot;&gt;거짓말입니다.&lt;a href=&quot;#fnref-%EC%A3%BC3&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
-&lt;li id=&quot;fn-주4&quot;&gt;어떤 아이템과 유사하지만 다름에 유의! &lt;span
+&lt;li id=&quot;fn-주4&quot;&gt;어떤 아이템과 유사하지만 다름에 유의!&lt;br&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 347px; &quot;
     &gt;
@@ -106,7 +127,7 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.45569620253164%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB6ElEQVR42oVRyXKbQBDtYRHDMixiNUJowUiAQMhiMYqcKEqVLk5clUt+IJX//4bMWI6dkz31qutNT79epoEXDYGzVOwR3RsOn/ZNt87KTbVLVwWADLz6HrDkdMXPh/bX2Iofvz8ejw/FZtv3Q7W9A8DofbHAW/X97/Pxj0HCG1ucTuN8U0tYBRCA1z6ozPEah9SRYIqCSoiuEFu3fGGkI+EjJQVgC8IExhMwAhB0QDLFa7c0xT+8Xf8TSyboASg2KA7rk1MAKcxy6jNkBpZReiG88qYfSST03cBzQ98Lg8Aw7eU8Cnw/mgRRGGRFla6LdV7SL4zi5TLJdNOjBVl2KlY0syqWt8u4WM2zdDYeO8N+vUpmfUdP+/T0o2n78/n88PlL1w+Xy+V0OtN1ZnklYgO8YHo8HOpt3VBf2+V5+e3riRIaOgyHaLKQsIllkxc0STY13VWIQwxX0WxOJMCPdFG1JcPDuisRh1pMHJlx6nQ5SQeRzkaAhiLMJr8CRqxz0F1YbSArYbGC7h52LSRrqHaorKHcod2ea3pEyV2DnBBhEykWA51cMgAsH9HnwxE1HWp7WKQwTyHJIM0hTiCI0ZXPbl9stIBpApsarADA9FlZGkc1NzH7SV5hK+GeF3bl1+W9OhnH1P4F8s85CqnbBPUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 66.45569620253164%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB6UlEQVR42oVRyXKbQBDtYRHDMixiNUJowUiAQMhiMYqcKEqVLk5clUt+IJX//4bMWI6dkz31qutNT79epoEXDYGzVOwR3RsOn/ZNt87KTbVLVwWADLz6HrDkdMXPh/bX2Iofvz8ejw/FZtv3Q7W9A8DofbHAW/X97/Pxj0HCG1ucTuN8U0tYBRCA1z6ozPEah9SRYIqCSoiuEFu3fGGkI+EjJQVgC8IExhMwAhB0QDLFa7c0xT+8Xf8TSyboASg2KA7rk1MAKcxy6jNkBpZReiG88qYfSST03cBzQ98Lg8Aw7eU8Cnw/mgRRGGRFla6LdV7SL4zi5TLJdNOjBVl2KlY0syqWt8u4WM2zdDYeO8N+vUpmfUdP+/T0o2n78/n88PlL1w+Xy+V0OtN1ZnklYgO8YHo8HOpt3VBf2+V5+e3riRIaOgyHaLKQsIllkxc0STY13VWIQwxX0WxOJMCPdFG1JcPDuisRh1pMHJlx6nQ5SQeRzkaAhiLMJr8CRqxz0F1YbSArYbGC7h52LSRrqHaorKHcod2ea3pEyV2DnBBhEykWA51cMgAsH9HnwxE1HWp7WKQwTyHJIM0hTiCI0ZXPbl9stIBpApsarADA9FlZGkc1NzH7SV5hK+GeF3bl1+W9OhnHwCl/AfLPOQqLcpcaAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
