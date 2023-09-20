@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 20 Sep 2023 09:06:14 GMT</lastBuildDate><item><title><![CDATA[JavaScript 의 using 을 사용해 보자]]></title><description><![CDATA[Intro 퇴근하기 직전, “JOKER…]]></description><link>http://onepredict.github.io/using-keyword/</link><guid isPermaLink="false">http://onepredict.github.io/using-keyword/</guid><pubDate>Wed, 20 Sep 2023 11:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Intro&lt;/h1&gt;
-&lt;p&gt;퇴근하기 직전, “JOKER” 님과 “부엉이” 님이 이야기하는 것을 옆에서 얼핏 듣게 되었습니다. 두분이 이야기한 내용들은 추상클래스로 다형성을 처리하는 방법으로 시작해서 팩토리 패턴을 스프링에서 어떻게 다루고 있는가를 건너 건너가 트랜잭션을 관리하는 방식의 차이로 까지 여정을 마무리하고 있는 상황이었습니다.(긴 여정이었어… 더 깊은 내용이 궁금합니다.)&lt;/p&gt;
-&lt;p&gt;DB 트랜잭션을 다룰 때, &lt;em&gt;Spring&lt;/em&gt; 에서는 &lt;code class=&quot;language-text&quot;&gt;@Transaction&lt;/code&gt; 어노테이션을 통해 매직처럼 관리가 되고 있는데, &lt;em&gt;python&lt;/em&gt; 에서는 connection을 직접 관리해야 되고 &lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt; 라는 키워드를 써야 한다는 이야기를 듣게 됩니다.&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 20 Sep 2023 14:51:59 GMT</lastBuildDate><item><title><![CDATA[JavaScript의 using을 사용해 보자]]></title><description><![CDATA[Intro 퇴근하기 직전, “JOKER…]]></description><link>http://onepredict.github.io/using-keyword/</link><guid isPermaLink="false">http://onepredict.github.io/using-keyword/</guid><pubDate>Wed, 20 Sep 2023 11:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;Intro&lt;/h1&gt;
+&lt;p&gt;퇴근하기 직전, “JOKER” 님과 “부엉이” 님이 이야기하는 것을 옆에서 얼핏 듣게 되었습니다. 두 분이 이야기한 내용들은 추상 클래스로 다형성을 처리하는 방법으로 시작해서 팩토리 패턴을 스프링에서 어떻게 다루고 있는가를 건너 건너가 트랜잭션을 관리하는 방식의 차이로 까지 여정을 마무리하고 있었습니다.(긴 여정이었어… 더 깊은 내용이 궁금합니다.)&lt;/p&gt;
+&lt;p&gt;DB 트랜잭션을 다룰 때, &lt;em&gt;Spring&lt;/em&gt; 에서는 &lt;code class=&quot;language-text&quot;&gt;@Transaction&lt;/code&gt;어노테이션을 통해 매직처럼 관리가 되고 있는데, &lt;em&gt;python&lt;/em&gt; 에서는 connection을 직접 관리해야 되고 &lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt;라는 키워드를 써야 한다는 이야기를 듣게 됩니다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 225px; &quot;
@@ -30,9 +30,9 @@
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;JavaScript 에서도 요새 비슷한 걸 추진하는 것 같았는데, &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; 이라는 키워드였습니다. 글 쓰기 주제로 갑자기 생각이 들었습니다. 이걸로 문서를 쓰자!&lt;/p&gt;
+&lt;p&gt;JavaScript에서도 요새 비슷한 걸 추진하는 것 같았는데, &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;이라는 키워드였습니다. 글 쓰기 주제로 갑자기 생각이 들었습니다. 이걸로 문서를 쓰자!&lt;/p&gt;
 &lt;h1&gt;&quot;using&quot; keyword 어디로 부터 왔는가?&lt;/h1&gt;
-&lt;p&gt;2018년 7월 24일 TC39&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt; 에서 해당 기능에 대한 첫 미팅을 진행하고, stage 1 승인이 이루어집니다. 해당 문서를 읽어보면 이 기능을 “왜” 넣었는지 아주 잘 설명해주고 있습니다. 문서는 위에서 부터 읽는 것이 국룰이지만 흥미를 돋구기 위해 잠깐은 건너가 해당 선행 기술의 컨셉부터 한 번 보면 좋을 것 같아요.&lt;/p&gt;
+&lt;p&gt;2018년 7월 24일 TC39&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt;에서 해당 기능에 대한 첫 미팅을 진행하고, stage 1 승인이 이루어집니다. 해당 문서를 읽어보면 이 기능을 “왜” 넣었는지 아주 잘 설명해 주고 있습니다. 문서는 위에서부터 읽는 것이 국룰이지만 흥미를 돋구기 위해 잠깐은 건너가 해당 선행 기술의 컨셉부터 한 번 보면 좋을 것 같아요.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;선행 기술&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;C#&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; statement, declaration&lt;/p&gt;
@@ -52,7 +52,7 @@
 &lt;p&gt;&lt;strong&gt;Python&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;The with statement is used to wrap the execution of a block with methods defined by a context manager (see section With Statement Context Managers). This allows common try…except…finally usage patterns to be encapsulated for convenient reuse.
 &lt;sup id=&quot;fnref-주4&quot;&gt;&lt;a href=&quot;#fn-주4&quot; class=&quot;footnote-ref&quot;&gt;주4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;p&gt;사용법 및 정도의 차이는 있지만, 대략 공통의 이야기들은 블럭 내에서 정의한 &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt; 를 관리하는 statement 를 제공해주고, 해당 블록이 끝날 때, &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt; 가 닫히도록 보장하며, 명시적으로 작성하는 기능을 포함하고 있습니다. 그렇다면 JavaScript 스펙으로 진행 중인 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; keyword도 비슷하지 않을까? 맞습니다. 다른 언어들이 가지고 있는 기능을 토대로 현재 제안을 진행 중 입니다.&lt;/p&gt;
+&lt;p&gt;사용법 및 정도의 차이는 있지만, 대략 공통의 이야기들은 블록 내에서 정의한 &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt;를 관리하는 statement를 제공해 주고, 해당 블록이 끝날 때, &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt;가 닫히도록 보장하며, 명시적으로 작성하는 기능을 포함하고 있습니다. 그렇다면 JavaScript 스펙으로 진행 중인 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; keyword도 비슷하지 않을까? 맞습니다. 다른 언어들이 가지고 있는 기능을 토대로 현재 제안을 진행 중입니다.&lt;/p&gt;
 &lt;h1&gt;어디에서 쓸까? 왜 필요하지?&lt;/h1&gt;
 &lt;p&gt;예를 들어 보겠습니다. 우리는 지금 DB에 접근하여, Posts collection을 가져오는 함수를 하나 작성한다고 해보죠.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getPosts&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -66,7 +66,7 @@
   &lt;span class=&quot;token comment&quot;&gt;// 다 가져온 것 같아 이제 내보내자&lt;/span&gt;
   &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; posts
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;위 함수는 이상하게 느껴질 것입니다. 한 번 곰곰히 읽어보며 문제를 찾아봅시다. 문제는 많아 보이겠지만, 하나를 찾아보자면 우선 connect 된 db를 close 하는 부분이 없습니다.&lt;/p&gt;
+&lt;p&gt;위 함수는 이상하게 느껴질 것입니다. 한 번 곰곰이 읽어보며 문제를 찾아봅시다. 문제는 많아 보이겠지만, 하나를 찾아보자면 우선 connect 된 db를 close 하는 부분이 없습니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getPosts&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
 
 &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;
@@ -76,7 +76,7 @@ db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
 &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; posts&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;문제가 해결 되었을까요?&lt;/p&gt;
-&lt;p&gt;만약 posts 를 찾아오는 과정에서 문제가 생기면 어떻게 될까요?&lt;/p&gt;
+&lt;p&gt;만약 posts를 찾아오는 과정에서 문제가 생기면 어떻게 될까요?&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;close 까지 도달하지 못한다면?&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -109,9 +109,9 @@ db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;이런 문제들을 방지하기 위해서 JavaScript 에서는 이런 &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt; 를 어떻게 관리 했을까요?
-실제로, &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt; 에 대한 관리가 필요한 경우 javascript 에서는 &lt;code class=&quot;language-text&quot;&gt;try..catch..finally&lt;/code&gt; 를 많이 사용하고는 했습니다.&lt;/p&gt;
-&lt;p&gt;다음은 &lt;code class=&quot;language-text&quot;&gt;try..catch..finally&lt;/code&gt; 를 적용시켜 보겠습니다.&lt;/p&gt;
+&lt;p&gt;이런 문제들을 방지하기 위해서 JavaScript에서는 이런 &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt;를 어떻게 관리 했을까요?
+실제로, &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt;에 대한 관리가 필요한 경우 JavaScript에서는 &lt;code class=&quot;language-text&quot;&gt;try..catch..finally&lt;/code&gt;를 많이 사용하고는 했습니다.&lt;/p&gt;
+&lt;p&gt;다음은 &lt;code class=&quot;language-text&quot;&gt;try..catch..finally&lt;/code&gt;를 적용해 보겠습니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getPosts&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; db
 
@@ -127,8 +127,8 @@ db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
     &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;문제는 해결된 것처럼 보입니다. 물론 db를 연결하고, 해제하는 영역에 대해서 저러한 보일러 플레이트가 생기는 것을 제외하고는 말이죠. 유사하게 이렇게 connect 가 열리는 부분에서는 지속적인 고민들이 생기기 마련입니다. 파일 스트림을 받는다든지, 또는 resource 를 공유하는 worker 들 사이들 에서도 해당 고민들은 발생할 수 있습니다. 혹시 이러한 resource 타입에 따라서 관리하는 방법들이 제각각이라면 하나의 방법으로 명시적인 관리를 하면 어떨까요? 여기에서 이 명세의 동기가 시작됩니다.&lt;/p&gt;
-&lt;p&gt;위에서는 사용을 위한 예시를 보았습니다. 흥미가 생겼으면 좋겠네요. 그 궁금함을 갖고 조금은 딱딱한 공식 문서를 들여다 보겠습니다.TC-39 에 제시된 문서의 제목과 동기를 읽어보면 다음과 같습니다.&lt;/p&gt;
+&lt;p&gt;문제는 해결된 것처럼 보입니다. 물론 db를 연결하고, 해제하는 영역에 대해서 저러한 보일러 플레이트가 생기는 것을 제외하고는 말이죠. 유사하게 이렇게 connect가 열리는 부분에서는 지속적인 고민이 생기기 마련입니다. 파일 스트림을 받는다든지, 또는 resource를 공유하는 worker 들 사이들에서도 해당 고민은 발생할 수 있습니다. 혹시 이러한 resource 타입에 따라서 관리하는 방법들이 제각각이라면 하나의 방법으로 명시적인 관리를 하면 어떨까요? 여기에서 이 명세의 동기가 시작됩니다.&lt;/p&gt;
+&lt;p&gt;위에서는 사용을 위한 예시를 보았습니다. 흥미가 생겼으면 좋겠네요. 그 궁금함을 갖고 조금은 딱딱한 공식 문서를 들여다보겠습니다. TC-39에 제시된 문서의 제목과 동기를 읽어보면 다음과 같습니다.&lt;/p&gt;
 &lt;h3&gt;제목: ECMAScript 명시적 리소스 관리&lt;/h3&gt;
 &lt;h3&gt;동기&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;리소스 관리에 대한 일관적이지 않은 패턴&lt;/strong&gt;&lt;/p&gt;
@@ -142,7 +142,7 @@ db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; reader &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; stream&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getReader&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;
 reader&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;releaseLock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// try/finally 가 있어야 함.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;resource 의 범위를 잡을 때&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;resource의 범위를 잡을 때&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; handle &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// handle 을 쓰는데 적당합니다.&lt;/span&gt;
@@ -151,7 +151,7 @@ reader&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
     handle&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token comment&quot;&gt;// handle을 쓰는데 적당하지 않습니다만 아직도 스코프 내에 있어요.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;여러 개의 resource 를 관리 할 때, footguns 피하기&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;여러 개의 resource를 관리 할 때, footguns 피하기&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; a &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; b &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -233,7 +233,7 @@ using a &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cla
   &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// `await` 후에도 여전히 write lock 상태입니다.&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// write lock을 해제&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;Fixed Layout Objects 와 shared struct 를 함께 사용해야 될 때&lt;sup id=&quot;fnref-주6&quot;&gt;&lt;a href=&quot;#fn-주6&quot; class=&quot;footnote-ref&quot;&gt;주6&lt;/a&gt;&lt;/sup&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Fixed Layout Objects와 shared struct를 함께 사용해야 될 때&lt;sup id=&quot;fnref-주6&quot;&gt;&lt;a href=&quot;#fn-주6&quot; class=&quot;footnote-ref&quot;&gt;주6&lt;/a&gt;&lt;/sup&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// main.js&lt;/span&gt;
 shared struct &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;SharedData&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   ready &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
@@ -288,9 +288,9 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
     console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;worker thread is done&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos; 잠금 헤제&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;위의 예시들을 해소하기 위해서 도입을 추진하게 됩니다.&lt;/p&gt;
+&lt;p&gt;위의 예시를 해소하기 위해서 도입을 추진하게 됩니다.&lt;/p&gt;
 &lt;p&gt;원문이 궁금하신 분들을 위하여, 각주로 링크를 첨부합니다.&lt;sup id=&quot;fnref-주7&quot;&gt;&lt;a href=&quot;#fn-주7&quot; class=&quot;footnote-ref&quot;&gt;주7&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;h1&gt;그래서…? 좋은 건 알겠어. 당장 쓰러가자!&lt;/h1&gt;
+&lt;h1&gt;그래서…? 좋은 건 알겠어. 당장 쓰러 가자!&lt;/h1&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
@@ -325,10 +325,10 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;다만 문제가 조금 있습니다. 아쉽게도 해당 기능은 아직은 TC-39 stage 3 라는 것. 아직 정식으로 Javascript 기능에 포함되지 않았습니다. 하지만, 당장 써볼 수 있는 곳이 있습니다.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://devblogs.microsoft.com/typescript/announcing-typescript-5-2/#using-declarations-and-explicit-resource-management&quot;&gt;타입스크립트 5.2 using&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;아직 나온지 한 달(23년 9월 기준) 정도된 따뜻한 타입스크립트 기능입니다.&lt;/p&gt;
-&lt;p&gt;5.2 에 해당 기능을 서포트하는 기능이 추가되었습니다.&lt;/p&gt;
+&lt;p&gt;아직 나온 지 한 달(23년 9월 기준) 정도 된 따뜻한 타입스크립트 기능입니다.&lt;/p&gt;
+&lt;p&gt;5.2에 해당 기능을 서포트하는 기능이 추가되었습니다.&lt;/p&gt;
 &lt;p&gt;Outro&lt;/p&gt;
-&lt;p&gt;내용을 다 읽으신 분, 또는 글을 밑에서 부터 읽는 것을 좋아하시는 분에게 선물을 드리자면 사실 1부작 같은 2부작 이었습니다.&lt;/p&gt;
+&lt;p&gt;내용을 다 읽으신 분, 또는 글을 밑에서부터 읽는 것을 좋아하시는 분에게 선물을 드리자면 사실 1부작 같은 2부작 이었습니다.&lt;/p&gt;
 &lt;p&gt;그렇습니다. 시리즈 입니다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
@@ -397,9 +397,9 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
 &lt;hr&gt;
 &lt;ol&gt;
 &lt;li id=&quot;fn-주1&quot;&gt;tc39 프로세스라고도 불립니다. &lt;a href=&quot;https://tc39.es/&quot;&gt;사이트&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
-&lt;li id=&quot;fn-주2&quot;&gt;&lt;a href=&quot;https://learn.microsoft.com/ko-kr/dotnet/csharp/language-reference/keywords/using&quot;&gt;마이크로소프트 C# 메뉴얼 원문&lt;/a&gt; 에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC2&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주2&quot;&gt;&lt;a href=&quot;https://learn.microsoft.com/ko-kr/dotnet/csharp/language-reference/keywords/using&quot;&gt;마이크로소프트 C# 원문&lt;/a&gt; 에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC2&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주3&quot;&gt;&lt;a href=&quot;https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html&quot;&gt;오라클 원문&lt;/a&gt; 에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC3&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
-&lt;li id=&quot;fn-주4&quot;&gt;&lt;a href=&quot;https://docs.python.org/3/reference/compound_stmts.html#with&quot;&gt;파이썬 원문&lt;/a&gt; 에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC4&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주4&quot;&gt;&lt;a href=&quot;https://docs.python.org/3/reference/compound_stmts.html#with&quot;&gt;파이선 원문&lt;/a&gt; 에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC4&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주5&quot;&gt;자기 발등 찍기&lt;a href=&quot;#fnref-%EC%A3%BC5&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주6&quot;&gt;아직은 stage1 spec에 머물고 있습니다 &lt;a href=&quot;https://github.com/tc39/proposal-structs&quot;&gt;Proposal Structs&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC6&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주7&quot;&gt;&lt;a href=&quot;https://github.com/tc39/proposal-explicit-resource-management&quot;&gt;ECMAScript Explicit Resource Management Proposal&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC7&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
