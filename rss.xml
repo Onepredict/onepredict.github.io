@@ -1,4 +1,307 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 28 Sep 2023 15:22:45 GMT</lastBuildDate><item><title><![CDATA[TypeScript로 API JSON Schema 테스트하기]]></title><description><![CDATA[기존에 발행된 글을
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 28 Sep 2023 23:03:55 GMT</lastBuildDate><item><title><![CDATA[TypeScript를 이용한 대수적 타입]]></title><description><![CDATA[기존에 발행된 글을
+정리해서 다시 소개합니다.  Intro. 고전적인 웹 애플리케이션들은 순수한 HTML, CSS, Javascript의 세 언어만
+이용하여 구성되었습니다.
+그중에서 웹페이지의 상호작용 및 동작을 수행하는 JavaScript…]]></description><link>http://onepredict.github.io/typescript-algebric-type/</link><guid isPermaLink="false">http://onepredict.github.io/typescript-algebric-type/</guid><pubDate>Sat, 30 Sep 2023 05:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://tech.onepredict.ai/4d9f807b-12ae-40ac-a828-0390ee5e21ea&quot;&gt;기존에 발행된 글&lt;/a&gt;을
+정리해서 다시 소개합니다. &lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Intro.&lt;/h2&gt;
+&lt;p&gt;고전적인 웹 애플리케이션들은 순수한 &lt;strong&gt;HTML, CSS, Javascript&lt;/strong&gt;의 세 언어만
+이용하여 구성되었습니다.
+그중에서 웹페이지의 상호작용 및 동작을 수행하는 JavaScript는 동적 타입
+언어로써 프로그램에 사용된 각 심볼의 타입이 실행되는 순간에 평가되기 때문에
+매우 유연하게 작성할 수 있다는 장점이 있고,
+브라우저에서 실행 가능한 언어로써 지금까지도 많이 쓰이고 있습니다.&lt;/p&gt;
+&lt;p&gt;그러나 JavaScript를 이용하여 작성된 프로그램에서는 많은 에러들이 런타임에
+발생하고, 이런 런타임 에러들은 발생하기 전에는 찾거나 수정하기 상당히
+까다롭다는 단점을 가지고 있기 때문에 모던 웹 개발에서는 이러한 문제를
+해결하고자 &lt;strong&gt;TypeScript&lt;/strong&gt;라는 JavaScript의 확장을 이용하고 있습니다.&lt;/p&gt;
+&lt;p&gt;원프레딕트 프론트엔드 팀은 위에서 언급한 이유로 TypeScript를 이용한
+타입 시스템을 기반으로 개발하고 있습니다.
+타입 시스템을 기반으로 하는 개발은 런타임에 발생할 수 있는 예외 상황들을
+린터 등을 통해 컴파일 타임에 미리 배제할 수 있으며,
+함수에 유효하지 않은 값이 넘겨지는 상황 등을 미연에 방지할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;타입 시스템을 기반으로 실행 전에 신뢰할 수 있는 프로그램의 형태를 구성하기
+위해서 **“대수적 데이터 타입(Algebraic Data Type, 이하 ADT)”**이라는
+개념을 이용하고 있습니다.
+본 글에서는 이 대수적 데이터 타입이 무엇인지,
+간단한 예시를 통해 설명하고자 합니다.&lt;/p&gt;
+&lt;p&gt;함수형 프로그래밍과 범주론에서는 ADT이라는 합성 타입을 이용하여 하위 타입들을
+확장하고, 더 큰 범주의 타입을 설계할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;가장 일반적인 ADT의 종류에는 다음의 두 가지가 있습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;합 타입(Sum Type, 혹은 Variants, Tagged Union)&lt;/li&gt;
+&lt;li&gt;곱 타입(Product Type, 혹은 Record, Tuple)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;합 타입(Sum Type)&lt;/h2&gt;
+&lt;p&gt;합 타입은 하위 타입 중 하나만 가지는 타입입니다.
+합 타입으로 구성되는 타입 집합의 크기(카디널리티)는 하위 타입 집합 크기의
+합과 같습니다&lt;/p&gt;
+&lt;p&gt;예를 들어, 트럼프 카드 세트와 타로 카드 세트를 포함하며 현실 세계의
+카드 게임에 쓰이는 카드들의 세트를 모방하는 임의의 &lt;code class=&quot;language-text&quot;&gt;CardSet&lt;/code&gt; 타입은
+다음과 같이 나타낼 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;CardSet&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; TrumpCard &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; TarotCard&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;위의 &lt;code class=&quot;language-text&quot;&gt;CardSet&lt;/code&gt;은 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt;가 나타낼 수 있는 모든 카드와 &lt;code class=&quot;language-text&quot;&gt;TarotCard&lt;/code&gt;가
+나타낼 수 있는 모든 카드를 포함합니다.
+이는 트럼프 카드 세트의 “♠️4”나 타로 카드 세트의 “Fool” 카드가 하나의
+&lt;strong&gt;카드&lt;/strong&gt;라는 집합에 속하지만 하나의 카드가 한 번에 하나의 하위 타입에만
+속한다는 것을 생각하면 당연한 구조입니다.
+따라서 타입 &lt;code class=&quot;language-text&quot;&gt;CardSet&lt;/code&gt;이 나타낼 수 있는 카드의 수
+&lt;i&gt;N&lt;sub&gt;CardSet&lt;/sub&gt;&lt;/i&gt;는
+(트럼프 카드의 수 &lt;i&gt;N&lt;sub&gt;TrumpCard&lt;/sub&gt;&lt;/i&gt; + 타로 카드의 수
+&lt;i&gt;N&lt;sub&gt;TarotCard&lt;/sub&gt;&lt;/i&gt;)와 같습니다.&lt;/p&gt;
+&lt;h2&gt;곱 타입(Product Type)&lt;/h2&gt;
+&lt;p&gt;곱 타입은 하위 타입을 동시에 가지는 타입입니다.
+곱 타입으로 구성되는 타입 집합의 크기는 하위 타입 집합의 곱과 같습니다.&lt;/p&gt;
+&lt;p&gt;위의 예제에 이어, 하나의 트럼프 카드는 문양을 나타내는 &lt;strong&gt;Suit&lt;/strong&gt;와
+그 카드의 값인 &lt;strong&gt;Rank&lt;/strong&gt;를 동시에 가지므로, 다음과 같이 나타낼 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpRank&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+  &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;
+  &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;
+  &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;9&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;
+  &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Jack&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Queen&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;King&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpSuit&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+  &lt;span class=&quot;token string&quot;&gt;&quot;♠️&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♣️&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♥️&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♦️&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpCard&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;TrumpSuit&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; TrumpRank&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;여기서는 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt;라는 하나의 타입을 &lt;code class=&quot;language-text&quot;&gt;TrumpSuit&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;TrumpRank&lt;/code&gt;로 구성된
+튜플 타입으로 나타내었습니다.
+여기서 타입 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt;가 나타낼 수 있는 카드의 수
+&lt;i&gt;N&lt;sub&gt;TrumpCard&lt;/sub&gt;&lt;/i&gt;는
+(카드의 문양 수 &lt;i&gt;N&lt;sub&gt;Suit&lt;/sub&gt;&lt;/i&gt; * 카드의 랭크 수
+&lt;i&gt;N&lt;sub&gt;Rank&lt;/sub&gt;&lt;/i&gt;)입니다.
+이는 &lt;code class=&quot;language-text&quot;&gt;TrumpRank&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;TrumpSuit&lt;/code&gt;가 가지는 집합의 크기는 각각 13과 4이므로,
+&lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 타입 집합의 크기는 52로 결정됨을 의미합니다.&lt;/p&gt;
+&lt;p&gt;튜플 타입의 하위 타입은 인덱스를 통해 접근할 수 있으나,
+코드를 작성할 때 튜플 타입을 인덱스로 접근하는 것이 직관적이지 않고
+코드의 가독성을 해치므로,
+일반적으로 TypeScript에서는 튜플 타입 대신 &lt;strong&gt;Record Type&lt;/strong&gt;을 통해
+Product Type을 이용합니다.
+위의 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 타입은 Record로 변환하면 다음과 같이 작성할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpCard&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  suit&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpSuit&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  rank&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpRank&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 각 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 타입 값의 문양과 랭크는 각각의 이름인 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;rank&lt;/code&gt;를
+통해 접근할 수 있습니다.
+아래 예제의 &lt;code class=&quot;language-text&quot;&gt;isSpade&lt;/code&gt; 함수는 주어진 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 타입의 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성을 통해
+&lt;code class=&quot;language-text&quot;&gt;trumpCard&lt;/code&gt;의 문양이 ♠️인 경우에는 true, 아닌 경우에는 false를 반환합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;isSpade&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;trumpCard&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpCard&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; trumpCard&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;suit &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♠️&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; spadeFour&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpCard &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  suit&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♠️&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  rank&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; heartKing&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpCard &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  suit&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♥️&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  rank&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;King&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; isSpadeFourSpade &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;isSpade&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;spadeFour&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// true&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; isHeartKingSpade &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;isSpade&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;heartKing&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// false&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;구분 필드를 이용한 가독성 확보&lt;/h2&gt;
+&lt;p&gt;위의 트럼프 카드 타입 예제에서 조커 카드가 빠졌다고 생각하셨나요?
+위의 트럼프 카드를 확장하면 됩니다.
+이처럼 대수적 타입은 확장에 유연한 구조로 되어 있습니다.
+아래 코드에서는 흑백 조커 카드 &lt;strong&gt;BWJoker&lt;/strong&gt;와 컬러 조커 카드 &lt;strong&gt;ColorJoker&lt;/strong&gt;를
+&lt;strong&gt;Sum Type&lt;/strong&gt;으로 확장한 &lt;code class=&quot;language-text&quot;&gt;TrumpJoker&lt;/code&gt; 타입을 기존의 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 타입에
+&lt;strong&gt;Sum Type&lt;/strong&gt;으로 확장했습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpRank&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+  &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;
+  &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;
+  &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;9&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;
+  &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Jack&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Queen&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;King&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpSuit&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+  &lt;span class=&quot;token string&quot;&gt;&quot;♠️&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♣️&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♥️&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♦️&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpJoker&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;BWJoker&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ColorJoker&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpCard&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  suit&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpSuit&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  rank&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpRank&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; TrumpJoker&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 대수적 타입을 이용하면 하나의 트럼프 카드 세트에 있는 모든 카드를
+빠르고 간단하게 정의할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;그러나 &lt;code class=&quot;language-text&quot;&gt;TrumpJoker&lt;/code&gt; 타입을 추가함으로써 &lt;code class=&quot;language-text&quot;&gt;isSpade&lt;/code&gt; 함수에 에러가 발생하는 것을
+볼 수 있습니다.
+&lt;code class=&quot;language-text&quot;&gt;TrumpJoker&lt;/code&gt; 타입에는 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt;라는 속성이 없기 때문입니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Property ‘suit’ does not exist on type ‘TrumpCard’.
+Property ‘suit’ does not exist on type ‘“BWJoker”&apos;(2399).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;이렇게 변경된 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt;에 대응하는 &lt;code class=&quot;language-text&quot;&gt;isSpade&lt;/code&gt;를 확장하는 방법은 다음의
+세 가지가 있습니다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;trumpCard&lt;/code&gt; 값을 조커의 하위 타입 리터럴과 비교하고, 예외 절에서
+&lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성을 통해 판별한다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;trumpCard&lt;/code&gt; 값에 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성이 존재하는 지 판별하고,
+&lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성이 존재하는 경우에만 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성을 통해 판별한다.&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 타입의 하위 타입을 확장하여, 두 하위 타입을 구분할 수 있는
+별개의 속성 필드를 통해 판별한다.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;여기서는 세 번째 방법을 통해 이 문제를 해결하는 과정을 설명합니다.
+각 방법에는 장/단점이 존재하지만, 세 번째 방법은 추후 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt;의
+하위 타입이 병렬적으로 증가할 때 유연하게 대처할 수 있고,
+명확하게 하위 타입 이름을 참조함으로써 코드 가독성을 높이는 장점이 있기
+때문입니다.&lt;/p&gt;
+&lt;p&gt;우선 조커가 아닌, &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;rank&lt;/code&gt; 속성을 가지는 집합인
+&lt;code class=&quot;language-text&quot;&gt;TrumpNormalCard&lt;/code&gt; 타입을 아래와 같이 정의합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpNormalCard&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  suit&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpSuit&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  rank&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpRank&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  trumpType&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;normal&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;rank&lt;/code&gt; 외에 &lt;code class=&quot;language-text&quot;&gt;trumpType: &quot;normal&quot;&lt;/code&gt;이 추가된 것에 주목하세요.
+이제 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 타입의 하위 타입은 이 속성을 통해 구분할 것입니다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;TrumpJoker&lt;/code&gt; 타입도 &lt;code class=&quot;language-text&quot;&gt;trumpType&lt;/code&gt; 속성을 가지도록 아래와 같이 확장합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpJoker&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  jokerType&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;BW&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Color&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  trumpType&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;joker&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 타입을 &lt;code class=&quot;language-text&quot;&gt;TrumpNormalCard&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;TrumpJoker&lt;/code&gt;의 Sum Type으로
+구성합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;TrumpCard&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; TrumpNormalCard &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; TrumpJoker&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 &lt;code class=&quot;language-text&quot;&gt;isSpade&lt;/code&gt; 함수에서 &lt;code class=&quot;language-text&quot;&gt;trumpCard&lt;/code&gt;의 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성을 바로 확인하지 않고,
+&lt;code class=&quot;language-text&quot;&gt;trumpType&lt;/code&gt;을 먼저 판별하도록 수정합니다.
+&lt;code class=&quot;language-text&quot;&gt;trumpType&lt;/code&gt;이 &lt;code class=&quot;language-text&quot;&gt;normal&lt;/code&gt;일 때만 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성을 통해 판별합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;isSpade&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;trumpCard&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpCard&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;trumpCard&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;trumpType&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;normal&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; trumpCard&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;suit &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♠️&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;joker&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 &lt;code class=&quot;language-text&quot;&gt;isSpade&lt;/code&gt; 함수는 &lt;code class=&quot;language-text&quot;&gt;joker&lt;/code&gt; 값들로 확장된 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt;의 모든 경우에
+대응할 수 있는 함수로 거듭났고,
+누가 보더라도 이해할 수 있도록 작성되었습니다.
+다른 방식으로 &lt;code class=&quot;language-text&quot;&gt;isSpade&lt;/code&gt;를 구현하면 어떻게 될까요?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1. &lt;code class=&quot;language-text&quot;&gt;trumpCard&lt;/code&gt; 값을 조커의 하위 타입 리터럴과 비교하고, 예외 절에서
+&lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성을 통해 판별한다.&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;isSpade&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;trumpCard&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpCard&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;trumpCard &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;BWJoker&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;||&lt;/span&gt; trumpCard &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;ColorJoker&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; trumpCard&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;suit &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♠️&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;TypeScript의 타입 추론은 강력하기 때문에, early return에서 반환되지 않은
+&lt;code class=&quot;language-text&quot;&gt;trumpCard&lt;/code&gt; 타입은 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성을 가진다는 것을 보장합니다.
+그러나 조커의 종류가 흑백과 색상을 가지는 두 종류였기에 다행이지,
+수십 개의 중첩된 타입 집합이었다면 모든 최하위 타입의 값을 전부 배제하도록
+코드를 작성해야 했을 것입니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2. &lt;code class=&quot;language-text&quot;&gt;trumpCard&lt;/code&gt; 값에 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성이 존재하는 지 판별하고,
+&lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성이 존재하는 경우에만 &lt;code class=&quot;language-text&quot;&gt;suit&lt;/code&gt; 속성을 통해 판별한다.&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;isSpade&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;trumpCard&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpCard&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;suit&quot;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; trumpCard&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; trumpCard&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;suit &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♠️&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 경우, 첫 번째 방식과 같이 번잡하게 모든 경우를 쓸 필요는 없어졌습니다.
+그러나 이 함수가 단순히 하나의 필드만 참조하고,
+하위 타입을 단순히 하나의 필드를 통해 분별할 수 있어서 깔끔한 코드를 작성할
+수 있었고,
+하위 타입끼리 공유되는 필드를 가지고 있는 경우엔 그들을 구분할 수 있는
+서브 타입을 찾아야 하며,
+코드상으로 드러나는 구분 방식도 직관적이지 않을 것입니다.&lt;/p&gt;
+&lt;p&gt;예를 들어, 온라인 쇼핑몰 사례를 살펴보겠습니다.
+고객(Customer), 관리자(Admin), 판매자(Seller)가 &lt;code class=&quot;language-text&quot;&gt;username&lt;/code&gt;과 &lt;code class=&quot;language-text&quot;&gt;password&lt;/code&gt;란
+공통 속성을 가진 상황을 정의하겠습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ShoppingItem&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Store&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  name&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  location&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  items&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; ShoppingItem&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Seller&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  username&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  password&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  profit&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  stores&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Store&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Customer&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  username&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  password&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  cart&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; ShoppingItem&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Admin&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  username&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  password&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  storeList&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Store&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  userList&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Customer&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  sellerList&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Seller&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;UserType&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Customer &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; Admin &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; Seller&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;만약 &lt;code class=&quot;language-text&quot;&gt;UserType&lt;/code&gt; 타입의 값을 인자로 받는 함수가 있고,
+이 함수가 사용자의 유형별로 처리해야 한다면,
+하위 타입을 고유하게 구분할 수 있는 속성군을 추려내야 할 것입니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;applyToUserType&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;userType&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; UserType&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;cart&quot;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; userType&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;//...Customer의 처리문&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;sellerList&quot;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; userType&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;//...Admin의 처리문&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;profit&quot;&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; userType&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;//...Seller의 처리문&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이처럼 이 방법은, 코드를 작성할 때는 고유한 속성을 고려해야 하고,
+코드를 읽을 때는 속성으로부터 고유한 집합군을 연상해야 하는 문제가 있습니다.&lt;/p&gt;
+&lt;h2&gt;대수적 데이터 타입을 이용한 안전한 개발&lt;/h2&gt;
+&lt;p&gt;대수적 데이터 타입을 이용하면 더 쉽게 안전한 개발이 가능합니다.
+타입을 확장할 때 곱 타입을 이용한 확장인지, 합 타입을 이용한 확장인지
+결정함으로써 새로 확장되는 타입이 가지게 될 역할의 범주가 결정되고,
+이렇게 결정된 범주를 기반으로 TypeScript 린터와 컴파일러는
+코드를 실행하기도 전에 값의 유효성을 검사하고 보장합니다.&lt;/p&gt;
+&lt;p&gt;예를 들어, 위의 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 예제에서 &lt;code class=&quot;language-text&quot;&gt;TrumpCard&lt;/code&gt; 타입을 유효하지 않은 값으로
+설정하려 하면 TypeScript 컴파일러는 다음과 같이 경고를 발생시킵니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; cardInstance&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpCard &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  suit&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;👍&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  rank&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;😎&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  trumpType&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;normal&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Type ‘“👍“’ is not assignable to type ‘TrumpSuit’(2322).&lt;/p&gt;
+&lt;p&gt;Type ‘“😎“’ is not assignable to type ‘TrumpRank’(2322).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;뿐만 아니라 IDE에서는 이러한 ADT들을 이해하여 해당 타입의 심볼을 정의할 때에
+유효한 값의 목록을 보여주기도 합니다.&lt;/p&gt;
+&lt;p&gt;Sum Type으로 정의된 타입에 대해서 &lt;code class=&quot;language-text&quot;&gt;switch-case&lt;/code&gt; 분기문을 작성할 때
+&lt;code class=&quot;language-text&quot;&gt;default&lt;/code&gt;로 fallback을 기재하지 않으면,
+&lt;code class=&quot;language-text&quot;&gt;case&lt;/code&gt;로 명시하지 않은 &lt;strong&gt;Sum Type&lt;/strong&gt;의 하위 타입이 있음을 나타내는
+경고를 보여주기도 합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;typescript&quot;&gt;&lt;pre class=&quot;language-typescript&quot;&gt;&lt;code class=&quot;language-typescript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;NameOfSuit&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;trumpSuit&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpSuit&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;trumpSuit&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♠️&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Spade&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Not all code paths return a value(7030).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;이러한 대수적 데이터 타입을 이용한 React 애플리케이션 개발에서는,
+Sum/Product 타입으로 컴포넌트의 입력 Prop(Property) 타입을 설계하고,
+각 Prop으로부터 마크업으로의 단사 함수(Injective Function)를 정의함으로써
+컴포넌트를 구현할 수 있습니다.&lt;/p&gt;
+&lt;h2&gt;결론&lt;/h2&gt;
+&lt;p&gt;지금까지 신뢰할 수 있는 원소 집합에서 타입을 합성하고
+확장할 수 있게 하는 대수적 데이터 타입에 대해 알아보았습니다.&lt;/p&gt;
+&lt;p&gt;이처럼 견고한 타입 시스템은 사람이 코드를 작성할 때 발생할 수 있는
+사소한 실수부터 작성된 프로그램이 실행될 때 발견될 수 있는 에러들을
+컴파일 타임에 확인함으로써,
+에러가 적고, 고치기 쉽고, 명확한 프로그램을 기술하는 데 큰 도움을
+주고 있습니다.&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&quot;fn-주1&quot;&gt;2021년 11월 16일, 원프레딕트 기술 블로그에 발행된 글.&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[TypeScript로 API JSON Schema 테스트하기]]></title><description><![CDATA[기존에 발행된 글을
 정리해서 다시 소개합니다.  API 테스트 도입 모든 개발자는 테스트 코드를 작성해 품질을 향상하려고 노력한다.
 수많은 테스트 도구가 제공되고 있고, 다양한 방식으로 테스트를 진행하고 있다.
 많은 테스트 방법 중에서 API Type…]]></description><link>http://onepredict.github.io/typescript-schema-test/</link><guid isPermaLink="false">http://onepredict.github.io/typescript-schema-test/</guid><pubDate>Fri, 29 Sep 2023 05:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
