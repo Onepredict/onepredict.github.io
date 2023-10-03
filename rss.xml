@@ -1,11 +1,454 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 28 Sep 2023 23:03:55 GMT</lastBuildDate><item><title><![CDATA[TypeScript를 이용한 대수적 타입]]></title><description><![CDATA[기존에 발행된 글을
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 03 Oct 2023 23:04:11 GMT</lastBuildDate><item><title><![CDATA[객체지향 파이썬을 위하여]]></title><description><![CDATA[아샬이 파이콘 2023 Day 2
+라이트닝 토크 때 발표한 내용을 풀어서 쓴 글입니다. 이유를 알 수 없는 오해 파이썬은 대표적인 객체지향 프로그래밍 언어입니다.
+C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한) Java…]]></description><link>http://onepredict.github.io/python-web-application-architecture/</link><guid isPermaLink="false">http://onepredict.github.io/python-web-application-architecture/</guid><pubDate>Tue, 03 Oct 2023 23:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;아샬이 &lt;a href=&quot;https://2023.pycon.kr/&quot;&gt;파이콘 2023&lt;/a&gt; Day 2
+라이트닝 토크 때 발표한 내용을 풀어서 쓴 글입니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;이유를-알-수-없는-오해&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9D%B4%EC%9C%A0%EB%A5%BC-%EC%95%8C-%EC%88%98-%EC%97%86%EB%8A%94-%EC%98%A4%ED%95%B4&quot; aria-label=&quot;이유를 알 수 없는 오해 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;이유를 알 수 없는 오해&lt;/h2&gt;
+&lt;p&gt;파이썬은 대표적인 객체지향 프로그래밍 언어입니다.
+C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한) Java와 달리,
+기존 방식에 타협하지 않고 객체지향에 집중할 수 있게 설계된 언어죠. &lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt;
+하지만 많은 사람들은 파이썬이 &lt;strong&gt;강력한 객체지향 언어&lt;/strong&gt;라는 사실을 잊고
+있습니다.
+심지어 객체지향 프로그래밍 언어인지 의심을 품기도 하죠.
+아마 &lt;strong&gt;쉬운 언어&lt;/strong&gt;라는 홍보에, 객체지향이란 (상대적으로) 어려운 측면이 가려진
+게 아닌가 싶기도 합니다.&lt;/p&gt;
+&lt;p&gt;파이썬을 정말로 쉽게 쓰고 있나요?
+쉽다는 건 어떤 의미인가요?
+파이썬으로 작성된 기존 프로젝트를 유지보수하면서 쉽다고 느끼시나요?
+혹시 어렵다는 느낌을 받고 있진 않나요?
+입문하기 쉽다고 했지, 유지보수가 쉽다고 하진 않았다고요?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;그럴 리가요.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;그렇다면 대체 뭐가 문제인 걸까요?&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 400px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d239e511c0817fb5c89d7866a0bc23cc/066f9/drunk-on-love.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAUABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQL/xAAYAQEAAwEAAAAAAAAAAAAAAAAEAAECA//aAAwDAQACEAMQAAABxepIuuwuatUOqmEF/8QAGhAAAgIDAAAAAAAAAAAAAAAAAQIQEQADEv/aAAgBAQABBQKWQrNnnYorP//EABYRAQEBAAAAAAAAAAAAAAAAAAEQIv/aAAgBAwEBPwGJhn//xAAWEQEBAQAAAAAAAAAAAAAAAAAQMQL/2gAIAQIBAT8Bpmn/xAAZEAABBQAAAAAAAAAAAAAAAAAQABESQVH/2gAIAQEABj8COmNJx//EABkQAQEAAwEAAAAAAAAAAAAAAAERABAhof/aAAgBAQABPyHOTRl8bCN8tmHZI6//2gAMAwEAAgADAAAAEKw4v//EABgRAAIDAAAAAAAAAAAAAAAAAAEQMUGx/9oACAEDAQE/EECGzq//xAAWEQEBAQAAAAAAAAAAAAAAAAABEBH/2gAIAQIBAT8QEGkbmf/EABoQAQADAQEBAAAAAAAAAAAAAAEAETFBECH/2gAIAQEAAT8QgKmJ2JXSUk0veCX4AfpGmLKwS8x8/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;술이 문제야&quot;
+        title=&quot;술이 문제야&quot;
+        src=&quot;/static/d239e511c0817fb5c89d7866a0bc23cc/066f9/drunk-on-love.jpg&quot;
+        srcset=&quot;/static/d239e511c0817fb5c89d7866a0bc23cc/aa2ed/drunk-on-love.jpg 125w,
+/static/d239e511c0817fb5c89d7866a0bc23cc/0479a/drunk-on-love.jpg 250w,
+/static/d239e511c0817fb5c89d7866a0bc23cc/066f9/drunk-on-love.jpg 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;술이 문제야&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;객체지향 패러다임이 등장한 건 소프트웨어 개발 및 유지보수의 복잡성을 관리하기
+위함인데, 객체지향 언어인 파이썬을 쓰면서 왜 이런 문제를 겪게 되는 걸까요?
+혹시 우리가 사용하는 도구(파이썬과 다양한 패키지)는 객체지향적이지만,
+우리가 작성하는 코드는 여전히 절차지향적인 게 아닐까요?&lt;/p&gt;
+&lt;h2 id=&quot;절차지향이란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A0%88%EC%B0%A8%EC%A7%80%ED%96%A5%EC%9D%B4%EB%9E%80&quot; aria-label=&quot;절차지향이란 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;절차지향이란?&lt;/h2&gt;
+&lt;p&gt;흔히 “절차지향 프로그래밍”이라 옮기는 “Procedural Programming”은 좀 더 정확히
+번역하면 “프로시저 중심의 프로그래밍”이라고 할 수 있습니다. &lt;sup id=&quot;fnref-주2&quot;&gt;&lt;a href=&quot;#fn-주2&quot; class=&quot;footnote-ref&quot;&gt;주2&lt;/a&gt;&lt;/sup&gt;
+기존에는 하나의 거대한 프로그램에서 GOTO 등을 통해 분기 및 반복 처리를 했다면,
+프로시저라는 작은 프로그램 단위를 만들어서 활용하자는 패러다임이죠.&lt;/p&gt;
+&lt;p&gt;커다란 프로그램을 작은 부분으로 나눠서 복잡성을 통제한다는 아이디어는 매우
+훌륭하지만, 거칠게 이야기하면 우리가 프로시저로 분해한 건 데이터 조작에 관한
+겁니다.&lt;/p&gt;
+&lt;p&gt;만약 우리가 단순한 CRUD를 다루는 프로그램을 만든다면 이런 접근법으로도 충분할
+겁니다.
+하지만 우리는 좀 더 복잡한 비즈니스 규칙을 다루려고 하고, 단순히 데이터 조작에
+관한 코드를 분해하는 것만으론 충분하지 않다는 걸 깨닫게 되죠.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7a47c775202f7c93dbd1aa9a193a5776/72e01/kick-me.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 41.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAIABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUD/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAABysBEB//EABcQAAMBAAAAAAAAAAAAAAAAAAECBAD/2gAIAQEAAQUCmnXMqlSZDv/EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABwQAAEDBQAAAAAAAAAAAAAAAAEAAiIDETFBYf/aAAgBAQAGPwIOq7wFJoKvNvAv/8QAGBAAAwEBAAAAAAAAAAAAAAAAAAERMYH/2gAIAQEAAT8hk27yCTLE0NarwP/aAAwDAQACAAMAAAAQ88//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAbEAEBAAIDAQAAAAAAAAAAAAABEQAxIWGhsf/aAAgBAQABPxCcCVdslqfDI6GpyEPM5uDZUPW8/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Kick Me!&quot;
+        title=&quot;절...차&quot;
+        src=&quot;/static/7a47c775202f7c93dbd1aa9a193a5776/41099/kick-me.jpg&quot;
+        srcset=&quot;/static/7a47c775202f7c93dbd1aa9a193a5776/aa2ed/kick-me.jpg 125w,
+/static/7a47c775202f7c93dbd1aa9a193a5776/0479a/kick-me.jpg 250w,
+/static/7a47c775202f7c93dbd1aa9a193a5776/41099/kick-me.jpg 500w,
+/static/7a47c775202f7c93dbd1aa9a193a5776/acb04/kick-me.jpg 750w,
+/static/7a47c775202f7c93dbd1aa9a193a5776/a2510/kick-me.jpg 1000w,
+/static/7a47c775202f7c93dbd1aa9a193a5776/72e01/kick-me.jpg 1024w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;절...차&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;객체지향이란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%B4%EB%9E%80&quot; aria-label=&quot;객체지향이란 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;객체지향이란?&lt;/h2&gt;
+&lt;p&gt;절차지향에서 우리는 커다란 프로그램을 프로시저라는 단위로 나눠준다고 했습니다.
+그렇다면 객체지향은 어떨까요?
+객체지향에서 우리는 커다란 프로그램을 객체라는 단위로 나눠줍니다.&lt;/p&gt;
+&lt;p&gt;객체는 데이터와 연산(프로시저, 메서드)을 하나로 묶어줍니다(캡슐화).
+데이터는 오직 연산을 통해서만 변경 가능하고, 우리는 메시지를 통해
+연산을 실행하도록 요청합니다.
+즉, 다른 객체의 상태를 확인하지 않고, 그저 원하는 바를 시키게 됩니다.
+이를 “Tell-Don&apos;t-Ask” 원칙이라고 하죠. &lt;sup id=&quot;fnref-주3&quot;&gt;&lt;a href=&quot;#fn-주3&quot; class=&quot;footnote-ref&quot;&gt;주3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;한마디로 객체지향은 “자율적인 객체의 협력”이 핵심이라고 할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;그렇다면 객체는 어떻게 협력할까요?
+아니, 어떻게 협력하는 게 효과적일까요?&lt;/p&gt;
+&lt;p&gt;UML의 아버지라 불리는 Grady Booch는
+“Object-Oriented Analysis and Design with Applications”에서
+복잡성을 제어하는 계층 구조란 아이디어를 소개합니다. &lt;sup id=&quot;fnref-주4&quot;&gt;&lt;a href=&quot;#fn-주4&quot; class=&quot;footnote-ref&quot;&gt;주4&lt;/a&gt;&lt;/sup&gt;
+그리고 이 계층 구조는 크게 둘로 나눌 수 있습니다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;타입을 계층화&lt;/li&gt;
+&lt;li&gt;행동을 계층화&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;타입을 계층화하는 건 우리가 생물을 분류하는 것과 유사합니다.
+생물을 동물과 식물로 나누고,
+이를 다시 &lt;code class=&quot;language-text&quot;&gt;동물계 - 척삭동물문 - 포유강 - 식육목 - 고양잇과&lt;/code&gt;로 나누는 거죠.
+그리고 &lt;code class=&quot;language-text&quot;&gt;고양잇과&lt;/code&gt;엔 &lt;code class=&quot;language-text&quot;&gt;고양이&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;호랑이&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;삵&lt;/code&gt; 등이 포함됩니다. &lt;sup id=&quot;fnref-주5&quot;&gt;&lt;a href=&quot;#fn-주5&quot; class=&quot;footnote-ref&quot;&gt;주5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/4e4a024da8eee8423c6902eea137e038/c60f3/leopard-cat.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 59.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBP/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAY3yIoIP/8QAGhAAAgMBAQAAAAAAAAAAAAAAAhEAASESE//aAAgBAQABBQIZSsiXQ7Hfpj//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAZEAADAAMAAAAAAAAAAAAAAAAAARECECH/2gAIAQEABj8CJNItHcU+n//EABsQAQACAwEBAAAAAAAAAAAAAAEAESExUYGR/9oACAEBAAE/IWZvyFSOrKWZAJiaiv2AGzfZTdDq5//aAAwDAQACAAMAAAAQYy//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAWEQEBAQAAAAAAAAAAAAAAAAABABH/2gAIAQIBAT8QXWL/xAAcEAEAAwEAAwEAAAAAAAAAAAABABEhMUFRYYH/2gAIAQEAAT8QpIq4ntwWlWFg/GMDFq7V/YVGBNpeIP7xlOKmkQauPWM//9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;칡 짤&quot;
+        title=&quot;저는 “칡”입니다&quot;
+        src=&quot;/static/4e4a024da8eee8423c6902eea137e038/41099/leopard-cat.jpg&quot;
+        srcset=&quot;/static/4e4a024da8eee8423c6902eea137e038/aa2ed/leopard-cat.jpg 125w,
+/static/4e4a024da8eee8423c6902eea137e038/0479a/leopard-cat.jpg 250w,
+/static/4e4a024da8eee8423c6902eea137e038/41099/leopard-cat.jpg 500w,
+/static/4e4a024da8eee8423c6902eea137e038/c60f3/leopard-cat.jpg 636w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;저는 “칡”입니다&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;이렇게 타입을 계층화하는 기법이 바로 “상속”이죠.&lt;/p&gt;
+&lt;p&gt;하지만 더 중요한 게 있습니다.
+바로 행동을 계층화하는 거죠.
+커다란 조직은 피라미드 형태로 계층화가 되고, 위에서부터 아래로 목표가
+전달됩니다.
+즉, “위임”을 하게 되는 거죠.
+한마디로 우리는 위임을 통해 복잡성을 통제하게 됩니다.&lt;/p&gt;
+&lt;p&gt;그렇다면 이제 본질적인 질문으로 들어가 보겠습니다.
+어떻게 계층 구조를 만들어야 효과적일까요?&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/3d31cd70778aa37e6868299c2dd3c310/72e01/pyramid.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 125.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAZABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAIBAwQF/8QAFwEBAQEBAAAAAAAAAAAAAAAAAAECA//aAAwDAQACEAMQAAAB2UvRz3oGJcMdFaQsD//EABoQAAMBAQEBAAAAAAAAAAAAAAABAhIREEH/2gAIAQEAAQUCIrXlUsw+MuK1ymSnk+n/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwEh/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAHBAAAgICAwAAAAAAAAAAAAAAAAERIQIQEiBx/9oACAEBAAY/Ah6gtRpvjKLxv0vp/8QAHBABAAMAAgMAAAAAAAAAAAAAAQARIRBBMVFx/9oACAEBAAE/ISqlewncfrAIO+GJfQc2PUDsDjdSq2ehARm+RP/aAAwDAQACAAMAAAAQ9zCx/8QAGREAAgMBAAAAAAAAAAAAAAAAAAEQETFB/9oACAEDAQE/EGuFQw//xAAXEQADAQAAAAAAAAAAAAAAAAAAARFB/9oACAECAQE/EE9LSiR//8QAHBABAQADAQADAAAAAAAAAAAAAREAITFBUZGh/9oACAEBAAE/EJe3dW3EoAQDqXzBHQXscCEsgOwe46UtV6nR+8JxJPMUJ1A0Hx+YpogCOO64UuJuGsfc9Zzn/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Pyramid of Capitalist System&quot;
+        title=&quot;&quot;
+        src=&quot;/static/3d31cd70778aa37e6868299c2dd3c310/41099/pyramid.jpg&quot;
+        srcset=&quot;/static/3d31cd70778aa37e6868299c2dd3c310/aa2ed/pyramid.jpg 125w,
+/static/3d31cd70778aa37e6868299c2dd3c310/0479a/pyramid.jpg 250w,
+/static/3d31cd70778aa37e6868299c2dd3c310/41099/pyramid.jpg 500w,
+/static/3d31cd70778aa37e6868299c2dd3c310/acb04/pyramid.jpg 750w,
+/static/3d31cd70778aa37e6868299c2dd3c310/a2510/pyramid.jpg 1000w,
+/static/3d31cd70778aa37e6868299c2dd3c310/72e01/pyramid.jpg 1024w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;계층을-나누는-기준&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B3%84%EC%B8%B5%EC%9D%84-%EB%82%98%EB%88%84%EB%8A%94-%EA%B8%B0%EC%A4%80&quot; aria-label=&quot;계층을 나누는 기준 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;계층을 나누는 기준&lt;/h2&gt;
+&lt;p&gt;컴퓨터 과학엔 “관심사의 분리”라는 오래된 설계 원칙이 있습니다. &lt;sup id=&quot;fnref-주6&quot;&gt;&lt;a href=&quot;#fn-주6&quot; class=&quot;footnote-ref&quot;&gt;주6&lt;/a&gt;&lt;/sup&gt;
+관심사를 나누는 방법은 여러 가지가 있지만, 우리는 다시 오래된 기준을
+활용하겠습니다.&lt;/p&gt;
+&lt;p&gt;바로 “비즈니스 관심사”와 “기술 관심사”란 기준이죠.
+흔히 “비즈니스 도메인과 UI를 섞지 않아야 한다”고 이야기하던 거고,
+최근에는 “DB가 아니라 비즈니스 도메인을 중심으로 설계해야 한다”고 이야기하는
+것이죠.
+프로그래밍을 처음 배웠던 시절로 돌아가면, &lt;code class=&quot;language-text&quot;&gt;Input - Process - Output&lt;/code&gt;이란 틀에
+맞춰서 코드를 작성하던 게 여기에 속한다고 볼 수도 있습니다.&lt;/p&gt;
+&lt;p&gt;이를 “Layered Architecture”라고 하고, 전통적으론 크게 3개의 계층으로 나누게
+됩니다. &lt;sup id=&quot;fnref-주7&quot;&gt;&lt;a href=&quot;#fn-주7&quot; class=&quot;footnote-ref&quot;&gt;주7&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&quot;fnref-주8&quot;&gt;&lt;a href=&quot;#fn-주8&quot; class=&quot;footnote-ref&quot;&gt;주8&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;txt&quot;&gt;&lt;pre class=&quot;language-txt&quot;&gt;&lt;code class=&quot;language-txt&quot;&gt;User-side
+Application
+Data-side&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;일반적인 웹 개발에서 User-side와 Data-side는 다음과 같습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;txt&quot;&gt;&lt;pre class=&quot;language-txt&quot;&gt;&lt;code class=&quot;language-txt&quot;&gt;Web (User-side)
+Application
+DB (Data-side)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Flask와 SQLAlchemy를 통해 기술적 세부 사항을 추상화한다면 다음과 같이 표현할
+수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;txt&quot;&gt;&lt;pre class=&quot;language-txt&quot;&gt;&lt;code class=&quot;language-txt&quot;&gt;Flask (User-side)
+Application
+SQLAlchemy (Data-side)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;여기서 기술적 세부 사항을 다른 걸로 교체해 봅시다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;txt&quot;&gt;&lt;pre class=&quot;language-txt&quot;&gt;&lt;code class=&quot;language-txt&quot;&gt;FastAPI (User-side)
+Application
+ormar (Data-side)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;여기서 주목할 부분은, 기술적 세부 사항이 바뀐다고 해도 비즈니스 도메인을
+다루는 Application Layer는 변함이 없다는 겁니다.
+Eric Evans는 “도메인 주도 설계”에서 비즈니스 도메인에 집중하는 객체들을
+Domain Layer로 분리하고, Application Layer는 이를 위한 진입점으로 활용합니다.
+&lt;sup id=&quot;fnref-주9&quot;&gt;&lt;a href=&quot;#fn-주9&quot; class=&quot;footnote-ref&quot;&gt;주9&lt;/a&gt;&lt;/sup&gt;
+Uncle Bob은 클린 아키텍처에서 Application Layer에 명확히 Feature(Use Case)가
+드러나게 하고, 이를 “소리치는 아키텍처”라고 설명합니다. &lt;sup id=&quot;fnref-주10&quot;&gt;&lt;a href=&quot;#fn-주10&quot; class=&quot;footnote-ref&quot;&gt;주10&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&quot;fnref-주11&quot;&gt;&lt;a href=&quot;#fn-주11&quot; class=&quot;footnote-ref&quot;&gt;주11&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;중요한 건 우리가 비즈니스 관심사와 기술적 관심사를 &lt;strong&gt;분리&lt;/strong&gt;했다는 거고,
+비즈니스 관심사를 &lt;strong&gt;자율적인 객체의 협력&lt;/strong&gt;으로 구성할 수 있다는 겁니다.&lt;/p&gt;
+&lt;h2 id=&quot;어떻게-조립할까&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%A1%B0%EB%A6%BD%ED%95%A0%EA%B9%8C&quot; aria-label=&quot;어떻게 조립할까 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;어떻게 조립할까?&lt;/h2&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8f5565b7c5118a62ce9027ef0a275219/b4294/tobot-xyz-integration.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAgX/xAAWAQEBAQAAAAAAAAAAAAAAAAADAQT/2gAMAwEAAhADEAAAAeluNmOIJhT/AP/EABgQAQEBAQEAAAAAAAAAAAAAAAECEQAS/9oACAEBAAEFAgyMzrmfQ6NPNK//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREi/9oACAEDAQE/AU8lP//EABgRAAMBAQAAAAAAAAAAAAAAAAABESIx/9oACAECAQE/AZmMXD//xAAaEAABBQEAAAAAAAAAAAAAAAAAAQIRICEx/9oACAEBAAY/AsIcdWn/xAAcEAEAAgEFAAAAAAAAAAAAAAABABEQITFhcaH/2gAIAQEAAT8hHRbypuHlg14Eet7wL4s//9oADAMBAAIAAwAAABAPP//EABYRAQEBAAAAAAAAAAAAAAAAAAABQf/aAAgBAwEBPxCWEf/EABcRAQEBAQAAAAAAAAAAAAAAAAERACH/2gAIAQIBAT8QALo3XF3/xAAdEAEAAwACAwEAAAAAAAAAAAABABEhMWFBUZGx/9oACAEBAAE/EKLwqaaae/Eom1ZosFEPj+ws+Zj2RAql07XGRkJewZ//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;또봇 인티그레이션&quot;
+        title=&quot;또봇 X! Y! Z! 트라이탄! 인티그레이션!&quot;
+        src=&quot;/static/8f5565b7c5118a62ce9027ef0a275219/41099/tobot-xyz-integration.jpg&quot;
+        srcset=&quot;/static/8f5565b7c5118a62ce9027ef0a275219/aa2ed/tobot-xyz-integration.jpg 125w,
+/static/8f5565b7c5118a62ce9027ef0a275219/0479a/tobot-xyz-integration.jpg 250w,
+/static/8f5565b7c5118a62ce9027ef0a275219/41099/tobot-xyz-integration.jpg 500w,
+/static/8f5565b7c5118a62ce9027ef0a275219/b4294/tobot-xyz-integration.jpg 600w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;또봇 X! Y! Z! 트라이탄! 인티그레이션!&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;계층 구조, 의존 관계를 코드로 표현하는 건 상당히 귀찮은 일입니다.
+의존 관계를 손으로 적어주는 건 아주 명확하지만, 사실 그렇게 재밌는 일이 아니죠.
+우리는 의존 관계를 알고 있고, 이를 자동으로 구성할 방법이 필요합니다.&lt;/p&gt;
+&lt;p&gt;그래서 많은 사람들이 IoC 컨테이너 기술을 개발했습니다.
+이를 DI 컨테이너라고 부르기도 하는데,
+Martin Fowler가 프레임워크가 IoC를 말하는 걸 “내 자동차엔 바퀴가 있다”고
+이야기하는 것과 마찬가지라고 하면서 “&lt;strong&gt;Dependency Injection&lt;/strong&gt;(DI)”이란
+용어를 제안했기 때문입니다. &lt;sup id=&quot;fnref-주12&quot;&gt;&lt;a href=&quot;#fn-주12&quot; class=&quot;footnote-ref&quot;&gt;주12&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;우리는 IoC 컨테이너를 통해 아주 쉽게 객체를 조립할 수 있습니다.
+예를 들어 &lt;code class=&quot;language-text&quot;&gt;Injector&lt;/code&gt;와 &lt;code class=&quot;language-text&quot;&gt;Flask-Injector&lt;/code&gt;를 사용한 코드를 보겠습니다.
+&lt;sup id=&quot;fnref-주13&quot;&gt;&lt;a href=&quot;#fn-주13&quot; class=&quot;footnote-ref&quot;&gt;주13&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&quot;fnref-주14&quot;&gt;&lt;a href=&quot;#fn-주14&quot; class=&quot;footnote-ref&quot;&gt;주14&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;User-side에서 Application Service에 대한 의존성을 이렇게 써줄 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@app&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;post&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;/channels&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;create_channel&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;channel_service&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ChanndelService&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    channel &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; channel_service&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;create_channel&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; channel&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;to_dto&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; HTTPStatus&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;CREATED&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;프로그램을 시작할 때, 다음과 같이 써주면 됩니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;create_app&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; app &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; app
+
+    injector &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Injector&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;configure&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;binder&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# 여기서 DB 엔진 등에 대한 팩터리를 지정할 수 있습니다.&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;pass&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# 여기서 Flask 엔드포인트에 대한 의존성을 파악하고 주입합니다.&lt;/span&gt;
+    FlaskInjector&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;app&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;app&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; modules&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;configure&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; injector&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;injector&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; app&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 테스트 코드는 다음과 같이 작성할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@pytest&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;fixture&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;channel_service&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    channel_service &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Mock&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    channel_service&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;create_channel &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Mock&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        return_value&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;Channel&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; channel_service
+
+
+&lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@pytest&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;fixture&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;channel_service&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;configure&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;binder&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        binder&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;bind&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;ChannelService&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; to&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;channel_service&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    FlaskInjector&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;app&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;app&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; modules&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;configure&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; app&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;test_client&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;test_create_channel&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;client&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    response &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; client&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;post&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;/channels&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;assert&lt;/span&gt; response&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;status_code &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; HTTPStatus&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;CREATED
+
+    &lt;span class=&quot;token comment&quot;&gt;# 추가로 create_channel 메서드 호출 여부 등 다양한 테스트 가능.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;우리는 User-side와 Application의 &lt;strong&gt;경계&lt;/strong&gt;를 명확히 구분했습니다.
+서로 다른 관심사가 섞이는 것을 막을 수 있고, 테스트도 더 쉽게 할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9615c17169c33030c7c4820e8b87fc34/07854/mystic-eyes-of-death-perception.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAALABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAECAwX/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/9oADAMBAAIQAxAAAAHPdJpKIg//xAAaEAEAAQUAAAAAAAAAAAAAAAABAAIQERMh/9oACAEBAAEFAqDmvEYrFbf/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwGH/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAECEv/aAAgBAgEBPwGbNP/EABcQAAMBAAAAAAAAAAAAAAAAAAARIDH/2gAIAQEABj8CRs//xAAaEAEAAgMBAAAAAAAAAAAAAAABABEhMUFR/9oACAEBAAE/IbH0k6JSbYgqplYzyK+z/9oADAMBAAIAAwAAABAvH//EABcRAQEBAQAAAAAAAAAAAAAAAAEAESH/2gAIAQMBAT8Q4XIL/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAEhEUH/2gAIAQIBAT8Qot4Oj//EABsQAQACAgMAAAAAAAAAAAAAAAEAETFBIWGR/9oACAEBAAE/ECSsQCF8wyyD17DYQpWQgJYE1AKO6kOgIK0z/9k=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;직사의 마안&quot;
+        title=&quot;&quot;
+        src=&quot;/static/9615c17169c33030c7c4820e8b87fc34/41099/mystic-eyes-of-death-perception.jpg&quot;
+        srcset=&quot;/static/9615c17169c33030c7c4820e8b87fc34/aa2ed/mystic-eyes-of-death-perception.jpg 125w,
+/static/9615c17169c33030c7c4820e8b87fc34/0479a/mystic-eyes-of-death-perception.jpg 250w,
+/static/9615c17169c33030c7c4820e8b87fc34/41099/mystic-eyes-of-death-perception.jpg 500w,
+/static/9615c17169c33030c7c4820e8b87fc34/07854/mystic-eyes-of-death-perception.jpg 534w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;마찬가지로 Data-side와 Application의 &lt;strong&gt;경계&lt;/strong&gt;를 명확히 구분해 봅시다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@inject&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ChannelService&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    channel_repository&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ChannelRepository
+
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;self&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; channel_repository&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ChannelRepository&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        self&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;channel_repository &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; channel_repository
+
+    &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;create_channel&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;self&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; Channel&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        channel &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Channel&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        self&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;channel_repository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;save&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;channel&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; channel&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이런 순수한 파이썬 코드에 대해 테스트 코드를 작성하는 건 매우 쉽습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token decorator annotation punctuation&quot;&gt;@pytest&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;fixture&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;channel_repository&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    channel_repository &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Mock&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    channel_repository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;save &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; Mock&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; channel_repository
+
+
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;channel_service&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;channel_repository&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; ChannelService&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;channel_repository&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;channel_repository&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;test_create_channel&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;channel_service&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; ChannelService&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    channel &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; channel_repository&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;create_channel&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;assert&lt;/span&gt; channel &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# 추가로 channel에 대한 제대로 된 테스트 가능.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;결론&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B2%B0%EB%A1%A0&quot; aria-label=&quot;결론 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;결론&lt;/h2&gt;
+&lt;p&gt;이제 우리는 기술적 이슈로부터 자유로운 Application Layer,
+더 나아가 Domain Layer를 분리할 수 있게 되었습니다.
+Domain Layer는 순수한 파이썬 객체로 구성되므로,
+평소 갈고 닦은 객체지향 프로그래밍 실력을 충분히 발휘할 수 있습니다.
+이를 위해 테스트 코드를 활용하는 것도 매우 쉽습니다.&lt;/p&gt;
+&lt;p&gt;원프레딕트는 복잡한 비즈니스 문제를 더 나은 기술과 더 나은 협력을 통해 풀어낼
+동료를 찾고 있습니다.
+언제나 더 나은 방법이 있음을 믿고, 비즈니스와 코드를 조금씩 개선하는 일에
+매진하고 싶은 분,
+이를 위해 &lt;code class=&quot;language-text&quot;&gt;도메인 주도 설계(DDD)&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;이벤트 기반 아키텍처(EDA)&lt;/code&gt;,
+&lt;code class=&quot;language-text&quot;&gt;데이터 중심 애플리케이션 설계(DDIA)&lt;/code&gt; 등에 관심있는 분을 환영합니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&quot;https://blog.onepredict.ai/&quot;&gt;원프레딕트 채용 정보 확인하기&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://media.tenor.com/UTrLSr85tYEAAAAd/happy-cat-cat.gif&quot; alt=&quot;Happy Cat&quot;&gt;&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&quot;fn-주1&quot;&gt;이 부분은 약간 오해할 수 있게 쓰였는데, 대중에 공개된 시기만 살펴보면
+파이썬은 1991년, 자바는 1995년입니다.&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주2&quot;&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Procedural_programming&quot;&gt;https://en.wikipedia.org/wiki/Procedural_programming&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC2&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주3&quot;&gt;&lt;a href=&quot;https://martinfowler.com/bliki/TellDontAsk.html&quot;&gt;https://martinfowler.com/bliki/TellDontAsk.html&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC3&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주4&quot;&gt;번역서 제목은 “UML을 활용한 객체지향 분석 설계”
+&lt;a href=&quot;http://aladin.kr/p/AGuQ&quot;&gt;http://aladin.kr/p/AGuQ&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC4&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주5&quot;&gt;흔히 “고양이과”라고 하지만 표준어는 “고양잇과”입니다. 🐈&lt;a href=&quot;#fnref-%EC%A3%BC5&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주6&quot;&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Separation_of_concerns&quot;&gt;https://en.wikipedia.org/wiki/Separation_of_concerns&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC6&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주7&quot;&gt;&lt;a href=&quot;https://github.com/ahastudio/til/blob/main/architecture/layered-architecture.md&quot;&gt;https://github.com/ahastudio/til/blob/main/architecture/layered-architecture.md&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC7&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주8&quot;&gt;여기선 일반적인 구분과 다르게 User-side, Data-side란 표현을 썼는데,
+이는 Alistair Cockburn이 Hexagonal Architexture를 설명할 때 사용한
+표현입니다.
+&lt;a href=&quot;https://alistair.cockburn.us/hexagonal-architecture/&quot;&gt;https://alistair.cockburn.us/hexagonal-architecture/&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC8&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주9&quot;&gt;위키북스에서 Eric Evans의 “도메인 주도 설계” 번역서에 실린
+“LAYERED ARCHITECTURE” 패턴에 과한 부분을 웹에 공개했습니다.
+정말 감사해요!
+&lt;a href=&quot;https://wikibook.co.kr/article/layered-architecture/&quot;&gt;https://wikibook.co.kr/article/layered-architecture/&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC9&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주10&quot;&gt;&lt;a href=&quot;https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html&quot;&gt;https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC10&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주11&quot;&gt;&lt;a href=&quot;https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html&quot;&gt;https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC11&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주12&quot;&gt;Martin Fowler가 쓴
+“Inversion of Control Containers and the Dependency Injection pattern”을
+꼭 읽어보세요.
+&lt;a href=&quot;https://www.martinfowler.com/articles/injection.html&quot;&gt;https://www.martinfowler.com/articles/injection.html&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC12&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주13&quot;&gt;&lt;a href=&quot;https://github.com/python-injector/injector&quot;&gt;https://github.com/python-injector/injector&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC13&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주14&quot;&gt;&lt;a href=&quot;https://github.com/python-injector/flask_injector&quot;&gt;https://github.com/python-injector/flask_injector&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC14&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[TypeScript를 이용한 대수적 타입]]></title><description><![CDATA[기존에 발행된 글을
 정리해서 다시 소개합니다.  Intro. 고전적인 웹 애플리케이션들은 순수한 HTML, CSS, Javascript의 세 언어만
 이용하여 구성되었습니다.
 그중에서 웹페이지의 상호작용 및 동작을 수행하는 JavaScript…]]></description><link>http://onepredict.github.io/typescript-algebric-type/</link><guid isPermaLink="false">http://onepredict.github.io/typescript-algebric-type/</guid><pubDate>Sat, 30 Sep 2023 05:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&quot;https://tech.onepredict.ai/4d9f807b-12ae-40ac-a828-0390ee5e21ea&quot;&gt;기존에 발행된 글&lt;/a&gt;을
 정리해서 다시 소개합니다. &lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Intro.&lt;/h2&gt;
+&lt;h2 id=&quot;intro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#intro&quot; aria-label=&quot;intro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Intro.&lt;/h2&gt;
 &lt;p&gt;고전적인 웹 애플리케이션들은 순수한 &lt;strong&gt;HTML, CSS, Javascript&lt;/strong&gt;의 세 언어만
 이용하여 구성되었습니다.
 그중에서 웹페이지의 상호작용 및 동작을 수행하는 JavaScript는 동적 타입
@@ -33,7 +476,7 @@
 &lt;li&gt;합 타입(Sum Type, 혹은 Variants, Tagged Union)&lt;/li&gt;
 &lt;li&gt;곱 타입(Product Type, 혹은 Record, Tuple)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;합 타입(Sum Type)&lt;/h2&gt;
+&lt;h2 id=&quot;합-타입sum-type&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%95%A9-%ED%83%80%EC%9E%85sum-type&quot; aria-label=&quot;합 타입sum type permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;합 타입(Sum Type)&lt;/h2&gt;
 &lt;p&gt;합 타입은 하위 타입 중 하나만 가지는 타입입니다.
 합 타입으로 구성되는 타입 집합의 크기(카디널리티)는 하위 타입 집합 크기의
 합과 같습니다&lt;/p&gt;
@@ -50,7 +493,7 @@
 &lt;i&gt;N&lt;sub&gt;CardSet&lt;/sub&gt;&lt;/i&gt;는
 (트럼프 카드의 수 &lt;i&gt;N&lt;sub&gt;TrumpCard&lt;/sub&gt;&lt;/i&gt; + 타로 카드의 수
 &lt;i&gt;N&lt;sub&gt;TarotCard&lt;/sub&gt;&lt;/i&gt;)와 같습니다.&lt;/p&gt;
-&lt;h2&gt;곱 타입(Product Type)&lt;/h2&gt;
+&lt;h2 id=&quot;곱-타입product-type&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B3%B1-%ED%83%80%EC%9E%85product-type&quot; aria-label=&quot;곱 타입product type permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;곱 타입(Product Type)&lt;/h2&gt;
 &lt;p&gt;곱 타입은 하위 타입을 동시에 가지는 타입입니다.
 곱 타입으로 구성되는 타입 집합의 크기는 하위 타입 집합의 곱과 같습니다.&lt;/p&gt;
 &lt;p&gt;위의 예제에 이어, 하나의 트럼프 카드는 문양을 나타내는 &lt;strong&gt;Suit&lt;/strong&gt;와
@@ -103,7 +546,7 @@ Product Type을 이용합니다.
 
 &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; isSpadeFourSpade &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;isSpade&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;spadeFour&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// true&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; isHeartKingSpade &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;isSpade&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;heartKing&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// false&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;구분 필드를 이용한 가독성 확보&lt;/h2&gt;
+&lt;h2 id=&quot;구분-필드를-이용한-가독성-확보&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B5%AC%EB%B6%84-%ED%95%84%EB%93%9C%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EA%B0%80%EB%8F%85%EC%84%B1-%ED%99%95%EB%B3%B4&quot; aria-label=&quot;구분 필드를 이용한 가독성 확보 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;구분 필드를 이용한 가독성 확보&lt;/h2&gt;
 &lt;p&gt;위의 트럼프 카드 타입 예제에서 조커 카드가 빠졌다고 생각하셨나요?
 위의 트럼프 카드를 확장하면 됩니다.
 이처럼 대수적 타입은 확장에 유연한 구조로 되어 있습니다.
@@ -252,7 +695,7 @@ Property ‘suit’ does not exist on type ‘“BWJoker”&apos;(2399).&lt;/p&g
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;이처럼 이 방법은, 코드를 작성할 때는 고유한 속성을 고려해야 하고,
 코드를 읽을 때는 속성으로부터 고유한 집합군을 연상해야 하는 문제가 있습니다.&lt;/p&gt;
-&lt;h2&gt;대수적 데이터 타입을 이용한 안전한 개발&lt;/h2&gt;
+&lt;h2 id=&quot;대수적-데이터-타입을-이용한-안전한-개발&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8C%80%EC%88%98%EC%A0%81-%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%83%80%EC%9E%85%EC%9D%84-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%95%88%EC%A0%84%ED%95%9C-%EA%B0%9C%EB%B0%9C&quot; aria-label=&quot;대수적 데이터 타입을 이용한 안전한 개발 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;대수적 데이터 타입을 이용한 안전한 개발&lt;/h2&gt;
 &lt;p&gt;대수적 데이터 타입을 이용하면 더 쉽게 안전한 개발이 가능합니다.
 타입을 확장할 때 곱 타입을 이용한 확장인지, 합 타입을 이용한 확장인지
 결정함으로써 새로 확장되는 타입이 가지게 될 역할의 범주가 결정되고,
@@ -288,7 +731,7 @@ Property ‘suit’ does not exist on type ‘“BWJoker”&apos;(2399).&lt;/p&g
 Sum/Product 타입으로 컴포넌트의 입력 Prop(Property) 타입을 설계하고,
 각 Prop으로부터 마크업으로의 단사 함수(Injective Function)를 정의함으로써
 컴포넌트를 구현할 수 있습니다.&lt;/p&gt;
-&lt;h2&gt;결론&lt;/h2&gt;
+&lt;h2 id=&quot;결론&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B2%B0%EB%A1%A0&quot; aria-label=&quot;결론 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;결론&lt;/h2&gt;
 &lt;p&gt;지금까지 신뢰할 수 있는 원소 집합에서 타입을 합성하고
 확장할 수 있게 하는 대수적 데이터 타입에 대해 알아보았습니다.&lt;/p&gt;
 &lt;p&gt;이처럼 견고한 타입 시스템은 사람이 코드를 작성할 때 발생할 수 있는
@@ -308,7 +751,7 @@ Sum/Product 타입으로 컴포넌트의 입력 Prop(Property) 타입을 설계�
 &lt;p&gt;&lt;a href=&quot;https://tech.onepredict.ai/7e578d89-4325-4ee2-9b62-e48b12b1e593&quot;&gt;기존에 발행된 글&lt;/a&gt;을
 정리해서 다시 소개합니다. &lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;API 테스트 도입&lt;/h2&gt;
+&lt;h2 id=&quot;api-테스트-도입&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#api-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EB%8F%84%EC%9E%85&quot; aria-label=&quot;api 테스트 도입 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;API 테스트 도입&lt;/h2&gt;
 &lt;p&gt;모든 개발자는 테스트 코드를 작성해 품질을 향상하려고 노력한다.
 수많은 테스트 도구가 제공되고 있고, 다양한 방식으로 테스트를 진행하고 있다.
 많은 테스트 방법 중에서 API Type Schema 테스트를 도입한 부분에 대하여
@@ -332,10 +775,10 @@ Sum/Product 타입으로 컴포넌트의 입력 Prop(Property) 타입을 설계�
 Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 자동 생성&lt;/strong&gt;하고,
 생성된 파일을 이용하여 &lt;strong&gt;API Response Schema를 생성&lt;/strong&gt;하여 Ajv로 스키마와
 값을 비교할 수 있는 &lt;strong&gt;Jest 테스트 코드를 작성하는 방법&lt;/strong&gt;에 대하여 알아보자.&lt;/p&gt;
-&lt;h2&gt;테스트 Flow&lt;/h2&gt;
+&lt;h2 id=&quot;테스트-flow&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%85%8C%EC%8A%A4%ED%8A%B8-flow&quot; aria-label=&quot;테스트 flow permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;테스트 Flow&lt;/h2&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -346,25 +789,25 @@ Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 8.860759493670885%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeklEQVR42g3I0Q6CIAAAQP//vyprFmFAIQgKzIlZm9GklCS3e7rkwiykzQrxjhk3h2X8BFI9cdkR2RNxx7JX1sUY/TcI69dkZkDcUj0kGVanq85wfSQ1Na8p/Nw4HZDe59UOijSXG1AW6hHj8vbzTbsUynPRbgEHtP0DejVqNVH48BcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 8.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeklEQVR42g3I0Q6CIAAAQP//vyprFmFAIQgKzIlZm9GklCS3e7rkwiykzQrxjhk3h2X8BFI9cdkR2RNxx7JX1sUY/TcI69dkZkDcUj0kGVanq85wfSQ1Na8p/Nw4HZDe59UOijSXG1AW6hHj8vbzTbsUynPRbgEHtP0DejVqNVH48BcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;Test Flow&quot;
         title=&quot;&quot;
-        src=&quot;/static/d4d4ec669dad9b93918cb12be7e7e962/f058b/test-flow.png&quot;
-        srcset=&quot;/static/d4d4ec669dad9b93918cb12be7e7e962/c26ae/test-flow.png 158w,
-/static/d4d4ec669dad9b93918cb12be7e7e962/6bdcf/test-flow.png 315w,
-/static/d4d4ec669dad9b93918cb12be7e7e962/f058b/test-flow.png 630w,
+        src=&quot;/static/d4d4ec669dad9b93918cb12be7e7e962/0b533/test-flow.png&quot;
+        srcset=&quot;/static/d4d4ec669dad9b93918cb12be7e7e962/fac75/test-flow.png 125w,
+/static/d4d4ec669dad9b93918cb12be7e7e962/63868/test-flow.png 250w,
+/static/d4d4ec669dad9b93918cb12be7e7e962/0b533/test-flow.png 500w,
 /static/d4d4ec669dad9b93918cb12be7e7e962/774b6/test-flow.png 738w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;h2&gt;OpenAPIGenerator&lt;/h2&gt;
+&lt;h2 id=&quot;openapigenerator&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#openapigenerator&quot; aria-label=&quot;openapigenerator permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;OpenAPIGenerator&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;💡 Swagger UI는 Live Demo를 사용했다.
 &lt;a href=&quot;https://petstore.swagger.io/?_ga=2.206759571.1629789658.1640134381-1349736674.1637807907#/pet/getPetById&quot;&gt;링크&lt;/a&gt;&lt;/p&gt;
@@ -427,7 +870,7 @@ Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;ts-node&lt;/code&gt;를 사용하여 OpenAPIGenerator를 실행하면 output 경로에 파일이 생성된다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -438,20 +881,20 @@ Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 47.46835443037975%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAABx0lEQVR42mO4duvBlZsP7zx6efvhi9sPXty4+/zanSc37j69cf/Zh09f//379////+kzZlvau3oHR3n5BJuY2cYlpP4HA4ab958dPH7hwrV71+89vXzz0c59Z4+cvHT+6p2LNx6++/Dl37+/QEVd3X0CorLqtn42+sbK0oo+vkFQzUDbjp66dOHKnRv3nl29/fjIqStnL926eP3elduP4Zp7+yaJSiho2AbYG5nKy6r4BYTBNT8/fvba5ZsPb9x7CtR89vKdSzceXr/79OqdJ+8/wjT3ThQRl9e08TXVMxaVVPTzD4VqvvPwxZlLt4HagDYDnX3o+FWg/ovX7p2+eOv124///4P83NU7QV5axcre38LEUk5GKSAAphkYTkB7gOjanadXbj08dubKuat3L998cOH6g7fvP/8HBxjEZi27AFcTcx1FtUC4s+8+ennr/jOg44GmAMMcGH7X7z4BOufWgxcfPn+DOLsP6GdJRU37QCdjcxlZFf9AmOavX79+AeJv337++vX37z8gAgI448+fP0BF7R09XHziyoaOhqqavPxiLm4+UM3/8YK/f0E2nzx5avKUGUsWLFyyYPGcOQs2b94GkQUAttyNFPVxnmkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 47.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAABx0lEQVR42mO4duvBlZsP7zx6efvhi9sPXty4+/zanSc37j69cf/Zh09f//379////+kzZlvau3oHR3n5BJuY2cYlpP4HA4ab958dPH7hwrV71+89vXzz0c59Z4+cvHT+6p2LNx6++/Dl37+/QEVd3X0CorLqtn42+sbK0oo+vkFQzUDbjp66dOHKnRv3nl29/fjIqStnL926eP3elduP4Zp7+yaJSiho2AbYG5nKy6r4BYTBNT8/fvba5ZsPb9x7CtR89vKdSzceXr/79OqdJ+8/wjT3ThQRl9e08TXVMxaVVPTzD4VqvvPwxZlLt4HagDYDnX3o+FWg/ovX7p2+eOv124///4P83NU7QV5axcre38LEUk5GKSAAphkYTkB7gOjanadXbj08dubKuat3L998cOH6g7fvP/8HBxjEZi27AFcTcx1FtUC4s+8+ennr/jOg44GmAMMcGH7X7z4BOufWgxcfPn+DOLsP6GdJRU37QCdjcxlZFf9AmOavX79+AeJv337++vX37z8gAgI448+fP0BF7R09XHziyoaOhqqavPxiLm4+UM3/8YK/f0E2nzx5avKUGUsWLFyyYPGcOQs2b94GkQUAttyNFPVxnmkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;Swagger Pet Model과 생성된 Model Type&quot;
         title=&quot;&quot;
-        src=&quot;/static/f81c284a4cc631b77c17aeca81c693a5/f058b/pet-model.png&quot;
-        srcset=&quot;/static/f81c284a4cc631b77c17aeca81c693a5/c26ae/pet-model.png 158w,
-/static/f81c284a4cc631b77c17aeca81c693a5/6bdcf/pet-model.png 315w,
-/static/f81c284a4cc631b77c17aeca81c693a5/f058b/pet-model.png 630w,
-/static/f81c284a4cc631b77c17aeca81c693a5/40601/pet-model.png 945w,
-/static/f81c284a4cc631b77c17aeca81c693a5/78612/pet-model.png 1260w,
+        src=&quot;/static/f81c284a4cc631b77c17aeca81c693a5/0b533/pet-model.png&quot;
+        srcset=&quot;/static/f81c284a4cc631b77c17aeca81c693a5/fac75/pet-model.png 125w,
+/static/f81c284a4cc631b77c17aeca81c693a5/63868/pet-model.png 250w,
+/static/f81c284a4cc631b77c17aeca81c693a5/0b533/pet-model.png 500w,
+/static/f81c284a4cc631b77c17aeca81c693a5/1d69c/pet-model.png 750w,
+/static/f81c284a4cc631b77c17aeca81c693a5/00d43/pet-model.png 1000w,
 /static/f81c284a4cc631b77c17aeca81c693a5/c88ae/pet-model.png 1541w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
@@ -478,7 +921,7 @@ Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 
 &lt;p&gt;💡 Swagger Model을 확실하게 정의하지 않은 상태라면 자동으로 생성된 파일을
 수정해야 하는 경우가 발생하므로 백앤드와 함께 Model을 잘 맞추는 게 중요하다.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;JsonSchemaGenerator&lt;/h2&gt;
+&lt;h2 id=&quot;jsonschemagenerator&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#jsonschemagenerator&quot; aria-label=&quot;jsonschemagenerator permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;JsonSchemaGenerator&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/YousefED/typescript-json-schema&quot;&gt;typescript-json-schema&lt;/a&gt;를
 사용해 Schema를 생성한다.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -551,7 +994,7 @@ Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 
 &lt;/ul&gt;
 &lt;p&gt;스키마 정보도 추출했으니, 이제 API에서 받은 데이터 구조와 스키마를 비교해서
 일치하는지 확인하는 작업만 추가하면 된다.&lt;/p&gt;
-&lt;h2&gt;Jest + AJV validator&lt;/h2&gt;
+&lt;h2 id=&quot;jest--ajv-validator&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#jest--ajv-validator&quot; aria-label=&quot;jest  ajv validator permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Jest + AJV validator&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://ajv.js.org/&quot;&gt;Ajv JSON schema validator&lt;/a&gt;를 사용해 Schema 파일과
 API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -562,7 +1005,7 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
 &lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;validate&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;JSC&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; data&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; object&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; ajv &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Ajv&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; allErrors&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
   &lt;span class=&quot;token comment&quot;&gt;// validate 메서드 호출시 오류는 덮어쓰므로 변수에 할당해서 사용해야 함.&lt;/span&gt;
-  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; valid &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; ajv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;validate&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;JSC&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; data&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; 
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; valid &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; ajv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;validate&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token constant&quot;&gt;JSC&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; data&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
   &lt;span class=&quot;token comment&quot;&gt;// errorText는 ajv-errors 설치하여 메시지는 따로 정의할 수 있다.&lt;/span&gt;
   &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; errorText &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; ajv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;errorsText&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 
@@ -641,7 +1084,7 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
 &lt;p&gt;WebStorm(IDE)에서 테스트를 실행해 보면, 다음과 같이 보인다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -652,20 +1095,20 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 43.67088607594937%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB1ElEQVR42mOIS8pJzSpLzalIyiiOSciITcxKSM3zD45eu37z////+yfPSE4vyS1tAqLsovrkjILU7OK0vPKohIyVazYwqOjoG5jZ6hhaK6rqKajqqGgZqhpaC0kqTJ46E6g5MSlNUVlRz8RcRctIVkFNWk5ZQVVbXstQUFSqpa2TQUFV08TGztzaSd/YUlVTX0lNW01TT1RSYdqM2UDNKSk5ckoadg621vbuBqZ26rqmShr6alqGUgqa3f1TGGTkVZQ1tQ0tbSxsndW1DRRUNFU19YTEpCdPnQHUnJSep26dZOmT7x5W5BVdbe1XaOSea+pZoOOQPnXeegZpeRUlVW2gHkVVLQgCauYXkZwwaSrY2ZkSsqoqmgaKqjqKajpK6npApKplKCat1N7VyyCrqKasrgN0LRypaekLiEpNnAzSHJuQLC6joKIBV6AFRKqauqJScu2dPQwyCqpAUbi1aDbHxCeJSSkATUdWoKKhKyIp19bRwyAhoyinpC6rCERqEASU5uYX7ZswGag5KjZRREIWKCKvrAFUBkFArqCodGt7F8OBg4dOnjp96vRZIAlBp06fOXLs+JMnT4GaL12+AlRw5uy5M2fPnz5zFo5OnDz16PETAMistz+kC/IJAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 43.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB1ElEQVR42mOIS8pJzSpLzalIyiiOSciITcxKSM3zD45eu37z////+yfPSE4vyS1tAqLsovrkjILU7OK0vPKohIyVazYwqOjoG5jZ6hhaK6rqKajqqGgZqhpaC0kqTJ46E6g5MSlNUVlRz8RcRctIVkFNWk5ZQVVbXstQUFSqpa2TQUFV08TGztzaSd/YUlVTX0lNW01TT1RSYdqM2UDNKSk5ckoadg621vbuBqZ26rqmShr6alqGUgqa3f1TGGTkVZQ1tQ0tbSxsndW1DRRUNFU19YTEpCdPnQHUnJSep26dZOmT7x5W5BVdbe1XaOSea+pZoOOQPnXeegZpeRUlVW2gHkVVLQgCauYXkZwwaSrY2ZkSsqoqmgaKqjqKajpK6npApKplKCat1N7VyyCrqKasrgN0LRypaekLiEpNnAzSHJuQLC6joKIBV6AFRKqauqJScu2dPQwyCqpAUbi1aDbHxCeJSSkATUdWoKKhKyIp19bRwyAhoyinpC6rCERqEASU5uYX7ZswGag5KjZRREIWKCKvrAFUBkFArqCodGt7F8OBg4dOnjp96vRZIAlBp06fOXLs+JMnT4GaL12+AlRw5uy5M2fPnz5zFo5OnDz16PETAMistz+kC/IJAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;테스트 통과, 테스트 실패&quot;
         title=&quot;&quot;
-        src=&quot;/static/944443248b22072c6a21e1ee01c67f41/f058b/webstorm-test-result.png&quot;
-        srcset=&quot;/static/944443248b22072c6a21e1ee01c67f41/c26ae/webstorm-test-result.png 158w,
-/static/944443248b22072c6a21e1ee01c67f41/6bdcf/webstorm-test-result.png 315w,
-/static/944443248b22072c6a21e1ee01c67f41/f058b/webstorm-test-result.png 630w,
-/static/944443248b22072c6a21e1ee01c67f41/40601/webstorm-test-result.png 945w,
-/static/944443248b22072c6a21e1ee01c67f41/78612/webstorm-test-result.png 1260w,
+        src=&quot;/static/944443248b22072c6a21e1ee01c67f41/0b533/webstorm-test-result.png&quot;
+        srcset=&quot;/static/944443248b22072c6a21e1ee01c67f41/fac75/webstorm-test-result.png 125w,
+/static/944443248b22072c6a21e1ee01c67f41/63868/webstorm-test-result.png 250w,
+/static/944443248b22072c6a21e1ee01c67f41/0b533/webstorm-test-result.png 500w,
+/static/944443248b22072c6a21e1ee01c67f41/1d69c/webstorm-test-result.png 750w,
+/static/944443248b22072c6a21e1ee01c67f41/00d43/webstorm-test-result.png 1000w,
 /static/944443248b22072c6a21e1ee01c67f41/f98ee/webstorm-test-result.png 1808w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
@@ -686,15 +1129,15 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 10.759493670886075%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAXUlEQVR42hWMWw6AIAzAPJOgbIM9BU28/4Gcn23SbvUQpwuaCsUjN2MQ2OKV+OozwNeYiiHggpE40DtYmr3wVqoweDulg0ef1AxPVYr+L2aOLEuKNBkw2kBLmVgqf9oJHJgaZziiAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 10.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAXUlEQVR42hWMWw6AIAzAPJOgbIM9BU28/4Gcn23SbvUQpwuaCsUjN2MQ2OKV+OozwNeYiiHggpE40DtYmr3wVqoweDulg0ef1AxPVYr+L2aOLEuKNBkw2kBLmVgqf9oJHJgaZziiAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;에러 메시지&quot;
         title=&quot;&quot;
         src=&quot;/static/a8a808ed02767943b69ff812fd7fd922/34ea4/error-message.png&quot;
-        srcset=&quot;/static/a8a808ed02767943b69ff812fd7fd922/c26ae/error-message.png 158w,
-/static/a8a808ed02767943b69ff812fd7fd922/6bdcf/error-message.png 315w,
+        srcset=&quot;/static/a8a808ed02767943b69ff812fd7fd922/fac75/error-message.png 125w,
+/static/a8a808ed02767943b69ff812fd7fd922/63868/error-message.png 250w,
 /static/a8a808ed02767943b69ff812fd7fd922/34ea4/error-message.png 348w&quot;
         sizes=&quot;(max-width: 348px) 100vw, 348px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
@@ -703,12 +1146,12 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;h2&gt;GitHub Actions Job 등록&lt;/h2&gt;
+&lt;h2 id=&quot;github-actions-job-등록&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#github-actions-job-%EB%93%B1%EB%A1%9D&quot; aria-label=&quot;github actions job 등록 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;GitHub Actions Job 등록&lt;/h2&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt; 파일에 &lt;code class=&quot;language-text&quot;&gt;test&lt;/code&gt; script 명령어를 추가하고, GitHub Actions Workflow
 파일(&lt;code class=&quot;language-text&quot;&gt;.github/workflows/ci.yaml&lt;/code&gt;)에 Step으로 등록하면 된다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -719,19 +1162,20 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 61.39240506329114%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeElEQVR42o2SaU+EMBCG/WoWlpteQLe0RdhSWMA9lNUP/v8f5SweWY1Rk8lkms6bOZ65CZLMDXExNFgqJrtM92SzjZkK0tzxkRvgX+wGxI6H4oyzpuL1xJv7anwW5hikxd9iP2aQ5KcUqzLCIskqlN85fup46e/KRZww18deSLJWi27Q4yzMgfAaRiBiS0tDhGHSYt5QYWCiNK/8JHeXppa2A3y7TlNRiXEvdgemd0R1EZXwvQ7JlVHwLthn5XXCipi1jPdV89if5+H50B57Jv0AOe9JaLHr4EPsxFRGbOLlwZqzPc3dcZLtkzRRzFb/2fbqsu28HKzuZmVPuephMA8Q/hNVQLLcGtmd82qg0ka0XDiRr9nkJ1QeCmmGlUJZjYo6psoNKaBaeRdgb9iWZwLxt8oXzl5EaauZ1cRI0kimt0U1wsFI+6D6c2kfinpKmPZhlmtxuJwhMODjVs6W79pNP4huUv3c7F/AA2eAjDcN4jWc3fXCXwH6EUhGcmCHMwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 61.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeElEQVR42o2SaU+EMBCG/WoWlpteQLe0RdhSWMA9lNUP/v8f5SweWY1Rk8lkms6bOZ65CZLMDXExNFgqJrtM92SzjZkK0tzxkRvgX+wGxI6H4oyzpuL1xJv7anwW5hikxd9iP2aQ5KcUqzLCIskqlN85fup46e/KRZww18deSLJWi27Q4yzMgfAaRiBiS0tDhGHSYt5QYWCiNK/8JHeXppa2A3y7TlNRiXEvdgemd0R1EZXwvQ7JlVHwLthn5XXCipi1jPdV89if5+H50B57Jv0AOe9JaLHr4EPsxFRGbOLlwZqzPc3dcZLtkzRRzFb/2fbqsu28HKzuZmVPuephMA8Q/hNVQLLcGtmd82qg0ka0XDiRr9nkJ1QeCmmGlUJZjYo6psoNKaBaeRdgb9iWZwLxt8oXzl5EaauZ1cRI0kimt0U1wsFI+6D6c2kfinpKmPZhlmtxuJwhMODjVs6W79pNP4huUv3c7F/AA2eAjDcN4jWc3fXCXwH6EUhGcmCHMwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;GitHub Actions Workflow 파일&quot;
         title=&quot;&quot;
-        src=&quot;/static/daf25d28ade33f9f01c4d75677d96dc0/f058b/github-workflow.png&quot;
-        srcset=&quot;/static/daf25d28ade33f9f01c4d75677d96dc0/c26ae/github-workflow.png 158w,
-/static/daf25d28ade33f9f01c4d75677d96dc0/6bdcf/github-workflow.png 315w,
-/static/daf25d28ade33f9f01c4d75677d96dc0/f058b/github-workflow.png 630w,
-/static/daf25d28ade33f9f01c4d75677d96dc0/40601/github-workflow.png 945w,
+        src=&quot;/static/daf25d28ade33f9f01c4d75677d96dc0/0b533/github-workflow.png&quot;
+        srcset=&quot;/static/daf25d28ade33f9f01c4d75677d96dc0/fac75/github-workflow.png 125w,
+/static/daf25d28ade33f9f01c4d75677d96dc0/63868/github-workflow.png 250w,
+/static/daf25d28ade33f9f01c4d75677d96dc0/0b533/github-workflow.png 500w,
+/static/daf25d28ade33f9f01c4d75677d96dc0/1d69c/github-workflow.png 750w,
+/static/daf25d28ade33f9f01c4d75677d96dc0/00d43/github-workflow.png 1000w,
 /static/daf25d28ade33f9f01c4d75677d96dc0/5819f/github-workflow.png 1042w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
@@ -743,7 +1187,7 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
 schema정보가 잘못 되었는지 확인할 수 있다.&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -754,27 +1198,27 @@ schema정보가 잘못 되었는지 확인할 수 있다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 32.911392405063296%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAs0lEQVR42pWQiQrCMBBEo/bInWbTpG1qref//6IjCoV6gPAIA3tkZ5h27a6SoKjVb9BTS+tCb3zSTeTaMxc6aXwlzLYUf4FdLKSR0qhs4Krh+oXQi/6GMJ5Nx1vMM5RyQRqCeKD9SqC0Av8xSx2l3LQDxQwnyhIswBuA4MrhLbl+P3tTcIYDjI/A+oRJrMQA4lm8leKZ1gqUGLrzfB0Ol2E6g35/SnlGCgjSUgI4r5bu4/Ad2mETCKhxH3MAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 32.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAs0lEQVR42pWQiQrCMBBEo/bInWbTpG1qref//6IjCoV6gPAIA3tkZ5h27a6SoKjVb9BTS+tCb3zSTeTaMxc6aXwlzLYUf4FdLKSR0qhs4Krh+oXQi/6GMJ5Nx1vMM5RyQRqCeKD9SqC0Av8xSx2l3LQDxQwnyhIswBuA4MrhLbl+P3tTcIYDjI/A+oRJrMQA4lm8leKZ1gqUGLrzfB0Ol2E6g35/SnlGCgjSUgI4r5bu4/Ad2mETCKhxH3MAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;GitHub Actions Schema Test Error&quot;
         title=&quot;&quot;
-        src=&quot;/static/fdfb1690c8b2fe5e2dc9a901ebdede69/f058b/github-actions-failed.png&quot;
-        srcset=&quot;/static/fdfb1690c8b2fe5e2dc9a901ebdede69/c26ae/github-actions-failed.png 158w,
-/static/fdfb1690c8b2fe5e2dc9a901ebdede69/6bdcf/github-actions-failed.png 315w,
-/static/fdfb1690c8b2fe5e2dc9a901ebdede69/f058b/github-actions-failed.png 630w,
-/static/fdfb1690c8b2fe5e2dc9a901ebdede69/40601/github-actions-failed.png 945w,
-/static/fdfb1690c8b2fe5e2dc9a901ebdede69/78612/github-actions-failed.png 1260w,
+        src=&quot;/static/fdfb1690c8b2fe5e2dc9a901ebdede69/0b533/github-actions-failed.png&quot;
+        srcset=&quot;/static/fdfb1690c8b2fe5e2dc9a901ebdede69/fac75/github-actions-failed.png 125w,
+/static/fdfb1690c8b2fe5e2dc9a901ebdede69/63868/github-actions-failed.png 250w,
+/static/fdfb1690c8b2fe5e2dc9a901ebdede69/0b533/github-actions-failed.png 500w,
+/static/fdfb1690c8b2fe5e2dc9a901ebdede69/1d69c/github-actions-failed.png 750w,
+/static/fdfb1690c8b2fe5e2dc9a901ebdede69/00d43/github-actions-failed.png 1000w,
 /static/fdfb1690c8b2fe5e2dc9a901ebdede69/387f2/github-actions-failed.png 1518w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
     &lt;/span&gt;&lt;/p&gt;
-&lt;h2&gt;결론&lt;/h2&gt;
+&lt;h2 id=&quot;결론&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B2%B0%EB%A1%A0&quot; aria-label=&quot;결론 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;결론&lt;/h2&gt;
 &lt;p&gt;프론트엔드에서 받는 API Response Data에 관련된 타입은 Swagger Model에 맞춰
 자동으로 TypeScript 파일로 생성되기 때문에, API가 추가되더라도 타입 작성에
 대한 고민이 사라졌고, 백앤드에서 API를 긴급 패치 하더라도
@@ -788,15 +1232,54 @@ API Schema Validate를 통해 확인되기 때문에 Key/Type 변경 및 API 제
 &lt;li id=&quot;fn-주1&quot;&gt;2022년 1월 12일, 원프레딕트 기술 블로그에 발행된 글.&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주2&quot;&gt;2023년 9월 기준으로 원프레딕트는 GitLab CI/CD를 사용하고 있습니다.&lt;a href=&quot;#fnref-%EC%A3%BC2&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/div&gt;</content:encoded></item><item><title><![CDATA[JavaScript의 using을 사용해 보자 - Part 2]]></title><description><![CDATA[글 목록 JavaScript의 using을 사용해 보자 - Part 1 JavaScript의 using을 사용해 보자 - Part 2 Intro 지난 글에서 예고한 대로 TypeScript…]]></description><link>http://onepredict.github.io/using-keyword-part2/</link><guid isPermaLink="false">http://onepredict.github.io/using-keyword-part2/</guid><pubDate>Wed, 27 Sep 2023 05:00:00 GMT</pubDate><content:encoded>&lt;h3&gt;글 목록&lt;/h3&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[JavaScript의 using을 사용해 보자 - Part 2]]></title><description><![CDATA[글 목록 JavaScript의 using을 사용해 보자 - Part 1 JavaScript의 using을 사용해 보자 - Part 2 Intro 동기에 대한 명시적 선언 비동기에 대한 명시적 선언 1편으로 돌아가보기 getPosts…]]></description><link>http://onepredict.github.io/using-keyword-part2/</link><guid isPermaLink="false">http://onepredict.github.io/using-keyword-part2/</guid><pubDate>Wed, 27 Sep 2023 05:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;글 목록&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/using-keyword/&quot;&gt;JavaScript의 using을 사용해 보자 - Part 1&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;JavaScript의 using을 사용해 보자 - Part 2&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1&gt;Intro&lt;/h1&gt;
-&lt;p&gt;지난 글에서 예고한 대로 TypeScript를 이용해, &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 명시적으로 사용해 보겠습니다. 리소스를 관리하는 방식을 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 이용하여 작성해 보겠습니다.&lt;/p&gt;
-&lt;h3&gt;동기에 대한 명시적 선언&lt;/h3&gt;
-&lt;p&gt;다음은 명시적으로 &lt;code class=&quot;language-text&quot;&gt;Symbol.dispose&lt;/code&gt;를 이용하여, 동기 코드에 대해서 종료 함수를 선언하는 방법입니다. &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;이 선언된 블록이 종료되면, 명시된 &lt;code class=&quot;language-text&quot;&gt;Symbol.dispose&lt;/code&gt;에 할당된 함수를 실행합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#intro&quot;&gt;Intro&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%8F%99%EA%B8%B0%EC%97%90-%EB%8C%80%ED%95%9C-%EB%AA%85%EC%8B%9C%EC%A0%81-%EC%84%A0%EC%96%B8&quot;&gt;동기에 대한 명시적 선언&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%B9%84%EB%8F%99%EA%B8%B0%EC%97%90-%EB%8C%80%ED%95%9C-%EB%AA%85%EC%8B%9C%EC%A0%81-%EC%84%A0%EC%96%B8&quot;&gt;비동기에 대한 명시적 선언&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#1%ED%8E%B8%EC%9C%BC%EB%A1%9C-%EB%8F%8C%EC%95%84%EA%B0%80%EB%B3%B4%EA%B8%B0&quot;&gt;1편으로 돌아가보기&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#getposts-%ED%95%A8%EC%88%98-%EB%82%B4%EB%B6%80-%EB%93%A4%EC%97%AC%EB%8B%A4-%EB%B3%B4%EA%B8%B0&quot;&gt;getPosts 함수 내부 들여다 보기&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EC%8B%A4%EC%A0%9C-%ED%8F%B4%EB%A6%AC%ED%95%84%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%9D%B4%EB%A3%A8%EC%96%B4%EC%A7%88%EA%B9%8C&quot;&gt;실제 폴리필은 어떻게 이루어질까?&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%ED%8F%B4%EB%A6%AC%ED%95%84&quot;&gt;폴리필&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#symbol-%EC%A0%95%EC%9D%98&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;Symbol&lt;/code&gt; 정의&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#disposable-stack%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;disposable-stack&lt;/code&gt;을 활용하기&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#outro&quot;&gt;Outro&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;intro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#intro&quot; aria-label=&quot;intro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Intro&lt;/h2&gt;
+&lt;p&gt;지난 글에서 예고한 대로 TypeScript를 이용해,
+&lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 명시적으로 사용해 보겠습니다.
+리소스를 관리하는 방식을 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 이용하여 작성해 보겠습니다.&lt;/p&gt;
+&lt;h3 id=&quot;동기에-대한-명시적-선언&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8F%99%EA%B8%B0%EC%97%90-%EB%8C%80%ED%95%9C-%EB%AA%85%EC%8B%9C%EC%A0%81-%EC%84%A0%EC%96%B8&quot; aria-label=&quot;동기에 대한 명시적 선언 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;동기에 대한 명시적 선언&lt;/h3&gt;
+&lt;p&gt;다음은 명시적으로 &lt;code class=&quot;language-text&quot;&gt;Symbol.dispose&lt;/code&gt;를 이용하여,
+동기 코드에 대한 종료 함수를 선언하는 방법입니다.
+&lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;이 선언된 블록이 종료되면,
+명시된 &lt;code class=&quot;language-text&quot;&gt;Symbol.dispose&lt;/code&gt;에 할당된 함수를 실행합니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;getResource&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -810,8 +1293,10 @@ API Schema Validate를 통해 확인되기 때문에 Key/Type 변경 및 API 제
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token comment&quot;&gt;// 종료 후, [Symbol.dispose] 실행.&lt;/span&gt;
 &lt;span class=&quot;token comment&quot;&gt;// using 종료. 출력&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;비동기에 대한 명시적 선언&lt;/h3&gt;
-&lt;p&gt;다음은 명시적으로 &lt;code class=&quot;language-text&quot;&gt;Symbol.asyncDispose&lt;/code&gt;를 이용하여, 비동기 코드에 대해서 종료 함수를 선언하는 방법입니다. top-level에서 &lt;code class=&quot;language-text&quot;&gt;await&lt;/code&gt;를 사용하는 모습이 약간은 어색해 보입니다.&lt;/p&gt;
+&lt;h3 id=&quot;비동기에-대한-명시적-선언&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B9%84%EB%8F%99%EA%B8%B0%EC%97%90-%EB%8C%80%ED%95%9C-%EB%AA%85%EC%8B%9C%EC%A0%81-%EC%84%A0%EC%96%B8&quot; aria-label=&quot;비동기에 대한 명시적 선언 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;비동기에 대한 명시적 선언&lt;/h3&gt;
+&lt;p&gt;다음은 명시적으로 &lt;code class=&quot;language-text&quot;&gt;Symbol.asyncDispose&lt;/code&gt;를 이용하여,
+비동기 코드에 대한 종료 함수를 선언하는 방법입니다.
+top-level에서 &lt;code class=&quot;language-text&quot;&gt;await&lt;/code&gt;를 사용하는 모습이 약간은 어색해 보입니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;getResource&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Symbol&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asyncDispose&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;asyncSomethingFunc&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
@@ -820,9 +1305,11 @@ API Schema Validate를 통해 확인되기 때문에 Key/Type 변경 및 API 제
 &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; using fileHandler &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getResource&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;1편으로 돌아가보기&lt;/h2&gt;
-&lt;p&gt;1편에서 우리는 데이터베이스 연결에 대한 이야기를 나누어 보았습니다. 지금까지 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;에 대해서 이야기한 것을 바탕으로 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 이용하여 데이터베이스 연결을 관리해 보겠습니다.&lt;/p&gt;
-&lt;h3&gt;getPosts 함수 내부 들여다 보기&lt;/h3&gt;
+&lt;h2 id=&quot;1편으로-돌아가보기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#1%ED%8E%B8%EC%9C%BC%EB%A1%9C-%EB%8F%8C%EC%95%84%EA%B0%80%EB%B3%B4%EA%B8%B0&quot; aria-label=&quot;1편으로 돌아가보기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;1편으로 돌아가보기&lt;/h2&gt;
+&lt;p&gt;1편에서 우리는 데이터베이스 연결에 대한 이야기를 나누어 보았습니다.
+지금까지 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;에 대해서 이야기한 것을 바탕으로 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 이용하여
+데이터베이스 연결을 관리해 보겠습니다.&lt;/p&gt;
+&lt;h3 id=&quot;getposts-함수-내부-들여다-보기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#getposts-%ED%95%A8%EC%88%98-%EB%82%B4%EB%B6%80-%EB%93%A4%EC%97%AC%EB%8B%A4-%EB%B3%B4%EA%B8%B0&quot; aria-label=&quot;getposts 함수 내부 들여다 보기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;getPosts 함수 내부 들여다 보기&lt;/h3&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 쓰지 않는 경우&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; db
 
@@ -855,9 +1342,10 @@ API Schema Validate를 통해 확인되기 때문에 Key/Type 변경 및 API 제
 
   &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; posts
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;위 코드를 보면 &lt;code class=&quot;language-text&quot;&gt;try...catch...finally&lt;/code&gt;로 연결되는 블록을 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 활용해서 명시적으로 컨트롤할 수 있게 변경된 것을 볼 수 있습니다.&lt;/p&gt;
-&lt;h2&gt;실제 폴리필은 어떻게 이루어 질까?&lt;/h2&gt;
-&lt;h3&gt;폴리필&lt;/h3&gt;
+&lt;p&gt;위 코드를 보면 &lt;code class=&quot;language-text&quot;&gt;try...catch...finally&lt;/code&gt;로 연결되는 블록을 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 활용해서
+명시적으로 컨트롤할 수 있게 변경된 것을 볼 수 있습니다.&lt;/p&gt;
+&lt;h2 id=&quot;실제-폴리필은-어떻게-이루어질까&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8B%A4%EC%A0%9C-%ED%8F%B4%EB%A6%AC%ED%95%84%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%9D%B4%EB%A3%A8%EC%96%B4%EC%A7%88%EA%B9%8C&quot; aria-label=&quot;실제 폴리필은 어떻게 이루어질까 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;실제 폴리필은 어떻게 이루어질까?&lt;/h2&gt;
+&lt;h3 id=&quot;폴리필&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%8F%B4%EB%A6%AC%ED%95%84&quot; aria-label=&quot;폴리필 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;폴리필&lt;/h3&gt;
 &lt;p&gt;단계를 분리하여 함수별로 확인해 보겠습니다.&lt;/p&gt;
 &lt;p&gt;크게 3가지의 단계로 진행됩니다.&lt;/p&gt;
 &lt;ol&gt;
@@ -865,8 +1353,10 @@ API Schema Validate를 통해 확인되기 때문에 Key/Type 변경 및 API 제
 &lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;disposableResource&lt;/code&gt;의 관리&lt;/li&gt;
 &lt;li&gt;명시된 &lt;code class=&quot;language-text&quot;&gt;disposeResource&lt;/code&gt;의 사용 및 해제&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h4&gt;&lt;code class=&quot;language-text&quot;&gt;Symbol&lt;/code&gt; 정의&lt;/h4&gt;
-&lt;p&gt;현재 &lt;code class=&quot;language-text&quot;&gt;dispose&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;asyncDispose&lt;/code&gt;로 정의된 &lt;code class=&quot;language-text&quot;&gt;Symbol&lt;/code&gt;은 &lt;code class=&quot;language-text&quot;&gt;core-js&lt;/code&gt;에 있는 정의를 활용합니다. 해당 파일은 WellKnownSymbol로 &lt;code class=&quot;language-text&quot;&gt;dispose&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;asyncDispose&lt;/code&gt;를 선언합니다.&lt;/p&gt;
+&lt;h4 id=&quot;symbol-정의&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#symbol-%EC%A0%95%EC%9D%98&quot; aria-label=&quot;symbol 정의 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;Symbol&lt;/code&gt; 정의&lt;/h4&gt;
+&lt;p&gt;현재 &lt;code class=&quot;language-text&quot;&gt;dispose&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;asyncDispose&lt;/code&gt;로 정의된 &lt;code class=&quot;language-text&quot;&gt;Symbol&lt;/code&gt;은 &lt;code class=&quot;language-text&quot;&gt;core-js&lt;/code&gt;에 있는 정의를
+활용합니다.
+해당 파일은 WellKnownSymbol로 &lt;code class=&quot;language-text&quot;&gt;dispose&lt;/code&gt;, &lt;code class=&quot;language-text&quot;&gt;asyncDispose&lt;/code&gt;를 선언합니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;core-js/modules/esnext.symbol.dispose.js&quot;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;core-js/modules/esnext.symbol.async-dispose.js&quot;&lt;/span&gt;
 
@@ -877,8 +1367,10 @@ API Schema Validate를 통해 확인되기 때문에 Key/Type 변경 및 API 제
 
 &lt;span class=&quot;token comment&quot;&gt;// core-js/moduekls/esnext.symbol.async-dispose.js&lt;/span&gt;
 &lt;span class=&quot;token function&quot;&gt;defineWellKnownSymbol&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;asyncDispose&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h4&gt;&lt;code class=&quot;language-text&quot;&gt;disposable-stack&lt;/code&gt;을 활용하기&lt;/h4&gt;
-&lt;p&gt;이러한 명시적 관리는 &lt;code class=&quot;language-text&quot;&gt;disposable-stack&lt;/code&gt;으로 명명된 stack을 통해 내부에서 관리하고 있습니다. 실제 내부 코드는 제외하고 사용하는 함수를 표기하겠습니다.&lt;/p&gt;
+&lt;h4 id=&quot;disposable-stack을-활용하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#disposable-stack%EC%9D%84-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0&quot; aria-label=&quot;disposable stack을 활용하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;disposable-stack&lt;/code&gt;을 활용하기&lt;/h4&gt;
+&lt;p&gt;이러한 명시적 관리는 &lt;code class=&quot;language-text&quot;&gt;disposable-stack&lt;/code&gt;으로 명명된 stack을 통해 내부에서
+관리하고 있습니다.
+실제 내부 코드는 제외하고 사용하는 함수를 표기하겠습니다.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;core-js/modules/esnext.disposable-stack.constructor.js&quot;&lt;/span&gt;
 
 &lt;span class=&quot;token function&quot;&gt;defineBuiltIns&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;DisposableStackPrototype&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -912,17 +1404,66 @@ API Schema Validate를 통해 확인되기 때문에 Key/Type 변경 및 API 제
     &lt;span class=&quot;token comment&quot;&gt;// Error 전달&lt;/span&gt;
     SuppressedError
   &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h1&gt;Outro&lt;/h1&gt;
-&lt;p&gt;TypeScript5.2에서 폴리필을 구성해서 실제 &lt;code class=&quot;language-text&quot;&gt;core-js&lt;/code&gt;에 구현된 부분까지 훑어보았습니다. &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 아직 한 번도 사용해 본 적이 없거나, &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 막 도입하여 패턴을 변경하고 싶은 분들에게 필요한 내용들이 되었으면 합니다.&lt;/p&gt;
-&lt;p&gt;내일은 마침 추석 연휴가 시작되는 날입니다. 모두 즐거운 한가위 되셨으면 합니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[JavaScript의 using을 사용해 보자 - Part 1]]></title><description><![CDATA[글 목록 JavaScript의 using을 사용해 보자 - Part 1 JavaScript의 using을 사용해 보자 - Part 2 Intro 퇴근하기 직전, “JOKER…]]></description><link>http://onepredict.github.io/using-keyword/</link><guid isPermaLink="false">http://onepredict.github.io/using-keyword/</guid><pubDate>Wed, 20 Sep 2023 11:00:00 GMT</pubDate><content:encoded>&lt;h3&gt;글 목록&lt;/h3&gt;
+&lt;h2 id=&quot;outro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#outro&quot; aria-label=&quot;outro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Outro&lt;/h2&gt;
+&lt;p&gt;TypeScript5.2에서 폴리필을 구성해서 실제 &lt;code class=&quot;language-text&quot;&gt;core-js&lt;/code&gt;에 구현된 부분까지
+훑어보았습니다.
+&lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 아직 한 번도 사용해 본 적이 없거나,
+&lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;을 막 도입하여 패턴을 변경하고 싶은 분들에게 필요한 내용들이 되었으면
+합니다.&lt;/p&gt;
+&lt;p&gt;내일은 마침 추석 연휴가 시작되는 날입니다. 모두 즐거운 한가위 되셨으면 합니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[JavaScript의 using을 사용해 보자 - Part 1]]></title><description><![CDATA[글 목록 JavaScript의 using을 사용해 보자 - Part 1 JavaScript의 using을 사용해 보자 - Part 2 Intro "using" keyword 어디로 부터 왔는가? 선행 기술 C# Java Python…]]></description><link>http://onepredict.github.io/using-keyword/</link><guid isPermaLink="false">http://onepredict.github.io/using-keyword/</guid><pubDate>Wed, 20 Sep 2023 11:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;글 목록&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;JavaScript의 using을 사용해 보자 - Part 1&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/using-keyword-part2&quot;&gt;JavaScript의 using을 사용해 보자 - Part 2&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1&gt;Intro&lt;/h1&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#intro&quot;&gt;Intro&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#using-keyword-%EC%96%B4%EB%94%94%EB%A1%9C-%EB%B6%80%ED%84%B0-%EC%99%94%EB%8A%94%EA%B0%80&quot;&gt;&quot;using&quot; keyword 어디로 부터 왔는가?&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%A0%ED%96%89-%EA%B8%B0%EC%88%A0&quot;&gt;선행 기술&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#c&quot;&gt;C#&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#java&quot;&gt;Java&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#python&quot;&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EC%96%B4%EB%94%94%EC%97%90%EC%84%9C-%EC%93%B8%EA%B9%8C-%EC%99%9C-%ED%95%84%EC%9A%94%ED%95%98%EC%A7%80&quot;&gt;어디에서 쓸까? 왜 필요하지?&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EC%A0%9C%EB%AA%A9-ecmascript-%EB%AA%85%EC%8B%9C%EC%A0%81-%EB%A6%AC%EC%86%8C%EC%8A%A4-%EA%B4%80%EB%A6%AC&quot;&gt;제목: ECMAScript 명시적 리소스 관리&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EB%8F%99%EA%B8%B0&quot;&gt;동기&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%A6%AC%EC%86%8C%EC%8A%A4-%EA%B4%80%EB%A6%AC%EC%97%90-%EB%8C%80%ED%95%9C-%EC%9D%BC%EA%B4%80%EC%A0%81%EC%9D%B4%EC%A7%80-%EC%95%8A%EC%9D%80-%ED%8C%A8%ED%84%B4&quot;&gt;리소스 관리에 대한 일관적이지 않은 패턴&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#resource%EB%A5%BC-%EA%B4%80%EB%A6%AC%ED%95%A0-%EB%95%8C-footguns-%ED%94%BC%ED%95%98%EA%B8%B0&quot;&gt;resource를 관리할 때, footguns 피하기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#resource%EC%9D%98-%EB%B2%94%EC%9C%84%EB%A5%BC-%EC%9E%A1%EC%9D%84-%EB%95%8C&quot;&gt;resource의 범위를 잡을 때&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%97%AC%EB%9F%AC-%EA%B0%9C%EC%9D%98-resource%EB%A5%BC-%EA%B4%80%EB%A6%AC-%ED%95%A0-%EB%95%8C-footguns-%ED%94%BC%ED%95%98%EA%B8%B0&quot;&gt;여러 개의 resource를 관리 할 때, footguns 피하기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%97%AC%EB%9F%AC-%EB%A6%AC%EC%86%8C%EC%8A%A4%EB%A5%BC-%EC%98%AC%EB%B0%94%EB%A5%B4%EA%B2%8C-%EA%B4%80%EB%A6%AC%ED%95%A0-%EB%95%8C-%EA%B8%B4-%EC%BD%94%EB%93%9C-%EB%B0%A9%EC%A7%80&quot;&gt;여러 리소스를 올바르게 관리할 때 긴 코드 방지&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#non-blocking-memoryio-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%97%90%EC%84%9C&quot;&gt;Non-blocking memory/IO 어플리케이션에서&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#fixed-layout-objects%EC%99%80-shared-struct%EB%A5%BC-%ED%95%A8%EA%BB%98-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%95%BC-%EB%90%A0-%EB%95%8C&quot;&gt;Fixed Layout Objects와 shared struct를 함께 사용해야 될 때&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EA%B7%B8%EB%9E%98%EC%84%9C-%EC%A2%8B%EC%9D%80-%EA%B1%B4-%EC%95%8C%EA%B2%A0%EC%96%B4-%EB%8B%B9%EC%9E%A5-%EC%93%B0%EB%9F%AC-%EA%B0%80%EC%9E%90&quot;&gt;그래서…? 좋은 건 알겠어. 당장 쓰러 가자!&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#outro&quot;&gt;Outro&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;intro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#intro&quot; aria-label=&quot;intro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Intro&lt;/h2&gt;
 &lt;p&gt;퇴근하기 직전, “JOKER” 님과 “부엉이” 님이 이야기하는 것을 옆에서 얼핏 듣게 되었습니다. 두 분이 이야기한 내용들은 추상 클래스로 다형성을 처리하는 방법으로 시작해서 팩토리 패턴을 스프링에서 어떻게 다루고 있는가를 건너 건너가 트랜잭션을 관리하는 방식의 차이로 까지 여정을 마무리하고 있었습니다.(긴 여정이었어… 더 깊은 내용이 궁금합니다.)&lt;/p&gt;
 &lt;p&gt;DB 트랜잭션을 다룰 때, &lt;em&gt;Spring&lt;/em&gt; 에서는 &lt;code class=&quot;language-text&quot;&gt;@Transaction&lt;/code&gt;어노테이션을 통해 매직처럼 관리가 되고 있는데, &lt;em&gt;python&lt;/em&gt; 에서는 connection을 직접 관리해야 되고 &lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt;라는 키워드를 써야 한다는 이야기를 듣게 됩니다.&lt;/p&gt;
-&lt;p&gt;&lt;span
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 225px; &quot;
     &gt;
@@ -939,10 +1480,10 @@ API Schema Validate를 통해 확인되기 때문에 Key/Type 변경 및 API 제
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;흠...어디서 들어봤는데?&quot;
-        title=&quot;&quot;
+        alt=&quot;Thinking Face&quot;
+        title=&quot;흠...어디서 들어봤는데?&quot;
         src=&quot;/static/1e65fef7beb0c370f7a5d41f5194d8ae/3684f/hmm.png&quot;
-        srcset=&quot;/static/1e65fef7beb0c370f7a5d41f5194d8ae/c26ae/hmm.png 158w,
+        srcset=&quot;/static/1e65fef7beb0c370f7a5d41f5194d8ae/fac75/hmm.png 125w,
 /static/1e65fef7beb0c370f7a5d41f5194d8ae/3684f/hmm.png 225w&quot;
         sizes=&quot;(max-width: 225px) 100vw, 225px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
@@ -950,31 +1491,32 @@ API Schema Validate를 통해 확인되기 때문에 Key/Type 변경 및 API 제
         decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;흠...어디서 들어봤는데?&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;JavaScript에서도 요새 비슷한 걸 추진하는 것 같았는데, &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt;이라는 키워드였습니다. 글 쓰기 주제로 갑자기 생각이 들었습니다. 이걸로 문서를 쓰자!&lt;/p&gt;
-&lt;h1&gt;&quot;using&quot; keyword 어디로 부터 왔는가?&lt;/h1&gt;
+&lt;h2 id=&quot;using-keyword-어디로-부터-왔는가&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#using-keyword-%EC%96%B4%EB%94%94%EB%A1%9C-%EB%B6%80%ED%84%B0-%EC%99%94%EB%8A%94%EA%B0%80&quot; aria-label=&quot;using keyword 어디로 부터 왔는가 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&quot;using&quot; keyword 어디로 부터 왔는가?&lt;/h2&gt;
 &lt;p&gt;2018년 7월 24일 TC39&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt;에서 해당 기능에 대한 첫 미팅을 진행하고, stage 1 승인이 이루어집니다. 해당 문서를 읽어보면 이 기능을 “왜” 넣었는지 아주 잘 설명해 주고 있습니다. 문서는 위에서부터 읽는 것이 국룰이지만 흥미를 돋구기 위해 잠깐은 건너가 해당 선행 기술의 컨셉부터 한 번 보면 좋을 것 같아요.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;선행 기술&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;C#&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; statement, declaration&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Java&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;try-with-resources&lt;/code&gt; statement&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Python&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt; statement&lt;/p&gt;
+&lt;h3 id=&quot;선행-기술&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%84%A0%ED%96%89-%EA%B8%B0%EC%88%A0&quot; aria-label=&quot;선행 기술 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;선행 기술&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;C#&lt;/strong&gt;: &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; statement, declaration&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Java&lt;/strong&gt;: &lt;code class=&quot;language-text&quot;&gt;try-with-resources&lt;/code&gt; statement&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Python&lt;/strong&gt;: &lt;code class=&quot;language-text&quot;&gt;with&lt;/code&gt; statement&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;각각의 항목을 찾아보면, 다음과 같습니다.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;C#&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&quot;c&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#c&quot; aria-label=&quot;c permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;C#&lt;/h3&gt;
 &lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; 키워드의 주요 용도는 두 가지입니다.
 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; 문은 개체가 삭제되는 끝의 범위를 정의합니다.
 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; 지시문은 네임스페이스의 별칭을 만들거나 네임스페이스에 정의된 형식을 가져옵니다.
 &lt;sup id=&quot;fnref-주2&quot;&gt;&lt;a href=&quot;#fn-주2&quot; class=&quot;footnote-ref&quot;&gt;주2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Java&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&quot;java&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#java&quot; aria-label=&quot;java permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Java&lt;/h3&gt;
 &lt;p&gt;The try-with-resources statement is a try statement that declares one or more resources. A resource is an object that must be closed after the program is finished with it. The try-with-resources statement ensures that each resource is closed at the end of the statement. Any object that implements java.
 &lt;sup id=&quot;fnref-주3&quot;&gt;&lt;a href=&quot;#fn-주3&quot; class=&quot;footnote-ref&quot;&gt;주3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Python&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&quot;python&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#python&quot; aria-label=&quot;python permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Python&lt;/h3&gt;
 &lt;p&gt;The with statement is used to wrap the execution of a block with methods defined by a context manager (see section With Statement Context Managers). This allows common try…except…finally usage patterns to be encapsulated for convenient reuse.
 &lt;sup id=&quot;fnref-주4&quot;&gt;&lt;a href=&quot;#fn-주4&quot; class=&quot;footnote-ref&quot;&gt;주4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;p&gt;사용법 및 정도의 차이는 있지만, 대략 공통의 이야기들은 블록 내에서 정의한 &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt;를 관리하는 statement를 제공해 주고, 해당 블록이 끝날 때, &lt;code class=&quot;language-text&quot;&gt;resource&lt;/code&gt;가 닫히도록 보장하며, 명시적으로 작성하는 기능을 포함하고 있습니다. 그렇다면 JavaScript 스펙으로 진행 중인 &lt;code class=&quot;language-text&quot;&gt;using&lt;/code&gt; keyword도 비슷하지 않을까? 맞습니다. 다른 언어들이 가지고 있는 기능을 토대로 현재 제안을 진행 중입니다.&lt;/p&gt;
-&lt;h1&gt;어디에서 쓸까? 왜 필요하지?&lt;/h1&gt;
+&lt;h2 id=&quot;어디에서-쓸까-왜-필요하지&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%96%B4%EB%94%94%EC%97%90%EC%84%9C-%EC%93%B8%EA%B9%8C-%EC%99%9C-%ED%95%84%EC%9A%94%ED%95%98%EC%A7%80&quot; aria-label=&quot;어디에서 쓸까 왜 필요하지 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;어디에서 쓸까? 왜 필요하지?&lt;/h2&gt;
 &lt;p&gt;예를 들어 보겠습니다. 우리는 지금 DB에 접근하여, Posts collection을 가져오는 함수를 하나 작성한다고 해보죠.&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;getPosts&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;token comment&quot;&gt;// db 에 접근을 해보자&lt;/span&gt;
@@ -1001,7 +1543,7 @@ db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
 &lt;p&gt;&lt;strong&gt;close 까지 도달하지 못한다면?&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -1012,18 +1554,18 @@ db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAClUlEQVR42mWSa2hPYRzHjzdezAukSEKSXN9Imkt4wQvFXHJ9Yctl1twi1yEvpJQmlFxC25TkzYimZqutISmiRmO2TGxuY/tv5/8/57mc53z8zn//opzOt9PpfM/3+Xyf3+Odmz2I9tNT4V0hqmIKpnAI5vx4Ar+E8OkCzOE89O1pqEwV6to6gpNTyZyfg39pIZnyfMITMwiOTSfYN5n0zkl4NxYNpmn3JL41bCVo342qmYt6MQsVVWHiB6jUfgJ7HEMLQd0R/HuL8BsL8Z+Ukn64kfSd5QQX56HLJmN3TMC7sySPR4vzeLdiOOGGMejT+QTdmwl6SjH2PtbVY1QDJlNH+KUcnapH9zUSpqpRX28Qtp4UiALs2ZmYsil4dcuG8nbdSPqLxmG2jEQfHEvQVoTfs5pQlQtZLcq/JQscxfIGYrnjCOdCYmfk2YP+KdtRuxx1eS7e84Jh/F47CrN9NMHtTdiOeqxpJ/y9B/VhKbp5KUYCHSms7cRFvgRFOVkRRK4L1bqXsGYVXkfxRMLKAnlZT6Q+klyxUETRJ3RXKeqVbPyPEiI+C00/LhYyMSSUWQll4jd991CPN+L9KpuHVa+wuh35TmwGqohHqHoI4sv0mxIZ0k0JU7mg+B+5rDcyzejX2/B6Vw7DVmzD2V4JyhkSOY2y1TKYuxJ2AeNqhVBJvd7/A5NGsTR6W4wXHp2O2TUC8/JUdqVkbwZqgXYPssfHuc/yQ9fAMGIrirLf/9JKIN/RHw7gmZZidPchTDqp5GcNkeuTurIvQQ06vD5QyXVKaBL8S/RFjtN78dpcMNmh6bYyPG2q0bEcYu5nTS5OCaXDxsnk1mCezcd0VwrpFdFVUQVhcIag/yAmapIwlSP8Jv4D/AEQE/AEYmB2ygAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAClUlEQVR42mWSa2hPYRzHjzdezAukSEKSXN9Imkt4wQvFXHJ9Yctl1twi1yEvpJQmlFxC25TkzYimZqutISmiRmO2TGxuY/tv5/8/57mc53z8zn//opzOt9PpfM/3+Xyf3+Odmz2I9tNT4V0hqmIKpnAI5vx4Ar+E8OkCzOE89O1pqEwV6to6gpNTyZyfg39pIZnyfMITMwiOTSfYN5n0zkl4NxYNpmn3JL41bCVo342qmYt6MQsVVWHiB6jUfgJ7HEMLQd0R/HuL8BsL8Z+Ukn64kfSd5QQX56HLJmN3TMC7sySPR4vzeLdiOOGGMejT+QTdmwl6SjH2PtbVY1QDJlNH+KUcnapH9zUSpqpRX28Qtp4UiALs2ZmYsil4dcuG8nbdSPqLxmG2jEQfHEvQVoTfs5pQlQtZLcq/JQscxfIGYrnjCOdCYmfk2YP+KdtRuxx1eS7e84Jh/F47CrN9NMHtTdiOeqxpJ/y9B/VhKbp5KUYCHSms7cRFvgRFOVkRRK4L1bqXsGYVXkfxRMLKAnlZT6Q+klyxUETRJ3RXKeqVbPyPEiI+C00/LhYyMSSUWQll4jd991CPN+L9KpuHVa+wuh35TmwGqohHqHoI4sv0mxIZ0k0JU7mg+B+5rDcyzejX2/B6Vw7DVmzD2V4JyhkSOY2y1TKYuxJ2AeNqhVBJvd7/A5NGsTR6W4wXHp2O2TUC8/JUdqVkbwZqgXYPssfHuc/yQ9fAMGIrirLf/9JKIN/RHw7gmZZidPchTDqp5GcNkeuTurIvQQ06vD5QyXVKaBL8S/RFjtN78dpcMNmh6bYyPG2q0bEcYu5nTS5OCaXDxsnk1mCezcd0VwrpFdFVUQVhcIag/yAmapIwlSP8Jv4D/AEQE/AEYmB2ygAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;폭탄쾅&quot;
         title=&quot;&quot;
-        src=&quot;/static/90f0dcc9e428cfb41f30c627d25323ca/f058b/pow.png&quot;
-        srcset=&quot;/static/90f0dcc9e428cfb41f30c627d25323ca/c26ae/pow.png 158w,
-/static/90f0dcc9e428cfb41f30c627d25323ca/6bdcf/pow.png 315w,
-/static/90f0dcc9e428cfb41f30c627d25323ca/f058b/pow.png 630w,
+        src=&quot;/static/90f0dcc9e428cfb41f30c627d25323ca/0b533/pow.png&quot;
+        srcset=&quot;/static/90f0dcc9e428cfb41f30c627d25323ca/fac75/pow.png 125w,
+/static/90f0dcc9e428cfb41f30c627d25323ca/63868/pow.png 250w,
+/static/90f0dcc9e428cfb41f30c627d25323ca/0b533/pow.png 500w,
 /static/90f0dcc9e428cfb41f30c627d25323ca/6af66/pow.png 640w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
@@ -1050,29 +1592,29 @@ db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;문제는 해결된 것처럼 보입니다. 물론 db를 연결하고, 해제하는 영역에 대해서 저러한 보일러 플레이트가 생기는 것을 제외하고는 말이죠. 유사하게 이렇게 connect가 열리는 부분에서는 지속적인 고민이 생기기 마련입니다. 파일 스트림을 받는다든지, 또는 resource를 공유하는 worker 들 사이들에서도 해당 고민은 발생할 수 있습니다. 혹시 이러한 resource 타입에 따라서 관리하는 방법들이 제각각이라면 하나의 방법으로 명시적인 관리를 하면 어떨까요? 여기에서 이 명세의 동기가 시작됩니다.&lt;/p&gt;
 &lt;p&gt;위에서는 사용을 위한 예시를 보았습니다. 흥미가 생겼으면 좋겠네요. 그 궁금함을 갖고 조금은 딱딱한 공식 문서를 들여다보겠습니다. TC-39에 제시된 문서의 제목과 동기를 읽어보면 다음과 같습니다.&lt;/p&gt;
-&lt;h3&gt;제목: ECMAScript 명시적 리소스 관리&lt;/h3&gt;
-&lt;h3&gt;동기&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;리소스 관리에 대한 일관적이지 않은 패턴&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;제목-ecmascript-명시적-리소스-관리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A0%9C%EB%AA%A9-ecmascript-%EB%AA%85%EC%8B%9C%EC%A0%81-%EB%A6%AC%EC%86%8C%EC%8A%A4-%EA%B4%80%EB%A6%AC&quot; aria-label=&quot;제목 ecmascript 명시적 리소스 관리 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;제목: ECMAScript 명시적 리소스 관리&lt;/h2&gt;
+&lt;h3 id=&quot;동기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8F%99%EA%B8%B0&quot; aria-label=&quot;동기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;동기&lt;/h3&gt;
+&lt;h4 id=&quot;리소스-관리에-대한-일관적이지-않은-패턴&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%A6%AC%EC%86%8C%EC%8A%A4-%EA%B4%80%EB%A6%AC%EC%97%90-%EB%8C%80%ED%95%9C-%EC%9D%BC%EA%B4%80%EC%A0%81%EC%9D%B4%EC%A7%80-%EC%95%8A%EC%9D%80-%ED%8C%A8%ED%84%B4&quot; aria-label=&quot;리소스 관리에 대한 일관적이지 않은 패턴 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;리소스 관리에 대한 일관적이지 않은 패턴&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;ECMAScript Iterators: iterator.return()&lt;/li&gt;
 &lt;li&gt;WHATWG Stream Readers: reader.releaseLock()&lt;/li&gt;
 &lt;li&gt;NodeJS FileHandles: handle.close()&lt;/li&gt;
 &lt;li&gt;Emscripten C++ objects handles: Module._free(ptr) obj.delete() Module.destroy(obj)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;resource를 관리할 때, footguns&lt;sup id=&quot;fnref-주5&quot;&gt;&lt;a href=&quot;#fn-주5&quot; class=&quot;footnote-ref&quot;&gt;주5&lt;/a&gt;&lt;/sup&gt; 피하기&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;resource를-관리할-때-footguns-피하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#resource%EB%A5%BC-%EA%B4%80%EB%A6%AC%ED%95%A0-%EB%95%8C-footguns-%ED%94%BC%ED%95%98%EA%B8%B0&quot; aria-label=&quot;resource를 관리할 때 footguns 피하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;resource를 관리할 때, footguns&lt;sup id=&quot;fnref-주5&quot;&gt;&lt;a href=&quot;#fn-주5&quot; class=&quot;footnote-ref&quot;&gt;주5&lt;/a&gt;&lt;/sup&gt; 피하기&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; reader &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; stream&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getReader&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;
-reader&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;releaseLock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// try/finally 가 있어야 함.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;resource의 범위를 잡을 때&lt;/strong&gt;&lt;/p&gt;
+reader&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;releaseLock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// try/finally가 있어야 함.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&quot;resource의-범위를-잡을-때&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#resource%EC%9D%98-%EB%B2%94%EC%9C%84%EB%A5%BC-%EC%9E%A1%EC%9D%84-%EB%95%8C&quot; aria-label=&quot;resource의 범위를 잡을 때 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;resource의 범위를 잡을 때&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; handle &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// handle 을 쓰는데 적당합니다.&lt;/span&gt;
+    &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// handle을 쓰는 데 적당합니다.&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
     handle&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;token comment&quot;&gt;// handle을 쓰는데 적당하지 않습니다만 아직도 스코프 내에 있어요.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;여러 개의 resource를 관리 할 때, footguns 피하기&lt;/strong&gt;&lt;/p&gt;
+&lt;span class=&quot;token comment&quot;&gt;// handle을 쓰는 데 적당하지 않습니다만 아직도 스코프 내에 있어요.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&quot;여러-개의-resource를-관리-할-때-footguns-피하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%97%AC%EB%9F%AC-%EA%B0%9C%EC%9D%98-resource%EB%A5%BC-%EA%B4%80%EB%A6%AC-%ED%95%A0-%EB%95%8C-footguns-%ED%94%BC%ED%95%98%EA%B8%B0&quot; aria-label=&quot;여러 개의 resource를 관리 할 때 footguns 피하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;여러 개의 resource를 관리 할 때, footguns 피하기&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; a &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; b &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -1082,7 +1624,7 @@ reader&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
     a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 만약 `b.close()` 가 a 에 의존하고 있다면, 문제가 있습니다.&lt;/span&gt;
     b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 만약 `a.close()` 가 발생하면, `b` 에 영원히 도달하지 않습니다.&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;여러 리소스를 올바르게 관리할 때 긴 코드 방지&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;여러-리소스를-올바르게-관리할-때-긴-코드-방지&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%97%AC%EB%9F%AC-%EB%A6%AC%EC%86%8C%EC%8A%A4%EB%A5%BC-%EC%98%AC%EB%B0%94%EB%A5%B4%EA%B2%8C-%EA%B4%80%EB%A6%AC%ED%95%A0-%EB%95%8C-%EA%B8%B4-%EC%BD%94%EB%93%9C-%EB%B0%A9%EC%A7%80&quot; aria-label=&quot;여러 리소스를 올바르게 관리할 때 긴 코드 방지 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;여러 리소스를 올바르게 관리할 때 긴 코드 방지&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;
 &lt;span class=&quot;token comment&quot;&gt;// sync disposal&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// 블록은 바깥 스코프에서 `a` 나 `b` 의 누수를 방지합니다.&lt;/span&gt;
@@ -1134,7 +1676,7 @@ using a &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cla
 &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; using a &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; b &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;Non-blocking memory/IO 어플리케이션에서&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;non-blocking-memoryio-어플리케이션에서&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#non-blocking-memoryio-%EC%96%B4%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98%EC%97%90%EC%84%9C&quot; aria-label=&quot;non blocking memoryio 어플리케이션에서 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Non-blocking memory/IO 어플리케이션에서&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; ReaderWriterLock &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;...&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; lock &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ReaderWriterLock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 
@@ -1154,7 +1696,7 @@ using a &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cla
   &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// `await` 후에도 여전히 write lock 상태입니다.&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// write lock을 해제&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;Fixed Layout Objects와 shared struct를 함께 사용해야 될 때&lt;sup id=&quot;fnref-주6&quot;&gt;&lt;a href=&quot;#fn-주6&quot; class=&quot;footnote-ref&quot;&gt;주6&lt;/a&gt;&lt;/sup&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;fixed-layout-objects와-shared-struct를-함께-사용해야-될-때&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#fixed-layout-objects%EC%99%80-shared-struct%EB%A5%BC-%ED%95%A8%EA%BB%98-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%95%BC-%EB%90%A0-%EB%95%8C&quot; aria-label=&quot;fixed layout objects와 shared struct를 함께 사용해야 될 때 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Fixed Layout Objects와 shared struct를 함께 사용해야 될 때&lt;sup id=&quot;fnref-주6&quot;&gt;&lt;a href=&quot;#fn-주6&quot; class=&quot;footnote-ref&quot;&gt;주6&lt;/a&gt;&lt;/sup&gt;&lt;/h4&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// main.js&lt;/span&gt;
 shared struct &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;SharedData&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   ready &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
@@ -1169,10 +1711,10 @@ worker&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cla
 
 &lt;span class=&quot;token comment&quot;&gt;// worker로 data 보내기&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos;의 잠금을 main 이 얻을 때까지 기다리기&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos;의 잠금을 main이 얻을 때까지 기다리기&lt;/span&gt;
   using lck &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; m&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 
-  &lt;span class=&quot;token comment&quot;&gt;// worker 를 위해 데이터에 표기&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// worker를 위해 데이터에 표기&lt;/span&gt;
   data&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ready &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
   console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;main is ready&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 
@@ -1185,10 +1727,10 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos;의 잠금을 다시 획득&lt;/span&gt;
   using lck &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; m&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 
-  &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos;의 잠금을 풀고, worker 가 처리를 끝낼 때 까지 기다립니다.&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos;의 잠금을 풀고, worker가 처리를 끝낼 때까지 기다립니다.&lt;/span&gt;
   cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;m&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; data&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;processed&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
 
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos; 잠금 헤제&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos; 잠금 해제&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// worker.js&lt;/span&gt;
 &lt;span class=&quot;token function-variable function&quot;&gt;onmessage&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
@@ -1201,20 +1743,20 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
     &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos;의 잠금을 풀고 main() 에 데이터를 보낼 때 까지 기다립니다.&lt;/span&gt;
     cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;m&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; data&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ready&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 
-    &lt;span class=&quot;token comment&quot;&gt;// 기다린 후에, 우리는 &apos;m&apos; 의 자물쇠를 다시 한 번 얻었습니다.&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// 기다린 후에, 우리는 &apos;m&apos;의 자물쇠를 다시 한 번 얻었습니다.&lt;/span&gt;
     console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;worker thread is processing data&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
 
-    &lt;span class=&quot;token comment&quot;&gt;// main 으로 다시 데이터를 보내기&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// main으로 다시 데이터를 보내기&lt;/span&gt;
     data&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;processed &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;
     console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;worker thread is done&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos; 잠금 헤제&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// &apos;m&apos; 잠금 해제&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;위의 예시를 해소하기 위해서 도입을 추진하게 됩니다.&lt;/p&gt;
 &lt;p&gt;원문이 궁금하신 분들을 위하여, 각주로 링크를 첨부합니다.&lt;sup id=&quot;fnref-주7&quot;&gt;&lt;a href=&quot;#fn-주7&quot; class=&quot;footnote-ref&quot;&gt;주7&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
-&lt;h1&gt;그래서…? 좋은 건 알겠어. 당장 쓰러 가자!&lt;/h1&gt;
+&lt;h2 id=&quot;그래서-좋은-건-알겠어-당장-쓰러-가자&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B7%B8%EB%9E%98%EC%84%9C-%EC%A2%8B%EC%9D%80-%EA%B1%B4-%EC%95%8C%EA%B2%A0%EC%96%B4-%EB%8B%B9%EC%9E%A5-%EC%93%B0%EB%9F%AC-%EA%B0%80%EC%9E%90&quot; aria-label=&quot;그래서 좋은 건 알겠어 당장 쓰러 가자 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;그래서…? 좋은 건 알겠어. 당장 쓰러 가자!&lt;/h2&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -1225,19 +1767,20 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 50.632911392405056%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACoklEQVR42jWS20tUURTGzz6XOWccL+NoM1raWJrjzBk0mwoU7UYUJhldpJsS6lORiqKh3chKyCJSu2FplAg+aERvXSCiC9hNiBIzEjMsiOihv+DXdgYfvv2ttffa3/5YeymqprIAoYooVF2TrLB5bREN+2qwM0PomoFhGWi6jtBlrS5ikHUL94RQUBRTLg4JmQhFQZUH83Eww8/b0Uf8eDXJYFMf6QmLEQ6B7pKCLimYIDlePhwv4zgJU8aGihKuqSKvdj/2gR2kRmySc/woSS5W2yvpqe/iSuNlKkoqcZqJUWeq141I9yDSJLxyL9FCpEqe3/fEowz+/kbd5Dh9f2Y4NTXOuU9j7Lw/TOOxTt4NPaGrvoPthXvYWlARda4HchGhICIYRA2sQPWlIiwToUmH3mSU9s9jBF88p+37FGdnJtg98YmBfz95+OgF74efcb2hh/LCKsJLwmieZFyV1SQebSaxoYWE+mas0hJUpyPWLjsP5cT7l6x5/YrOuWkufvlI2fgH7v+dofXNGP3XRnl84SEloS2opsBcXYzn2BnSrg7g675JyqVu4ip2yH7Gyc+QghvWo7S8fkrWyDDtv6Zply67fs9y+88sp+e+0tv/gKZdzXhSFmHFGaRX1+HrvEjSkUY8bSdwd3RgbS+XgvFRQbGpFCWrbCPmugi+mr1knGpl2/njFNzqo/LGdYYu9HHv5AjZ/kIMOR5Jtk1CaXG0l5rtx9pXgVG0EuG0Yg4joXlWokm0yKlhud1krgiSkxXkdGsbd3rvcqj6MNW1BykpLZLzKtAMC8PrwREJoPm9cly0mMOMlHkdOcgOgzSfj9xl2YRygqwK5BNYupzsXJuCyCbs/CLC+cXk5IYxnS50IwnTTMHlTsNwuVC0mClhqfwHWw9WEpHIyDoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 50.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACoklEQVR42jWS20tUURTGzz6XOWccL+NoM1raWJrjzBk0mwoU7UYUJhldpJsS6lORiqKh3chKyCJSu2FplAg+aERvXSCiC9hNiBIzEjMsiOihv+DXdgYfvv2ttffa3/5YeymqprIAoYooVF2TrLB5bREN+2qwM0PomoFhGWi6jtBlrS5ikHUL94RQUBRTLg4JmQhFQZUH83Eww8/b0Uf8eDXJYFMf6QmLEQ6B7pKCLimYIDlePhwv4zgJU8aGihKuqSKvdj/2gR2kRmySc/woSS5W2yvpqe/iSuNlKkoqcZqJUWeq141I9yDSJLxyL9FCpEqe3/fEowz+/kbd5Dh9f2Y4NTXOuU9j7Lw/TOOxTt4NPaGrvoPthXvYWlARda4HchGhICIYRA2sQPWlIiwToUmH3mSU9s9jBF88p+37FGdnJtg98YmBfz95+OgF74efcb2hh/LCKsJLwmieZFyV1SQebSaxoYWE+mas0hJUpyPWLjsP5cT7l6x5/YrOuWkufvlI2fgH7v+dofXNGP3XRnl84SEloS2opsBcXYzn2BnSrg7g675JyqVu4ip2yH7Gyc+QghvWo7S8fkrWyDDtv6Zply67fs9y+88sp+e+0tv/gKZdzXhSFmHFGaRX1+HrvEjSkUY8bSdwd3RgbS+XgvFRQbGpFCWrbCPmugi+mr1knGpl2/njFNzqo/LGdYYu9HHv5AjZ/kIMOR5Jtk1CaXG0l5rtx9pXgVG0EuG0Yg4joXlWokm0yKlhud1krgiSkxXkdGsbd3rvcqj6MNW1BykpLZLzKtAMC8PrwREJoPm9cly0mMOMlHkdOcgOgzSfj9xl2YRygqwK5BNYupzsXJuCyCbs/CLC+cXk5IYxnS50IwnTTMHlTsNwuVC0mClhqfwHWw9WEpHIyDoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;당장 하자&quot;
         title=&quot;&quot;
-        src=&quot;/static/0b482ea0794b04c5b248cd9bd231fa6b/f058b/gonow.png&quot;
-        srcset=&quot;/static/0b482ea0794b04c5b248cd9bd231fa6b/c26ae/gonow.png 158w,
-/static/0b482ea0794b04c5b248cd9bd231fa6b/6bdcf/gonow.png 315w,
-/static/0b482ea0794b04c5b248cd9bd231fa6b/f058b/gonow.png 630w,
-/static/0b482ea0794b04c5b248cd9bd231fa6b/40601/gonow.png 945w,
+        src=&quot;/static/0b482ea0794b04c5b248cd9bd231fa6b/0b533/gonow.png&quot;
+        srcset=&quot;/static/0b482ea0794b04c5b248cd9bd231fa6b/fac75/gonow.png 125w,
+/static/0b482ea0794b04c5b248cd9bd231fa6b/63868/gonow.png 250w,
+/static/0b482ea0794b04c5b248cd9bd231fa6b/0b533/gonow.png 500w,
+/static/0b482ea0794b04c5b248cd9bd231fa6b/1d69c/gonow.png 750w,
+/static/0b482ea0794b04c5b248cd9bd231fa6b/00d43/gonow.png 1000w,
 /static/0b482ea0794b04c5b248cd9bd231fa6b/187fa/gonow.png 1194w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
@@ -1248,7 +1791,7 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
 &lt;p&gt;&lt;a href=&quot;https://devblogs.microsoft.com/typescript/announcing-typescript-5-2/#using-declarations-and-explicit-resource-management&quot;&gt;타입스크립트 5.2 using&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;아직 나온 지 한 달(23년 9월 기준) 정도 된 따뜻한 타입스크립트 기능입니다.&lt;/p&gt;
 &lt;p&gt;5.2에 해당 기능을 서포트하는 기능이 추가되었습니다.&lt;/p&gt;
-&lt;h1&gt;Outro&lt;/h1&gt;
+&lt;h2 id=&quot;outro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#outro&quot; aria-label=&quot;outro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Outro&lt;/h2&gt;
 &lt;p&gt;내용을 다 읽으신 분, 또는 글을 밑에서부터 읽는 것을 좋아하시는 분에게 선물을 드리자면 사실 1부작 같은 2부작 이었습니다.&lt;/p&gt;
 &lt;p&gt;그렇습니다. 시리즈 입니다.&lt;/p&gt;
 &lt;p&gt;&lt;span
@@ -1264,15 +1807,15 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 98.73417721518987%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAACkklEQVR42pWU/UtTURjH9+dE0AtBKET9ZGAghdSGytQyXVpR+TKbOZjeSmyUg0A0Kg2cJaFY/VCGiKiNinRubndz3ttsGaIZpdZ0u9u9387u7qpd79p24N7Dec45n/M8z/c5R4WMmxD/CzyYZ1ZssAvSWEhapUqLIRtiH8/z4KNR0bYy8RZsx8P4PLFnBfzrm0gXu6B/Cd66dggKa1Uyd/5sSoTyYmgYrY3XMGjtx4zNJto2PSzsBTpEtkNJByl6KIYgLeBJN9hB4eWdBpirtRgfGxPtzDkT/FTnDtgO4Nb6KrhQMA7jOLFf9tnh7KOw7htF6NMKGE0dfFo9OMk7RVESiQ2MPgfba0U0FJGgEfyYncfklVp4GxuwcKgUvqM6BJdXpWiEFDmUTokEt7DYPQC6ygi22QK2vBnM3lNgc7VgckqxeKAYS20P4jtl6qYWhbRfbAB+Sy8CXQP4ePM+6H0aLB6pAEPAnuMXEd74qRiuIlCI8knwKBnTOgquPYXw7FfDXUzyFw4rCpKyDmM5FUgR8+G4MGsjb+DYVQCahP/Z1P1PiSEzYFIJxcpkZBLvj1XCk3MS3qoW8LIUZQRM5Ce4HcZVcz9u3O5Bj8EA+umg/P5kBuQl76ZmfCiouYtKQzdyCo344JhPms8aOD3HoKi2E/W3niC/ogNDr6fjYmULTIT8nZTIGcqKGvNjaA1dKDM+IspHMiwbhVeG+7qGNt11GEsaQZE7fDjvMvqGx9PclBQwv6kNzhNFcNU2Ya6sGk51OWz5arwqqsaa7V36x0EOZPVGzObmwXFJDztlhr2pBe52C9wlZ2HffRCbDLvjkf1vyDFhvk1MiZ56L9SD1pTDdboG9Pk6fLnXA47cfbmXvwGuE7h3br4XRgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 99.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAACkklEQVR42pWU/UtTURjH9+dE0AtBKET9ZGAghdSGytQyXVpR+TKbOZjeSmyUg0A0Kg2cJaFY/VCGiKiNinRubndz3ttsGaIZpdZ0u9u9387u7qpd79p24N7Dec45n/M8z/c5R4WMmxD/CzyYZ1ZssAvSWEhapUqLIRtiH8/z4KNR0bYy8RZsx8P4PLFnBfzrm0gXu6B/Cd66dggKa1Uyd/5sSoTyYmgYrY3XMGjtx4zNJto2PSzsBTpEtkNJByl6KIYgLeBJN9hB4eWdBpirtRgfGxPtzDkT/FTnDtgO4Nb6KrhQMA7jOLFf9tnh7KOw7htF6NMKGE0dfFo9OMk7RVESiQ2MPgfba0U0FJGgEfyYncfklVp4GxuwcKgUvqM6BJdXpWiEFDmUTokEt7DYPQC6ygi22QK2vBnM3lNgc7VgckqxeKAYS20P4jtl6qYWhbRfbAB+Sy8CXQP4ePM+6H0aLB6pAEPAnuMXEd74qRiuIlCI8knwKBnTOgquPYXw7FfDXUzyFw4rCpKyDmM5FUgR8+G4MGsjb+DYVQCahP/Z1P1PiSEzYFIJxcpkZBLvj1XCk3MS3qoW8LIUZQRM5Ce4HcZVcz9u3O5Bj8EA+umg/P5kBuQl76ZmfCiouYtKQzdyCo344JhPms8aOD3HoKi2E/W3niC/ogNDr6fjYmULTIT8nZTIGcqKGvNjaA1dKDM+IspHMiwbhVeG+7qGNt11GEsaQZE7fDjvMvqGx9PclBQwv6kNzhNFcNU2Ya6sGk51OWz5arwqqsaa7V36x0EOZPVGzObmwXFJDztlhr2pBe52C9wlZ2HffRCbDLvjkf1vyDFhvk1MiZ56L9SD1pTDdboG9Pk6fLnXA47cfbmXvwGuE7h3br4XRgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;마참내&quot;
         title=&quot;&quot;
         src=&quot;/static/6166e3124cc243f63f69d1ad96465fce/0b533/machamne.png&quot;
-        srcset=&quot;/static/6166e3124cc243f63f69d1ad96465fce/c26ae/machamne.png 158w,
-/static/6166e3124cc243f63f69d1ad96465fce/6bdcf/machamne.png 315w,
+        srcset=&quot;/static/6166e3124cc243f63f69d1ad96465fce/fac75/machamne.png 125w,
+/static/6166e3124cc243f63f69d1ad96465fce/63868/machamne.png 250w,
 /static/6166e3124cc243f63f69d1ad96465fce/0b533/machamne.png 500w&quot;
         sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
@@ -1283,9 +1826,10 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
     &lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;다음 문서에서는 타입스크립트를 활용해서 실제로 명시적인 코드들을 어떻게 쓰는지 알아보는 시간을 갖도록 하겠습니다.&lt;/p&gt;
 &lt;p&gt;그럼.&lt;/p&gt;
-&lt;p&gt;&lt;span
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -1296,37 +1840,41 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 68.35443037974683%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABJ0AAASdAHeZh94AAADyUlEQVR42iWQ60+TZxjG339jn5Ys+7AsO31YsgNfSIwxMXK0QBFhulkOBQqVwlQawWxmZAsji8I0MN1sKQVaaKG00MPbA9DaCXJmwhxyHNMCHUXlJP3tXfxw5Zfrue/7ynPfQuqpJGSnZWTIMsjMzESeKSMrQ4ZcnkWWPFtiDrln8zh37hxfnldw4UIR+QXFFOQXoywqQ6m8iEqloeJiNaoSDUKbZRSTY1bSNB2OGazueSyuOcwDj/CJIpPeFhyO+1jFv7B4HmP3L9MfWMM+uIor+BRn8Bm+36OEp3bxBdcROkwiJssQpm6fxAB3frPQ2KRHZ3AxJd5gffg6VvMAdosXsduNr8uGv9uDyxrE0RvG3vuAfscYftcMTksYoddowGrsoqu9D62mihMJH5GW+C6XFWdYEbWETDcwt9pxd1oZMppZ8dQz12vAZ3AStvoJmj1Sj8hD2xCBdg/CQl8JS04t9ts/kp34Pt8XfciYPhn3jZM8c+Uyom/A86sOr86I2GpgwduOuV5LQ0UejVc0PDDoWHHdYrZTR7i1C+GZuZrYQDFRTy7Gmk8ZuZdIzJfEuuMEEY+CiZY6xu828rD5JlMdd9gYF5nqVBMNVmK8ksykoZ7t4E2W2lv4Q6dHeNpWy3rrNSKWi+wGFSzbTrIznMTfYi4bIQ1PPHUs2xtYbf+Oub6fWA3peTF/l2joGmveW7ycC/Gkq4Vodwv/mG4hbPdoiPVoed5Tzb5DTTyYD1PZRFxy1pxfEfFr2Lapwa1mb6iWR456VoZ17P8psjdmZH/4Z17Yr0PgOjH3VYRDbwEMFksPpcT95Rx4CzkI5hDTf8BWWyIRWw5RQzLTjafpuJaBsUFJ06U8Ju6VSzMqjrxlxIcr4P4ltt2VCAcjRTBZwtGEFCiRGSWHoS/YaX6Ll7ffYPv2m7y89w6dlZ9RmvQJVfIESlM+pvtqIoyU8CpcLkkKHJcCw1VS4EwhLBQTX1QRXy6DlVKO5vPZaXuPbcPbvAicYm80i82ADP3V43xzPoGavM/pqD0G84XSnJqjpUp4eoXY468RdhcVHEUKOdxQ8mqrmMOtQvbXFcQepvJ8JoPDSD57m80crP3A87F01kYvMSt+S7gjhVeb0jYbKg42pLX/VbO1WCbdcFe6H9KX4xWvSflrxS4Qj5yBo1rJh6R6E+wpYLdO8q2Svyzxf1UTj2sl1rATq0aYDqczP3mG2YmzTE1kMzmSxVg4g1F3CiHzMYIuNYPOUgbdpwh4MnEajtP7SwKevjTctnT6bakM2NLwDsjo78nkP55CRqs/Y1kXAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 68%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABJ0AAASdAHeZh94AAADyUlEQVR42iWQ60+TZxjG339jn5Ys+7AsO31YsgNfSIwxMXK0QBFhulkOBQqVwlQawWxmZAsji8I0MN1sKQVaaKG00MPbA9DaCXJmwhxyHNMCHUXlJP3tXfxw5Zfrue/7ynPfQuqpJGSnZWTIMsjMzESeKSMrQ4ZcnkWWPFtiDrln8zh37hxfnldw4UIR+QXFFOQXoywqQ6m8iEqloeJiNaoSDUKbZRSTY1bSNB2OGazueSyuOcwDj/CJIpPeFhyO+1jFv7B4HmP3L9MfWMM+uIor+BRn8Bm+36OEp3bxBdcROkwiJssQpm6fxAB3frPQ2KRHZ3AxJd5gffg6VvMAdosXsduNr8uGv9uDyxrE0RvG3vuAfscYftcMTksYoddowGrsoqu9D62mihMJH5GW+C6XFWdYEbWETDcwt9pxd1oZMppZ8dQz12vAZ3AStvoJmj1Sj8hD2xCBdg/CQl8JS04t9ts/kp34Pt8XfciYPhn3jZM8c+Uyom/A86sOr86I2GpgwduOuV5LQ0UejVc0PDDoWHHdYrZTR7i1C+GZuZrYQDFRTy7Gmk8ZuZdIzJfEuuMEEY+CiZY6xu828rD5JlMdd9gYF5nqVBMNVmK8ksykoZ7t4E2W2lv4Q6dHeNpWy3rrNSKWi+wGFSzbTrIznMTfYi4bIQ1PPHUs2xtYbf+Oub6fWA3peTF/l2joGmveW7ycC/Gkq4Vodwv/mG4hbPdoiPVoed5Tzb5DTTyYD1PZRFxy1pxfEfFr2Lapwa1mb6iWR456VoZ17P8psjdmZH/4Z17Yr0PgOjH3VYRDbwEMFksPpcT95Rx4CzkI5hDTf8BWWyIRWw5RQzLTjafpuJaBsUFJ06U8Ju6VSzMqjrxlxIcr4P4ltt2VCAcjRTBZwtGEFCiRGSWHoS/YaX6Ll7ffYPv2m7y89w6dlZ9RmvQJVfIESlM+pvtqIoyU8CpcLkkKHJcCw1VS4EwhLBQTX1QRXy6DlVKO5vPZaXuPbcPbvAicYm80i82ADP3V43xzPoGavM/pqD0G84XSnJqjpUp4eoXY468RdhcVHEUKOdxQ8mqrmMOtQvbXFcQepvJ8JoPDSD57m80crP3A87F01kYvMSt+S7gjhVeb0jYbKg42pLX/VbO1WCbdcFe6H9KX4xWvSflrxS4Qj5yBo1rJh6R6E+wpYLdO8q2Svyzxf1UTj2sl1rATq0aYDqczP3mG2YmzTE1kMzmSxVg4g1F3CiHzMYIuNYPOUgbdpwh4MnEajtP7SwKevjTctnT6bakM2NLwDsjo78nkP55CRqs/Y1kXAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
-        alt=&quot;다음에 또 만나요&quot;
-        title=&quot;&quot;
-        src=&quot;/static/8ea295912866db0a00b622592610823b/f058b/bye.png&quot;
-        srcset=&quot;/static/8ea295912866db0a00b622592610823b/c26ae/bye.png 158w,
-/static/8ea295912866db0a00b622592610823b/6bdcf/bye.png 315w,
-/static/8ea295912866db0a00b622592610823b/f058b/bye.png 630w,
+        alt=&quot;안녕&quot;
+        title=&quot;다음에 또 만나요&quot;
+        src=&quot;/static/8ea295912866db0a00b622592610823b/0b533/bye.png&quot;
+        srcset=&quot;/static/8ea295912866db0a00b622592610823b/fac75/bye.png 125w,
+/static/8ea295912866db0a00b622592610823b/63868/bye.png 250w,
+/static/8ea295912866db0a00b622592610823b/0b533/bye.png 500w,
 /static/8ea295912866db0a00b622592610823b/5bb8b/bye.png 749w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;다음에 또 만나요&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot;&gt;
 &lt;hr&gt;
 &lt;ol&gt;
 &lt;li id=&quot;fn-주1&quot;&gt;tc39 프로세스라고도 불립니다. &lt;a href=&quot;https://tc39.es/&quot;&gt;사이트&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
-&lt;li id=&quot;fn-주2&quot;&gt;&lt;a href=&quot;https://learn.microsoft.com/ko-kr/dotnet/csharp/language-reference/keywords/using&quot;&gt;마이크로소프트 C# 원문&lt;/a&gt; 에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC2&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
-&lt;li id=&quot;fn-주3&quot;&gt;&lt;a href=&quot;https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html&quot;&gt;오라클 원문&lt;/a&gt; 에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC3&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
-&lt;li id=&quot;fn-주4&quot;&gt;&lt;a href=&quot;https://docs.python.org/3/reference/compound_stmts.html#with&quot;&gt;파이선 원문&lt;/a&gt; 에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC4&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
-&lt;li id=&quot;fn-주5&quot;&gt;자기 발등 찍기 &lt;a href=&quot;https://matt-rickard.com/avoiding-footguns&quot;&gt;참고 글1&lt;/a&gt;, &lt;a href=&quot;https://en.wiktionary.org/wiki/footgun&quot;&gt;참고 글2&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC5&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주2&quot;&gt;&lt;a href=&quot;https://learn.microsoft.com/ko-kr/dotnet/csharp/language-reference/keywords/using&quot;&gt;마이크로소프트 C# 원문&lt;/a&gt;에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC2&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주3&quot;&gt;&lt;a href=&quot;https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html&quot;&gt;오라클 원문&lt;/a&gt;에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC3&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주4&quot;&gt;&lt;a href=&quot;https://docs.python.org/3/reference/compound_stmts.html#with&quot;&gt;파이선 원문&lt;/a&gt;에서 발췌&lt;a href=&quot;#fnref-%EC%A3%BC4&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주5&quot;&gt;자기 발등 찍기 &lt;a href=&quot;https://matt-rickard.com/avoiding-footguns&quot;&gt;참고 글1&lt;/a&gt;,
+&lt;a href=&quot;https://en.wiktionary.org/wiki/footgun&quot;&gt;참고 글2&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC5&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주6&quot;&gt;아직은 stage1 spec에 머물고 있습니다 &lt;a href=&quot;https://github.com/tc39/proposal-structs&quot;&gt;Proposal Structs&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC6&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주7&quot;&gt;&lt;a href=&quot;https://github.com/tc39/proposal-explicit-resource-management&quot;&gt;ECMAScript Explicit Resource Management Proposal&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC7&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;</content:encoded></item><item><title><![CDATA[Hello, world!]]></title><description><![CDATA[브라이언 커니핸과 데니스 리치의 기념비적인 프로그래밍 서적 “The C Programming
-Language…]]></description><link>http://onepredict.github.io/hello-world/</link><guid isPermaLink="false">http://onepredict.github.io/hello-world/</guid><pubDate>Sat, 16 Sep 2023 11:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;span
+Language…]]></description><link>http://onepredict.github.io/hello-world/</link><guid isPermaLink="false">http://onepredict.github.io/hello-world/</guid><pubDate>Sat, 16 Sep 2023 11:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
       style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 200px; &quot;
     &gt;
@@ -1339,14 +1887,14 @@ Language…]]></description><link>http://onepredict.github.io/hello-world/</link
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 140.50632911392407%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAIAAADuuAg3AAAACXBIWXMAAAsTAAALEwEAmpwYAAACeElEQVR42qVUaU/bQBDN///ab63aSohSCbUICgUkjgooV0I4cjQnCY7jI4mvtb2213ukYxto0gYR6Gq1Go/m7cx7ntmcaZphFAUvXAABYA6s8asWAHMBxq8EYzwbLMbjKGaUccYFbPEiMOXioK6uXUnvDpv5Wz27bu7MYmzh6HbolvuW4YYvK5vErNLq75xWd8+qpaYckXhesBDix0Xj/erx8k7x697l25Wf+4X682CRSiPr1sLG2fphCYeEMb6fr8MVjoczOk+CM12rHfXD2vF5uTOp0/OCZeBaV/v47eSg2MqcI9vTRohS9mzZyWkh//N2YWm70JR0deQs71x82jz3cPhX/hmCZfh6V1vaykPxUMLi5nmlrUyK8geMcaaE4IJnlXMusvzt3qAh6SbywQGopNXuw5IA/AhGAVk4bb/Zqx01tC8X3UrfWDy9remoKBnfS/316952SV4p3m2V5ZOWxjifAmNCmzraq6kVxbqSzJueuVtVfilWWTbynWFZTpzXvVFdc25kM07Fw4+cMzIWJhBaVW1Arl5KJ63BQUNrD+yNG7nQGa4Vu5O/bYoznBFlsukpNjb9SHMC1cGag50g6g5d3cF3hpeyvg/GT/X2K+c5uXiiq8SEIeacqnkzI9cLKYsZCwkNCI1iCmKSdIMTVAhInNoc7DBmQQSflDDu+35ON6ye4SqWq9qgii+brmKiu5HTGdqq5dl+CIZkIN32BsgHT2foqJYLYZaD/uH8xAxNx4hZg/HfagvgljBnDMhHQC89KZs5ktOPPvQtdAW0uh/FsJ2AoJCAB+wZjz5CiEGSh0VjeK8phzc7SZbuh894YgEEgL8BY1lJ8KqPUocAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 140.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAIAAADuuAg3AAAACXBIWXMAAAsTAAALEwEAmpwYAAACeElEQVR42qVUaU/bQBDN///ab63aSohSCbUICgUkjgooV0I4cjQnCY7jI4mvtb2213ukYxto0gYR6Gq1Go/m7cx7ntmcaZphFAUvXAABYA6s8asWAHMBxq8EYzwbLMbjKGaUccYFbPEiMOXioK6uXUnvDpv5Wz27bu7MYmzh6HbolvuW4YYvK5vErNLq75xWd8+qpaYckXhesBDix0Xj/erx8k7x697l25Wf+4X682CRSiPr1sLG2fphCYeEMb6fr8MVjoczOk+CM12rHfXD2vF5uTOp0/OCZeBaV/v47eSg2MqcI9vTRohS9mzZyWkh//N2YWm70JR0deQs71x82jz3cPhX/hmCZfh6V1vaykPxUMLi5nmlrUyK8geMcaaE4IJnlXMusvzt3qAh6SbywQGopNXuw5IA/AhGAVk4bb/Zqx01tC8X3UrfWDy9remoKBnfS/316952SV4p3m2V5ZOWxjifAmNCmzraq6kVxbqSzJueuVtVfilWWTbynWFZTpzXvVFdc25kM07Fw4+cMzIWJhBaVW1Arl5KJ63BQUNrD+yNG7nQGa4Vu5O/bYoznBFlsukpNjb9SHMC1cGag50g6g5d3cF3hpeyvg/GT/X2K+c5uXiiq8SEIeacqnkzI9cLKYsZCwkNCI1iCmKSdIMTVAhInNoc7DBmQQSflDDu+35ON6ye4SqWq9qgii+brmKiu5HTGdqq5dl+CIZkIN32BsgHT2foqJYLYZaD/uH8xAxNx4hZg/HfagvgljBnDMhHQC89KZs5ktOPPvQtdAW0uh/FsJ2AoJCAB+wZjz5CiEGSh0VjeK8phzc7SZbuh894YgEEgL8BY1lJ8KqPUocAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;The C Programming Language&quot;
-        title=&quot;&quot;
+        title=&quot;The C Programming Language&quot;
         src=&quot;/static/5a2a9bf8229107d8fa96d8c15ad4e55e/772e8/tcpl.png&quot;
-        srcset=&quot;/static/5a2a9bf8229107d8fa96d8c15ad4e55e/c26ae/tcpl.png 158w,
+        srcset=&quot;/static/5a2a9bf8229107d8fa96d8c15ad4e55e/fac75/tcpl.png 125w,
 /static/5a2a9bf8229107d8fa96d8c15ad4e55e/772e8/tcpl.png 200w&quot;
         sizes=&quot;(max-width: 200px) 100vw, 200px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
@@ -1354,7 +1902,9 @@ Language…]]></description><link>http://onepredict.github.io/hello-world/</link
         decoding=&quot;async&quot;
       /&gt;
   &lt;/a&gt;
-    &lt;/span&gt;&lt;/p&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;The C Programming Language&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;브라이언 커니핸과 데니스 리치의 기념비적인 프로그래밍 서적 “The C Programming
 Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt;는 우리에게 하나의 문화를 선물했습니다.
 새로운 기술을 만났다면, 무엇보다도 제일 먼저 세상을 향해 인사해야 한다는
@@ -1385,7 +1935,7 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
 함께 나누길 기대합니다. Hello! 👋&lt;/p&gt;
 &lt;p&gt;&lt;span
       class=&quot;gatsby-resp-image-wrapper&quot;
-      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
     &gt;
       &lt;a
     class=&quot;gatsby-resp-image-link&quot;
@@ -1396,18 +1946,18 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 55.69620253164557%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACm0lEQVR42i2OWVNSAQBGLyjKJgYM+3pjU1YhEJAdZLssFxhQUAi4IobLiAmpiGI6bUNUSiE2WQ9O40yLTjnTY78tHnr+zjnzAWY1p1qEGpupvFeeMzHjJlY1q0MWjOW86cvLZK8R7B9EHsWUWR/nJCOuLlnWsrp0TFuM2zVsCqDk05qQHglreKAg5Ve06+7Whu3JVrBRtr7fcX44CHZPEuYpLmzjHid4CKws+sEcNBFSsPj4EcDMxpZkxIiGLCBjtgu2tydzmwXT8324UrMWC5rqsnE+ZZCKmUoJ9XhehCSUacu4hocLSXF6LhEICYkIfdwtIKeczI24aELOfJg2thtRa5yn8dIfL9B8eiqPQ51SsLr7s+1m4GhFp1fQ3+zY13MPAAphKEkeLRgoZ3Vup0zTyynIgmkDcRAAgAsScxE67GTdBxnTOkH3MNCuObaLhrhXcvVurl6aARi44XUH9QgBoy5O2sF2atm5pK5Zg3IOUdDGW81wUh4aYYyokrOuXkEZSIIdQTkM7F7Lt7tsAo7s0rxDUI3yYRsficv3lgzhgKwEq/5WvLfVwLNm4mkdthlFcyHVzSkccwqBwSMa/vXWzFpKBoRBKgGPaRbU/Yb1awc+O/QlrOCfWuzHinfRLfrcTh1WAwHX5GbR/vtTod/wTEvvZf2Si5Zne3ESwA6jBzGngfu9E77pZc5fxCuQ+nrZY1Yw1Ara7XkW9qsGAI9Nur3I310W98oOr026mtIelLTAEBo12CA7+PMU/vUxe9Vd9Go5kImvUDDkYmqvFQjaRaQxLIE42lgxx7yyEdwogEZRMOjVWfF/OeQUX3ei386Sd5dILjFltwjdFpBFJ+xXZvq7rrJLmA/JIy4ZiYTD4zGYYTQKBfgFxH+b67PZiRMGxQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACm0lEQVR42i2OWVNSAQBGLyjKJgYM+3pjU1YhEJAdZLssFxhQUAi4IobLiAmpiGI6bUNUSiE2WQ9O40yLTjnTY78tHnr+zjnzAWY1p1qEGpupvFeeMzHjJlY1q0MWjOW86cvLZK8R7B9EHsWUWR/nJCOuLlnWsrp0TFuM2zVsCqDk05qQHglreKAg5Ve06+7Whu3JVrBRtr7fcX44CHZPEuYpLmzjHid4CKws+sEcNBFSsPj4EcDMxpZkxIiGLCBjtgu2tydzmwXT8324UrMWC5rqsnE+ZZCKmUoJ9XhehCSUacu4hocLSXF6LhEICYkIfdwtIKeczI24aELOfJg2thtRa5yn8dIfL9B8eiqPQ51SsLr7s+1m4GhFp1fQ3+zY13MPAAphKEkeLRgoZ3Vup0zTyynIgmkDcRAAgAsScxE67GTdBxnTOkH3MNCuObaLhrhXcvVurl6aARi44XUH9QgBoy5O2sF2atm5pK5Zg3IOUdDGW81wUh4aYYyokrOuXkEZSIIdQTkM7F7Lt7tsAo7s0rxDUI3yYRsficv3lgzhgKwEq/5WvLfVwLNm4mkdthlFcyHVzSkccwqBwSMa/vXWzFpKBoRBKgGPaRbU/Yb1awc+O/QlrOCfWuzHinfRLfrcTh1WAwHX5GbR/vtTod/wTEvvZf2Si5Zne3ESwA6jBzGngfu9E77pZc5fxCuQ+nrZY1Yw1Ara7XkW9qsGAI9Nur3I310W98oOr026mtIelLTAEBo12CA7+PMU/vUxe9Vd9Go5kImvUDDkYmqvFQjaRaQxLIE42lgxx7yyEdwogEZRMOjVWfF/OeQUX3ei386Sd5dILjFltwjdFpBFJ+xXZvq7rrJLmA/JIy4ZiYTD4zGYYTQKBfgFxH+b67PZiRMGxQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;그랜절&quot;
         title=&quot;&quot;
-        src=&quot;/static/acc27a4eb24d11f8427177a43424ef77/f058b/grandbow.png&quot;
-        srcset=&quot;/static/acc27a4eb24d11f8427177a43424ef77/c26ae/grandbow.png 158w,
-/static/acc27a4eb24d11f8427177a43424ef77/6bdcf/grandbow.png 315w,
-/static/acc27a4eb24d11f8427177a43424ef77/f058b/grandbow.png 630w,
+        src=&quot;/static/acc27a4eb24d11f8427177a43424ef77/0b533/grandbow.png&quot;
+        srcset=&quot;/static/acc27a4eb24d11f8427177a43424ef77/fac75/grandbow.png 125w,
+/static/acc27a4eb24d11f8427177a43424ef77/63868/grandbow.png 250w,
+/static/acc27a4eb24d11f8427177a43424ef77/0b533/grandbow.png 500w,
 /static/acc27a4eb24d11f8427177a43424ef77/8c557/grandbow.png 700w&quot;
-        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
         loading=&quot;lazy&quot;
         decoding=&quot;async&quot;
@@ -1427,15 +1977,15 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
     &gt;
       &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 68.9873417721519%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAABz0lEQVR42qVTy67aMBDl27vqopuuuulfdFupXVWCVGJx3wl5hzxJIARCEts5nTEEsahU0WvpMJMZ+8yxZ5iBVt/36LqOXYzjqKGUuuKeNeuJ6Of3b5j/+gHHtTGfL7BYGFgulzCM31gYBqSU/ySSUmkhs/Z4wKePH/D1y2fE8Rp+uIZlu3D9UPtltb1PIf+YpgXPdXVAqRFCSH1VrkiPcB8hX6dpGuzqGjWB/e12q3E4nH2O7fd77HY7/c0+x+rLmbKq0LbtmVAIoRWapokgCOD7DB8uKbYdBx75L6+vGkmawvM82hciy3JYqxVWBD/w0Z5Ol6ZQhzkRhiHiJIFtO0TkavKHh0c8P7/AIeIwisDFp6eYJoBvOFlNyEmthoje3kyYlkUVA1Liw7JWCKgQ+xERPj49wSWFnOdb6f1k+WwYRmdCnj8+yAdY5TAMVwWsaJrL8dIwpeR1Xm/z07zORnJO7RFi6PWG966ZpNL7biQoNGTrk0Ivx/8npFugOkqUhKqV2JAd1DsU8pvlxQZZXqCiGduUFdZJhihOEac5sqJEQbE032i7jmMkWUFz2/ydkB+0HwSEVPofwn7XD9QcgUEwpI7zt87fxBQ34wa8/gDUgDWpVX7SxAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 68.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAABz0lEQVR42qVTy67aMBDl27vqopuuuulfdFupXVWCVGJx3wl5hzxJIARCEts5nTEEsahU0WvpMJMZ+8yxZ5iBVt/36LqOXYzjqKGUuuKeNeuJ6Of3b5j/+gHHtTGfL7BYGFgulzCM31gYBqSU/ySSUmkhs/Z4wKePH/D1y2fE8Rp+uIZlu3D9UPtltb1PIf+YpgXPdXVAqRFCSH1VrkiPcB8hX6dpGuzqGjWB/e12q3E4nH2O7fd77HY7/c0+x+rLmbKq0LbtmVAIoRWapokgCOD7DB8uKbYdBx75L6+vGkmawvM82hciy3JYqxVWBD/w0Z5Ol6ZQhzkRhiHiJIFtO0TkavKHh0c8P7/AIeIwisDFp6eYJoBvOFlNyEmthoje3kyYlkUVA1Liw7JWCKgQ+xERPj49wSWFnOdb6f1k+WwYRmdCnj8+yAdY5TAMVwWsaJrL8dIwpeR1Xm/z07zORnJO7RFi6PWG966ZpNL7biQoNGTrk0Ivx/8npFugOkqUhKqV2JAd1DsU8pvlxQZZXqCiGduUFdZJhihOEac5sqJEQbE032i7jmMkWUFz2/ydkB+0HwSEVPofwn7XD9QcgUEwpI7zt87fxBQ34wa8/gDUgDWpVX7SxAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;@insightbook&quot;
         title=&quot;&quot;
         src=&quot;/static/a04fe254760151804a29e5166892cd79/e17e5/insightbook.png&quot;
-        srcset=&quot;/static/a04fe254760151804a29e5166892cd79/c26ae/insightbook.png 158w,
-/static/a04fe254760151804a29e5166892cd79/6bdcf/insightbook.png 315w,
+        srcset=&quot;/static/a04fe254760151804a29e5166892cd79/fac75/insightbook.png 125w,
+/static/a04fe254760151804a29e5166892cd79/63868/insightbook.png 250w,
 /static/a04fe254760151804a29e5166892cd79/e17e5/insightbook.png 400w&quot;
         sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
@@ -1459,15 +2009,15 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.45569620253164%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB6ElEQVR42oVRyXKbQBDtYRHDMixiNUJowUiAQMhiMYqcKEqVLk5clUt+IJX//4bMWI6dkz31qutNT79epoEXDYGzVOwR3RsOn/ZNt87KTbVLVwWADLz6HrDkdMXPh/bX2Iofvz8ejw/FZtv3Q7W9A8DofbHAW/X97/Pxj0HCG1ucTuN8U0tYBRCA1z6ozPEah9SRYIqCSoiuEFu3fGGkI+EjJQVgC8IExhMwAhB0QDLFa7c0xT+8Xf8TSyboASg2KA7rk1MAKcxy6jNkBpZReiG88qYfSST03cBzQ98Lg8Aw7eU8Cnw/mgRRGGRFla6LdV7SL4zi5TLJdNOjBVl2KlY0syqWt8u4WM2zdDYeO8N+vUpmfUdP+/T0o2n78/n88PlL1w+Xy+V0OtN1ZnklYgO8YHo8HOpt3VBf2+V5+e3riRIaOgyHaLKQsIllkxc0STY13VWIQwxX0WxOJMCPdFG1JcPDuisRh1pMHJlx6nQ5SQeRzkaAhiLMJr8CRqxz0F1YbSArYbGC7h52LSRrqHaorKHcod2ea3pEyV2DnBBhEykWA51cMgAsH9HnwxE1HWp7WKQwTyHJIM0hTiCI0ZXPbl9stIBpApsarADA9FlZGkc1NzH7SV5hK+GeF3bl1+W9OhnH1P4F8s85CqnbBPUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 66.39999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB6ElEQVR42oVRyXKbQBDtYRHDMixiNUJowUiAQMhiMYqcKEqVLk5clUt+IJX//4bMWI6dkz31qutNT79epoEXDYGzVOwR3RsOn/ZNt87KTbVLVwWADLz6HrDkdMXPh/bX2Iofvz8ejw/FZtv3Q7W9A8DofbHAW/X97/Pxj0HCG1ucTuN8U0tYBRCA1z6ozPEah9SRYIqCSoiuEFu3fGGkI+EjJQVgC8IExhMwAhB0QDLFa7c0xT+8Xf8TSyboASg2KA7rk1MAKcxy6jNkBpZReiG88qYfSST03cBzQ98Lg8Aw7eU8Cnw/mgRRGGRFla6LdV7SL4zi5TLJdNOjBVl2KlY0syqWt8u4WM2zdDYeO8N+vUpmfUdP+/T0o2n78/n88PlL1w+Xy+V0OtN1ZnklYgO8YHo8HOpt3VBf2+V5+e3riRIaOgyHaLKQsIllkxc0STY13VWIQwxX0WxOJMCPdFG1JcPDuisRh1pMHJlx6nQ5SQeRzkaAhiLMJr8CRqxz0F1YbSArYbGC7h52LSRrqHaorKHcod2ea3pEyV2DnBBhEykWA51cMgAsH9HnwxE1HWp7WKQwTyHJIM0hTiCI0ZXPbl9stIBpApsarADA9FlZGkc1NzH7SV5hK+GeF3bl1+W9OhnH1P4F8s85CqnbBPUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
         alt=&quot;필멸자의 운명&quot;
         title=&quot;&quot;
         src=&quot;/static/8cd8035cbec749b2dd87232654218c63/39e45/immortal.png&quot;
-        srcset=&quot;/static/8cd8035cbec749b2dd87232654218c63/c26ae/immortal.png 158w,
-/static/8cd8035cbec749b2dd87232654218c63/6bdcf/immortal.png 315w,
+        srcset=&quot;/static/8cd8035cbec749b2dd87232654218c63/fac75/immortal.png 125w,
+/static/8cd8035cbec749b2dd87232654218c63/63868/immortal.png 250w,
 /static/8cd8035cbec749b2dd87232654218c63/39e45/immortal.png 347w&quot;
         sizes=&quot;(max-width: 347px) 100vw, 347px&quot;
         style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
