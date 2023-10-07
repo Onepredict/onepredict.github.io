@@ -429,7 +429,7 @@ Domain Layer는 순수한 파이썬 객체로 구성되므로,
 표현입니다.
 &lt;a href=&quot;https://alistair.cockburn.us/hexagonal-architecture/&quot;&gt;https://alistair.cockburn.us/hexagonal-architecture/&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC8&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주9&quot;&gt;위키북스에서 Eric Evans의 “도메인 주도 설계” 번역서에 실린
-“LAYERED ARCHITECTURE” 패턴에 과한 부분을 웹에 공개했습니다.
+“LAYERED ARCHITECTURE” 패턴에 관한 부분을 웹에 공개했습니다.
 정말 감사해요!
 &lt;a href=&quot;https://wikibook.co.kr/article/layered-architecture/&quot;&gt;https://wikibook.co.kr/article/layered-architecture/&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC9&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주10&quot;&gt;&lt;a href=&quot;https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html&quot;&gt;https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC10&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
