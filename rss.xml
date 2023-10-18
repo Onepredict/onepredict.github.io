@@ -1,4 +1,296 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 11 Oct 2023 08:58:01 GMT</lastBuildDate><item><title><![CDATA[파이콘 발표 후기]]></title><description><![CDATA[Intro 아샬님이 입사하신 지…]]></description><link>http://onepredict.github.io/pycon-retrospect/</link><guid isPermaLink="false">http://onepredict.github.io/pycon-retrospect/</guid><pubDate>Wed, 11 Oct 2023 07:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;intro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#intro&quot; aria-label=&quot;intro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Intro&lt;/h2&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 18 Oct 2023 11:42:14 GMT</lastBuildDate><item><title><![CDATA[좋은 동료와 함께 자라기]]></title><description><![CDATA[시작 흉내만 낼 것인가? 스터디 시작 전 당시 어느 날 평소처럼 개발 결과물을 PR하고 리뷰를 기다렸다.
+다양한 리뷰 중 내 마음에 불을 지핀 리뷰가 있었으니...  그렇다. 나는 Repository Pattern…]]></description><link>http://onepredict.github.io/growing-up-with-good-peers/</link><guid isPermaLink="false">http://onepredict.github.io/growing-up-with-good-peers/</guid><pubDate>Wed, 18 Oct 2023 02:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;시작&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8B%9C%EC%9E%91&quot; aria-label=&quot;시작 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;시작&lt;/h2&gt;
+&lt;h3 id=&quot;흉내만-낼-것인가&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%9D%89%EB%82%B4%EB%A7%8C-%EB%82%BC-%EA%B2%83%EC%9D%B8%EA%B0%80&quot; aria-label=&quot;흉내만 낼 것인가 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;흉내만 낼 것인가?&lt;/h3&gt;
+&lt;p&gt;스터디 시작 전 당시 어느 날 평소처럼 개발 결과물을 PR하고 리뷰를 기다렸다.
+다양한 리뷰 중 내 마음에 불을 지핀 리뷰가 있었으니...&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/68864cace9d58e7e82650e16388f0fa8/8c857/code-review.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 81.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACW0lEQVR42m1U25KaQBDdt+wGr6AiyFVAREXBXTVVsSpVyVP+/4NO+jQOMal9ONXdM0P36Rsv1SZDWW6xDHM4boix42EwWfQYTl0MVXf7s5G9/BTT+QovaRhhV9U4fXxHku+Qbg5Iiz3irNNXcdHZvNPzSoM8Bx08AqrDt7GwsD34UQFPWHrhGq4fw10RCRZ+Ai/gWSJ2KlhjLvpsGctdqnLuJZjMfMXLWKja4nnupXD8HKN5DMsOMHQCDJxQMaS0Q1iTJazxXBlRGp3pkrU6pGEvAgSp1DE5ICzOCPIWbrwTu4afNXDl3FufEBUnLFaGaQfW3aQ9mUnK1mgm7GJE6wpBnKOojkjzSlJPESS51KzEKsrkvkS5bxFKYOphWorcqtO3odM5ZA3deIsg26tTdvjVsvWBJbX9Yk0VtF8H9j+6AdOm076GiyDHvrnhx6/fuN1/4tDe0F7vKHaNsD2pZLfZXdNlykjkRu7ozI9yKVvYOSQjGhyLINloGs/wwkzHgY/HDxg2PGcPvkrZyFTHJogiqVmpI8BO8YKpMDUD84EZ9L9D39mmy+qwLjM0xwabwzvystZUOMxkS3aUTOm5m5/DDPZwhilTls1gB1kjOqWkze1hRxnEcSMZ5AgOIQGMNA3tB5uUdSMeTLr03D5FPib4jh9xbp+h/wDWlQz5MYtfS3e3hzOq+l31fXNVfSvYnS4iz3J2QX3+pji0V31Tn2/9t1zJ3mF7uaM6fmi9mJ4vYKq0l7LLBHXuPCV3njUmaNNZv3qsBelqlx97avZ1wJ2l/rS//f1/b9mUPxaeoqAT53pdAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;코드 리뷰&quot;
+        title=&quot;코드 리뷰&quot;
+        src=&quot;/static/68864cace9d58e7e82650e16388f0fa8/0b533/code-review.png&quot;
+        srcset=&quot;/static/68864cace9d58e7e82650e16388f0fa8/fac75/code-review.png 125w,
+/static/68864cace9d58e7e82650e16388f0fa8/63868/code-review.png 250w,
+/static/68864cace9d58e7e82650e16388f0fa8/0b533/code-review.png 500w,
+/static/68864cace9d58e7e82650e16388f0fa8/1d69c/code-review.png 750w,
+/static/68864cace9d58e7e82650e16388f0fa8/8c857/code-review.png 761w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;코드 리뷰&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;그렇다. 나는 Repository Pattern을 제대로 알지 않고 사용했다.
+한편, 당시 팀에서 여러 고전적인 아키텍처를 기존 제품들에 적용하면서 관련 공부를 해야겠다고 느꼈다.
+알고 행동하는 것과 모르고 흉내만 내는 것은 엄연히 다르지 않은가?
+그러면서 예전에 추천받은 책 하나가 떠올랐다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 400px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/70ff72a41221c8f576a0bc713600191f/066f9/architecture-patterns-with-python.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 128.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAaABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAEDBQL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB1u+ZLwYkbiKF6v/EABoQAAIDAQEAAAAAAAAAAAAAAAEDAhAREgD/2gAIAQEAAQUC7wiZNZp5ymIn2Usj5IMVX//EABURAQEAAAAAAAAAAAAAAAAAABAR/9oACAEDAQE/ASn/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAgEBPwEh/8QAIhAAAAQEBwAAAAAAAAAAAAAAAAECMRARIaESICJBgZHh/9oACAEBAAY/AvRRN4PcVVLmByT0w1Ixme4SSnyf/8QAGxABAAIDAQEAAAAAAAAAAAAAAQARECExQXH/2gAIAQEAAT8hbvNPshdPgwl0vcbNmBTdGy0dJJ65Hrsm5QeZ/9oADAMBAAIAAwAAABDDCXD/xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/EA//xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAgEBPxAg/8QAHxABAAICAgIDAAAAAAAAAAAAAQARITFBUWGhEHGB/9oACAEBAAE/EDoiUKEMeOIiRq02qfgQpSAHHqWZGehnrZBvXuP1UxqBWnJSPMSXQgUfVLep24AXWcF+DH5BigF2huVe4AaA+p//2Q==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;추천받은 책&quot;
+        title=&quot;추천받은 책&quot;
+        src=&quot;/static/70ff72a41221c8f576a0bc713600191f/066f9/architecture-patterns-with-python.jpg&quot;
+        srcset=&quot;/static/70ff72a41221c8f576a0bc713600191f/aa2ed/architecture-patterns-with-python.jpg 125w,
+/static/70ff72a41221c8f576a0bc713600191f/0479a/architecture-patterns-with-python.jpg 250w,
+/static/70ff72a41221c8f576a0bc713600191f/066f9/architecture-patterns-with-python.jpg 400w&quot;
+        sizes=&quot;(max-width: 400px) 100vw, 400px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;추천받은 책&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;350쪽 남짓한 책으로 DDD, TDD, 이벤트 기반 서비스를 여러 가지 고전적인 아키텍처가 어떻게 지원하는지
+Python 코드 예제와 함께 알려주는 책이다.
+책을 읽는데 코드 리뷰를 하면서 궁금했던 점들이 점점 해소가 되는 기분이었다.&lt;/p&gt;
+&lt;h3 id=&quot;함께-자랄-사람&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%95%A8%EA%BB%98-%EC%9E%90%EB%9E%84-%EC%82%AC%EB%9E%8C&quot; aria-label=&quot;함께 자랄 사람 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;함께 자랄 사람?&lt;/h3&gt;
+&lt;p&gt;책을 다 읽고 한 가지 생각이 들었다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;나처럼 지식에 목마름을 느꼈던 동료분들도 함께 하면 좋겠다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;그렇게 Slack으로 글을 공지했고 7명 인원이 함께하는 스터디가 시작되었다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/4203af28a3932e4137113d1195c1bced/3996e/study-notice.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 51.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB80lEQVR42oWSy27aUBRF+YkIbAcMNjbGmJcJ+IHfNohEUZuoHUXtpJOoo0gd9BP626vHQKV00g629jlXx+ta+9zOw+svqs/fyfcBZVkRRwkP5YI0cHCcGaPxhPFkxnS2xLBc1P7on+oMzCmL1R2nOqdIY+o8pqkrDlXOsS7IiobmeE/dnJi6CxRtIB8OUW9b6Zf6PbCr9DFtF3+3Z7rc4q4DvFZ+yDpI2ISp9DtUfUyvb5xdaWvdQjWmqEPrL2inq+k47pz5JuLGjVDnMeoyFd+jiCue9IsEbZmjiat+xWCVYsx3aLMA1fKuQOMCVAQ4tD3s+JFNekSf+nSNGT1R96qeeenPZ6aHZjgMR/KXal80oCeMVorE0Gmz6BsSfPbMsn7CyT9ghEesoGZSPGGFB4xthbEMMU2bseVgTVwsxztHZcniLFmaaU/RR9YVKDmEst04rcjKhn1aEGclZXNPklcEcUaYFFI357qsT6RynsjCtmFMuM+J4vwMPgNvBRglJVlWsBUPsoMMpdzJsL+L5KNE+kwuLEmyilCgLfgu2J8vbmd0c4I2MOj0BDge26Thjk+PNf7phcnhizwR75KLBN1mo179vf7kdqkvM50bVSfcrHj9+sLb2w+ev/2kLj9yu4hQVgX23MdbrJnN17je6r8P+zd9HzCdglYzNwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;스터디 공지&quot;
+        title=&quot;스터디 공지&quot;
+        src=&quot;/static/4203af28a3932e4137113d1195c1bced/0b533/study-notice.png&quot;
+        srcset=&quot;/static/4203af28a3932e4137113d1195c1bced/fac75/study-notice.png 125w,
+/static/4203af28a3932e4137113d1195c1bced/63868/study-notice.png 250w,
+/static/4203af28a3932e4137113d1195c1bced/0b533/study-notice.png 500w,
+/static/4203af28a3932e4137113d1195c1bced/3996e/study-notice.png 648w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;스터디 공지&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;스터디-여정&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%ED%84%B0%EB%94%94-%EC%97%AC%EC%A0%95&quot; aria-label=&quot;스터디 여정 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스터디 여정&lt;/h2&gt;
+&lt;h3 id=&quot;우리가-정한-규칙&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9A%B0%EB%A6%AC%EA%B0%80-%EC%A0%95%ED%95%9C-%EA%B7%9C%EC%B9%99&quot; aria-label=&quot;우리가 정한 규칙 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;우리가 정한 규칙&lt;/h3&gt;
+&lt;p&gt;스터디는 매주 1회 시간과 장소를 정해서 1시간 30분 동안 진행했다.
+매 회차 2개의 챕터를 진행했으며 챕터마다 호스트를 정했다.
+호스트는 챕터에 대해 이야기하고 싶은 주제를 준비해서 스터디 활동 때 공개한다.
+그리고 이를 참여자들과 공유하고 논의한다.&lt;/p&gt;
+&lt;p&gt;한편, 느슨한 스터디에 긴장감을 주기 위해(?) 우리는 재미있는 규칙을 더했다.
+바로, 호스트가 챕터에 대한 퀴즈 2문제를 손수 제작하여서 한 챕터라도 모두 틀린 사람이 커피 사기!&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/a5b1da1fbdebf4a82b4ea50c8a0a92ea/65654/senior-hiphop.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACqklEQVR42gGfAmD9ANSxjfPrtea4lNKojNuog9Obf9nRjezseejme+HlTcTDSL+egfLp2vXv4vTt4Prz58zDtm1mVHBoUXRsVQDm2qX025rloVvUyZPv2IvkomDd04nt7X7o54Hm52DW30K2oGTfxLT49enx7OD38ebp4dd2b2BtZk91bVYA+vaW+PG57dGB585969B/2sKF2daJ6+x94eZe3eJS2ONIt7NUu5mE3dzJ9/Po8u7i8+zikIl7Z2BJdm1WAPTyaPPvte7scNzbXdbRk7etmMzFlePkf9rkO9PcPNrhQKq6TFBrR6O0mP737e/r3/v16ce/tGtjUHZuVgDMyIHOyLDDvo24uH62qoqogWmljXivponT2FLS3Dnb4T+HokojWTSMpIf+9uzv7OD48+bY0MZwaFZzbFUAubaHt7OTuLSSrqifoI54sYRqu41ykXVmsK5U5e0+scNGRnFEM2E8vMax+PHn7ure+PPn2dLJb2hWdG1VAMG/e8O/mrWxirOtlLetm5d2XMWOdqJ8ZH+FUJWyYVGBSzhpPmqOZ/v26fz26/Tv5Pfy5trUy3RsXXdvVwDl5k/b3FzW12nd3Jfc2pG0omR4cGRmVUQmNSo3VTg8XzkrUC9relK7taqyr6jc2M779enc1s1+d2t3b1gA7/JX7vQ/6O1T5uxr6ueVb2xNGFlTJi0tOzo4ODk3MDEwIyQjICEfHR0dEBARoJ2W///y3tfOhX91d29YAOvwSOPtP+PoTuTqVNfajXprThUTEBYVFxsaHhcXGhwZHBQSFBIQEw8PDwAAAJ6blP//9N/Z0IZ/dXdwWgDo7lPl7V3l61/l6Hzv8pm5oXEkJh0ZJBsdKiobKScYIxgcJxwXIxkzNjE8OTi0sKj//fHd1s2AenB5cluhRIlanFwCMwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;시니어 힙합&quot;
+        title=&quot;시니어 힙합&quot;
+        src=&quot;/static/a5b1da1fbdebf4a82b4ea50c8a0a92ea/0b533/senior-hiphop.png&quot;
+        srcset=&quot;/static/a5b1da1fbdebf4a82b4ea50c8a0a92ea/fac75/senior-hiphop.png 125w,
+/static/a5b1da1fbdebf4a82b4ea50c8a0a92ea/63868/senior-hiphop.png 250w,
+/static/a5b1da1fbdebf4a82b4ea50c8a0a92ea/0b533/senior-hiphop.png 500w,
+/static/a5b1da1fbdebf4a82b4ea50c8a0a92ea/1d69c/senior-hiphop.png 750w,
+/static/a5b1da1fbdebf4a82b4ea50c8a0a92ea/65654/senior-hiphop.png 872w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;시니어 힙합&lt;/figcaption&gt;
+  &lt;/figure&gt; &lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;h3 id=&quot;스터디-내용&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8A%A4%ED%84%B0%EB%94%94-%EB%82%B4%EC%9A%A9&quot; aria-label=&quot;스터디 내용 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;스터디 내용&lt;/h3&gt;
+&lt;p&gt;투명한 물에 잉크를 한 방울 떨어트렸을 때 잉크가 퍼지는 현상이 자연스러운 것처럼,
+질서를 두지 않으면 소프트웨어 시스템도 혼돈 상태로 향하려는 경향이 있다.&lt;/p&gt;
+&lt;p&gt;예를 들어, 사용자에게 알림을 주는 웹 서버 기능을 만든다고 하면
+API 핸들러 안에 도메인 지식이 있고 이메일을 보내고 로그를 남기는 것이다.
+이렇게 되면 모든 요소가 다른 요소와 결합해 있어서 시스템의 일부를 바꾸기가 어렵다.
+이 시스템을 큰 진흙 공(big ball of mud) 안티패턴이라고 말한다.&lt;/p&gt;
+&lt;p&gt;우리는 크게 2단계에 걸쳐서 무질서한 소프트웨어 시스템에 질서를 부여하는 방법을 공부했다.
+간단하게 소개하면, 1부는 도메인 모델링을 지원하는 아키텍처 구축에 대해 다룬다.
+도메인 모델링으로 간단하게 음미하고 이를 위한 저장소, 서비스 계층, 작업 단위 패턴을 맛보았다.
+2부는 확장성 있는 시스템을 위해 1부에서 배운 기법을 활용해서 분산 시스템에 적용하는 방법을 다룬다.
+도메인 이벤트, 메시지 버스, 핸들러 패턴을 맛보고 읽기와 쓰기 관심사 분리를 위한 CQRS를 거쳐
+여러 어댑터에 의존성을 전달하기 위한 의존성 주입으로 마무리했다.&lt;/p&gt;
+&lt;h3 id=&quot;와우-포인트&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%99%80%EC%9A%B0-%ED%8F%AC%EC%9D%B8%ED%8A%B8&quot; aria-label=&quot;와우 포인트 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;와우! 포인트&lt;/h3&gt;
+&lt;p&gt;일반적으로 와우 포인트(Wow Point)는 고객이 프로덕트의 가치를 깨닫는 순간으로 일컫는다.
+그만큼 놀라운 경험을 했다는 점인데, 개인적으로 스터디 활동을 통해서 와우 포인트를 느꼈었다.&lt;/p&gt;
+&lt;p&gt;스터디를 통해 여러 아키텍처 패턴에 대한 이해도가 팀 내부적으로 상승하게 되면서
+한층 더 깊은 양질의 코드 리뷰와 논의가 이루어질 수 있게 되었다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;비즈니스 로직에 집중하기 위해 어떤 패턴을 도입할 수 있을지?&lt;/li&gt;
+&lt;li&gt;DB 세션 객체를 인스턴스 화하는 곳을 어떤 계층에 두어야 해야 할지?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/890ca50015ed201135ca86e3d5540ae0/738b8/code-review2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 147.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAdCAYAAACqhkzFAAAACXBIWXMAAAsTAAALEwEAmpwYAAAELElEQVR42p1V13LjRhDkk+2TxJxAgmDOWcxBgadk2eXy//9Nu3uApcirq3vww9QOFrsTenpmY63uCOP5GoPJEs3uGOVqm9KBV2ki51VN8uU6ssXAdK0FfqfzPhIZ70qS2RJi6VwZtfYQ9+sjRvONrZLOcI5Ko4daa2AiR3JYbfbR6IxQClqIp4tXIqOxeGRZh1r9KYbTFTqDGep0Esgg11ZvgnKtg9tEDnepAm6TeVuvDRZCgxYqo/TrvXOaXqVlERT9hu2VGJ30rCAo1Zh2FRlLvcHzNRT8ht2T4ZjLXWn5jEIXJcJJa4hp2y45w4q8REcuTUkYpfdlsNocRNI3qdS7lm6DuCllh52cSpcTpX2ZuqUsY5lChRcnLELfCmE6IQj4LSis6kHbdKWpdHVHWXiVtlX+jGE8FSryrEOigy5ozdrFAIkI9MtIXJpf6UYRFoIOgtbIKCGPKRbIiUvnR779SmiwjcFsg/nqgMn91qgjLAXwDWni5Fs8e/X9o4hK55Rvkzl0R/cY0+B0uUd/vKC+ISfX5qRLks/ocDhbo8dzA+6PGIS6SzKarU0EWcxSo/Xt8YSH0xueXj/x+P1PHJ7f8fLxD57f/sbx9IGnl088v/5l+4/UT9x/+/zX/un88fRu5GeVCWrWR7kxht+asDjdMyfFN9HD8U508Uh498/1viimvUSGvZzMFJH0OogHS8QrS3xLlvDbTRK/36av5A9bU/wXitPP/+8yXzxM0OhgssCEw2FMmS52mHNACD8VS7hKBuzz1f7Z/umcVsOW+8JZVIulaFD0EOCb43esDyfsHl6x3D3hfnPEcvuI7cOLXZbRIzHUWfW6iB80w2ZQj1sv27ShZfWoo4fC13qp30ST5pIml7S5ixokNu23sF2TDpOVjSxNmjy95aLJUogGhdggI7fJwtlY+P0lZjDNKnu8MJqtyLG58Uyc0kzsk2MSYSRnciTRSCsHGnFNS12V9iqNcGKr1LLeHW+wOLxjsthbIWbESxNcxiQTFYr79d4CfneF6mCLoMe1t0G1v0Wp1rPihlUmmPlKD/nqkEO0hiIjzkfpuvRddEW/Gb4xel/szamHQ5e6YDGDAnS1fyLjP1jhF4tO1NG6Jk0WrLTRabnDYvNg3SKx94ffYoPYocJGBoscnmO0iZsGqiJSIdwrp8jUp+7lK0QZyIAbc3fMUoFFxPYwY0TimLgoEffUsxbN07tFqSjsjFb2sPU4+3v3+GpNYMSWQRVF4cuQBoAuqSNkwF3QZTmRA+naC4fCB/bUH6jrzQkNMtQ256CMKhJXXX3P1wdb5UDdM4taUdgJX0Umimk4CI5YIprIeb/DjqkSh/xPp7TwURUTmk7E3EHl/qmbDMMM39i8T5LW+0gV60hGr+DPJPGLf+7ZiNU6UzSHq/DxZiX1KP1vKVbxH+QLHiRVQhSmAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Wow 한 코드 리뷰 중 일부&quot;
+        title=&quot;Wow 한 코드 리뷰 중 일부&quot;
+        src=&quot;/static/890ca50015ed201135ca86e3d5540ae0/0b533/code-review2.png&quot;
+        srcset=&quot;/static/890ca50015ed201135ca86e3d5540ae0/fac75/code-review2.png 125w,
+/static/890ca50015ed201135ca86e3d5540ae0/63868/code-review2.png 250w,
+/static/890ca50015ed201135ca86e3d5540ae0/0b533/code-review2.png 500w,
+/static/890ca50015ed201135ca86e3d5540ae0/738b8/code-review2.png 639w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;Wow 한 코드 리뷰 중 일부&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;동료들과-스터디-여정을-마무리하며&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8F%99%EB%A3%8C%EB%93%A4%EA%B3%BC-%EC%8A%A4%ED%84%B0%EB%94%94-%EC%97%AC%EC%A0%95%EC%9D%84-%EB%A7%88%EB%AC%B4%EB%A6%AC%ED%95%98%EB%A9%B0&quot; aria-label=&quot;동료들과 스터디 여정을 마무리하며 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;동료들과 스터디 여정을 마무리하며&lt;/h2&gt;
+&lt;p&gt;어느 날 일정 주기마다 여러 DAQ로부터 수백 개의 센서 데이터를 수집하고 가공하는 작업을
+어떻게 효율적으로 할 수 있을지 의견을 나누었다.
+마치 자기 일인 것처럼 너도나도 의견을 주는 점에서 내 주변에 좋은 동료들이 있다는 점을 느꼈다.&lt;/p&gt;
+&lt;p&gt;서로 다른 환경에서 자라고 배우고 왔지만, 빅데이터 기반의 설비 유지관리 비즈니스를 풀고 싶다는 흥미와 열정으로 한곳에 모인 동료들이다.
+동료들과 다음에는 어떤 문제를 풀기 위해 어떤 스터디를 할지 기대가 된다.&lt;/p&gt;
+&lt;p&gt;여담으로, 제목을 함께 자라기로 지은 이유는 우리의 스터디가 곧 함께 자라기로 이어지기 때문이다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e929dd5e1c1994387fe68ebd5d9185f8/8c557/study-member.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 74.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAENklEQVR42h2U6VPTVxSGf1/ttHVKxc7UYmt1tFKBpAkCUTESUIIRJZAJAVm0uEDdAIOsCZA4ggRQlEU0FAUqsgnVYhpApIiyRIxgyxZRRuu/8fQ3/XBn7nnPzHPfOe+ZKyzNTfFm8QXu6VGcjl5GnjxicmoUt/s54xMjTLmeivdxFubdeBZneTLsoK+vg1JLIQmJcfxqv0bemeO02K+zODeL4Fl4gWdpmuUlN3fb7MjlEsy5Z/B4XjPz2sXM7BQr7xeZcI3R+6Ab1/QYY88e/w/8Oe0w3Z3NtNrMPO7vEh8VgR/fz7Gy/EqEvqS2poyLKRG0Xcpm5cMSHz4s8u9HD10P7lNWbCTxQBhXa68wMNiP3qAlrzCTrKxf8PZew5Hkw8y6JxCSUxPRiU2t7hCyQAkntbtR7gjkZusdRqdcFBQXodyrJk6zl5iInZzLMVJxyUR++kE6K/MZezRAe10VbVeLWZ6fRvh8jRervFaz1mcdGzZtxF8qYZu/Lxu2+aMIVyOX+iH9ScI3vgF4f7eZ5CMpmNPjuXI2nrbyEt5OvGPu6RIPenpZfvMPQqAihP1796EIlrPFdzPHNMHUZSVxOi2OJF0sRn0UqQYj4REGNBoN1ZaL3Kq20FRlptaYSHNFA+P9HlyPF2isr0OIi1LRZcmhMjOV0xl6Eg4oMWUkEhMdgVZ/GUVYLtGxVnIzrIREJGCzlDHQ1cTI7UpailKoyz/NcNNtXj2aocbWgNBgOsq1LLFxVkvs/lD2hIdRUJRLlOjGL+QUW0KsBO02EqvLRr47hoiwUJJSUmguv8Bg7QXRzDEqzyTT1uTEYm1EOCEWaq0aQ3wkmvDtyGQBmEwF2GxWNm7dxZGMemIOXyYy5ijnMrNJStARqYkiMyOV3lIDtpw0TuZdp/TWIOnnzQiqGDW7ovYQolYRrAwiOEiKOlJFUpKe80d1NDVcwV5v49Sp4xj0sbSY4lFu34pEJqXn5iWaOp1Y7U7OV3RgLhdnGH1QhSxMgSJyF9LQIAKVCuJ00dRWlVJpyaWsJI80MRipTM667zdTlh5NrNJfDCiSzoeDVN1zMfTkLxpuNVNudyCkJ6jw8fsByQ4pqkPh7BBDyjtmoL/WQnWlle722xQbT/CplzebtkkoN6Zgr7HQ0dZIQ2sfPUNuFmbG8Pw9KdZ/IJSVFPDlurV8sno1q77w4jPvr9iwfr14fEg2HOJ+91367t0hVB6AxO9H2ltvMPXMIQJvYGtsxzk6yauJIUacv1NYaEIYHHrO/mg9Mt8tpMftJNMQytc+36JTyVHt3E7F5XKuiQGZtYEM1Bh5+WKYydGHolZCTn4xDke/6G6Cvs5WinKzEfo7uxlvr2KxI5u3HZk4bWlIA/ypOrGP6nM6uu61cLe5jnpxTZ457Lybf8prEfqbqFVcLGT4zx5WxH9gzj3G2/mX/Ac4puL5GkqjRAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;스터디에 함께한 동료들&quot;
+        title=&quot;스터디에 함께한 동료들&quot;
+        src=&quot;/static/e929dd5e1c1994387fe68ebd5d9185f8/0b533/study-member.png&quot;
+        srcset=&quot;/static/e929dd5e1c1994387fe68ebd5d9185f8/fac75/study-member.png 125w,
+/static/e929dd5e1c1994387fe68ebd5d9185f8/63868/study-member.png 250w,
+/static/e929dd5e1c1994387fe68ebd5d9185f8/0b533/study-member.png 500w,
+/static/e929dd5e1c1994387fe68ebd5d9185f8/8c557/study-member.png 700w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;스터디에 함께한 동료들&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;빅데이터 기반의 설비 유지관리 서비스로 세상을 혁신하고 싶은 분들은 주저하지 마시고
+onepredict에 &lt;a href=&quot;https://blog.onepredict.ai/&quot;&gt;지원&lt;/a&gt;해주시길 바란다.&lt;/p&gt;
+&lt;p&gt;끝으로, 책 내용에 대한 동료들의 스터디 소감으로 글을 마무리한다. 😃&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;진흙 공을 이미 작성하고 있는 입장에서, 아키텍처 분리에 대한 좋은 가이드가 되었다. &lt;br&gt;
+― 김태훈 onepredict PdX-dev팀&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;평소 아무 생각 없이 적용하던 패턴들에 대해서, 왜 이런 패턴이 나왔는지, 어떤 게 효율적인지에 대해 알고 나니 조금 더 효율적으로 개발할 수 있을 거 같다. &lt;br&gt;
+― 김정형 onepredict PdX-dev팀&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;책에 있는 코드를 실질적으로 활용할 수 있을진 모르겠지만 큰 개념들이 잘 해설되어 있어 적용해 볼 수 있는 것들을 많이 배울 수 있는 책이었다. &lt;br&gt;
+― 김현우 onepredict PdX-dev팀&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;DDD를 도입하고 싶어요 (매우) &lt;br&gt;
+― 박기범 onepredict PdX-dev팀&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;어려운 책이었지만 스터디를 통해 반강제적으로(?) 다 읽을 수 있었다. 업무를 하면서 드는 의문도 책을 통해 해소하기도 하고 실무에서 참고하기 좋은 책이었다. &lt;br&gt;
+― 김아별 onepredict TD-BE팀&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;파이썬 언어답게, 동시에 좋은 아키텍처를 설계하기 위한 방법이 많이 녹여져 있어서 좋았다. 따로 공부했던 여러 기법을 좀 더 구체화하는 느낌. &lt;br&gt;
+― 장진수 onepredict TD-BE팀&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&quot;fn-주1&quot;&gt;출처는 전국노래자랑 KBS 14.08.24 방송이다.&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[파이콘 발표 후기]]></title><description><![CDATA[Intro 아샬님이 입사하신 지…]]></description><link>http://onepredict.github.io/pycon-retrospect/</link><guid isPermaLink="false">http://onepredict.github.io/pycon-retrospect/</guid><pubDate>Wed, 11 Oct 2023 07:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;intro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#intro&quot; aria-label=&quot;intro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Intro&lt;/h2&gt;
 &lt;p&gt;아샬님이 입사하신 지 1주 정도 지났을 겁니다.
 갑자기, 뜬금없이 제 자리에 오시더니&lt;/p&gt;
 &lt;blockquote&gt;
@@ -25,7 +317,7 @@
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAABYlAAAWJQFJUiTwAAABTElEQVR42o2S2W6DQAxF+eV+Vj8kfW2kiAgRJixq2JeELUxCSk9mgLe0vRIje7DH19c2pmmSUiZJUpZlugA3DMPT6aSNOI6LosDA7fv+crlgD8NgtPexk7IsC67IPy/A7RW6rrsqtG2LO47j7XbjEsN4+/h8t0QW+AchLMuKoogfTdMQMf0F4yzvzSCzNNVloQftuq7XiO8XeCbrnoUQrus6jkPx/X5/UIBFlmX09rIyH/2QYJrmZrPZ7Xac2NvtlueQqqoqdPpaEAQBauV5PifTHlfU4db3/ePxiM6Q9zyPG2cB7Gzb1ozQBfGeyRDTPIkmgjhsocBb1M8VkGM9mQUCzcmuAslQgCo2BiRhQdv0RQzSrAYnms209Rro9SAaF27YzIwKqZoFzfNLD4Xz8XjMyXp7CNJbVSuQqUf1m9rsCo8RTSfU/8+Q9Ys/osugybx6uf4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAABYlAAAWJQFJUiTwAAABVElEQVR42oWS646CQAyFeed9q30P9++SEAEDyEVXuYjc5Cos+zkj7C/jSWjaoWd62o4yz3Pf91EUXa/XeAHhj0AYhtjz+Xy5XE6nE2HTNHmec9i2rXK7j3Xfw8yLIk3TfEFRFI1AXdfkdV13q2vC+zgOw8DhOI7Kx9f3p+kkgW/v97vdjiL8qKqKjPkdlKwfyq5L4liWRR6ay7KUv39f40GWPTuO47qubdumaRqGgWNZFh0mSYLgl5X5aEnX9e12u9lsNE3DEqqqynXwkbPODxwOB1pD5pNMe0EQcMQ8fd9HBUkQ8DkktBcwFBTJuTC8BxlhloDneY4AedKBzyF1mMVqAbtAkSS3ewF0ko1UfLQcj0cc2m4FGA3VOgHCf9kQuFU+DywhLeCzMyrEYhe8BS7CZlmGnabpSZapgGowWRXC5MLkVl5Om7cin1QhHtm65Ld7/gNqBKCYOBOUNAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -64,7 +356,7 @@
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 75.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFA//EABUBAQEAAAAAAAAAAAAAAAAAAAIA/9oADAMBAAIQAxAAAAGfQTA2zEj/AP/EABoQAAMAAwEAAAAAAAAAAAAAAAABAgMSIiP/2gAIAQEAAQUCJnhzRsoJyWz2Z//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABwQAAICAgMAAAAAAAAAAAAAAAABAhEhMTJhkf/aAAgBAQAGPwIjlmGvDZUHaXRyP//EABsQAAICAwEAAAAAAAAAAAAAAAABESExUWFB/9oACAEBAAE/IZaUWIboW1snYXR7l6oZVvaC1qrB/9oADAMBAAIAAwAAABAzH//EABcRAAMBAAAAAAAAAAAAAAAAAAABESH/2gAIAQMBAT8QaUph/8QAFREBAQAAAAAAAAAAAAAAAAAAARD/2gAIAQIBAT8QFn//xAAcEAEBAQEAAgMAAAAAAAAAAAABEQAxIUGRodH/2gAIAQEAAT8QQgkXwFxJGVj7iHgetcsQ94Iz4nZgAgwQH7xBQ6oj83//2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 75.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFA//EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/aAAwDAQACEAMQAAABn0EwNsxLP//EABoQAAMAAwEAAAAAAAAAAAAAAAABAgMSIiP/2gAIAQEAAQUCJnhzRsoJyWz2Z//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABwQAAICAgMAAAAAAAAAAAAAAAABAhEhMTJhkf/aAAgBAQAGPwIi7Zhrw2VB2l0cj//EABsQAAICAwEAAAAAAAAAAAAAAAABESExUWFB/9oACAEBAAE/IZaUWIcRbWydhdHuXqhlW9qAtaqwf//aAAwDAQACAAMAAAAQMy//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREh/9oACAEDAQE/EGlKYf/EABYRAQEBAAAAAAAAAAAAAAAAAAEQMf/aAAgBAgEBPxAXJ//EABwQAQADAAIDAAAAAAAAAAAAAAEAETEhoUGR0f/aAAgBAQABPxBCCReAuEgZWnsIcDxr1FiHHBGvVbUACDQgu4QUO1inyf/Z&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -104,7 +396,7 @@
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAADCUlEQVR42nVT+VNSURjlf+zfaGpaHE0bNRxNf2iyKRRUtMQyXGhIDVN2BAySAGMR3ns8eCyPTWRV9g5cA3KmD+bOXb7znfudc5+g/TdarRbLsrFYrFgsRqPRcrmMkeO4Wq1WqVR4nk+n09gkmQQiaA+EwWAwmUypVEqn0wHmdDpdLhdFUQzDuN3ui278FwxOr9eLSTAYrNfrgNlstmw2GwgEwJnL5ZBwF4xFs9kkW9VqFSOQWJZKJQAGs1vd6JEJemfNboABTZJNlCBJ2LkDuwXf3Nz4u2Hrhky2kUymcJBMJtEnxng87vF4rq6uIBsZG43GLRhsarUaTdIMgzyLxQIA1ILsIETD+XweOVAeKioUCpVK1dO8c23YQExCSSAhT6FQGGyVBKrr9Xo4Ao4+GLRKpRL8kMdutxMk2DAiD/aQKtfX1zRNJxIJlg0T2TtgGAt7z87OAMYVBjkhPrkkKYdC4XAYnaNE3+ceD/GZKI8uYGL33yIigQA9QuNIJPLPI8ExaM1ms8/nJ7b3+Il5uKBWqyUcxH8BySgVSxr1cSaTwT2JZ+Sp2mzWY92e0WjCEmpBTiTj5YG890jaH1aXNjfek24hDD6I01OrXnfyWbE08eaeyXBqtVpQGgnghJF9tSkqMDUxfPRdRR5miGEoKpjJpPH75fppOFFxkShNUz6fr1wu8XwC5vfBth/Wd/NzsBBzNhyWbcp3FEqeTxIharV677Vjks1ekit0wIUcrzncli5M6zUH+BI4LjoinJZIRfGIPxzyYoyxHpZyMUF3hPGkExQX8rkdply2U1pQZLaLfhHvfEtbXvnNIu+JeFc2LpUMrS8PiecffJKMnBsX1Sr5vnLri0J+bpSUA+LSxSJtXy2WKoJGYr8dX1tfnpoQTs3OCmdeTj4bG5t+cb8eXsv5ltO/FwOO3ctCrdFsX9Dc0d5KlVlpxTby/gWv2yiIOqQBzeShbHhH8lgufvpR9GTt9cOD1UesaYY2zHCWOcfBuE4+atwaNe+Mnn97TmmFAY0wZBCav879AdGqIb9A9S0fAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAADFklEQVR42nVT+U8aURDmX+z/0aS1TTVWrVc82qTRtEWh3tjaosVgLNIWORdE8AQpLDfuciw3soDKcvSD1wIx6fwwmX1vvplvvnkrav6zRqMRDodjsRjP81GWLZVK0WiUYdhqtVqpVDiOS6fT5XKZZBKIqNljRqPRZDIlk0m9Xs+y7MVly/x+fzAYdDqdXq+Xpun/gtHT4/EgAEAQBGBOTk6y2azP50PPXC6HhIfgRtvIN0jCA4kTAPL5Qm/2AxP1ztyo1zFeVRDIJylEKvY26ILv7u48bbPZbHa7fWNDhplxAe9wOKBTPB53uVyFQgF1b25u4Gu12l9wvV7XaDSYChNCaovFAhjUQoyGGBgA5OBEp9PtKnbVanVH8xZtlI9EIshGScQoVCwWe7UgPhQKGQwGbARcumBoq1Qq0T+fz4M5QaIbPPKwHgK+vb0Fu0QigU5E9hY4lUpRJtPZ2RnAuOiV9/7+npAkh1g1wzCYHyW6q+r0gTYdwh3rEDk9PcVc0BglumD4miDgeZrNZiiP1N7dCO3lQUitVkt64MG0wCSjxPM6rQbagqe9bXinFEXZ7FaNfh8hdIJaZIuBQADNO52bayuSrc01wgIX+CWsVqteR31VSEfmHlHGY6v1KJPJIAG6YG1dtQMB/+Rov+anmjAMh0PBgD+TSWdS6YvLUwN1wDIsurnd7nK5xHGJbDbTBduOre/n32CFiKH2xtaXbYUywXEtIWp1odp6T9X2a0eQzeYIhRa4WEgeqreXxdMGrapcrrDR2MD4lHRVHGe9TIROsN7YtTsScIT9TibkyiSCbJi+PKNyuVRrZj70rUiLuYt3Qctb2iL+bV5UyEZWJC9kS/3S+SdbHwevTJJDtVy1t63clV+ZpGWflPcuBk9W+VJFVOO+N+NrsqXJ0YmJ2dnx6enRweGhqbHHArOep5fSrgXfuSLP18DYH4r+2l+uRpab8U9FesHjMIli5ys+7diPzYEdSZ9c8vzzh2frc09Vq33X5pmQcSZqfX2uemWQD1E7Q0eKl1cHwwHduE87ETZOmPdm/gDm0SGD/QRWpwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -148,7 +440,7 @@
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 80.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAQABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAABBv/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAF+CPL0Mao//8QAHBAAAgICAwAAAAAAAAAAAAAAAQIDEQQSExQj/9oACAEBAAEFAnGxRakW6Mw7c8nI+KPD/8QAFREBAQAAAAAAAAAAAAAAAAAAEEH/2gAIAQMBAT8Bh//EABYRAAMAAAAAAAAAAAAAAAAAABARIf/aAAgBAgEBPwGsf//EABsQAAIDAAMAAAAAAAAAAAAAAAABAhESITFx/9oACAEBAAY/AhOkmcj1eaoUYX6R32f/xAAbEAEAAwEAAwAAAAAAAAAAAAABACExEWFxkf/aAAgBAQABPyFBOYbVfYKF8CFz2sLScQwais8ouxvrP//aAAwDAQACAAMAAAAQKw//xAAVEQEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAwEBPxACP//EABcRAQEBAQAAAAAAAAAAAAAAAAEAEXH/2gAIAQIBAT8QXhaX/8QAHBABAAIDAAMAAAAAAAAAAAAAAREhADFBUaHB/9oACAEBAAE/EIx0AomfSCcyF6DTirAPWDdSeq+ZuQyjAlzBxZybzFWIJjnijIogQbEt3n//2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 80.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAQABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAACBv/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAF+Rnl6GNUf/8QAHBAAAgICAwAAAAAAAAAAAAAAAQIDEQQSExQj/9oACAEBAAEFAnGxRakW6Mw7c8nI+KPD/8QAFREBAQAAAAAAAAAAAAAAAAAAEEH/2gAIAQMBAT8Bh//EABYRAAMAAAAAAAAAAAAAAAAAABARIf/aAAgBAgEBPwGsf//EABsQAAIDAAMAAAAAAAAAAAAAAAABAhESITFx/9oACAEBAAY/AhOkmcj1eaoUYX6R32f/xAAaEAEAAwEBAQAAAAAAAAAAAAABABEhMVFx/9oACAEBAAE/IaErh3MgobwNbPqwuJSGDkWj6i9jvrP/2gAMAwEAAgADAAAAEGsP/8QAFREBAQAAAAAAAAAAAAAAAAAAARD/2gAIAQMBAT8QAj//xAAXEQEBAQEAAAAAAAAAAAAAAAABABFx/9oACAECAQE/EF4Wl//EABwQAQACAwADAAAAAAAAAAAAAAERIQAxQVGhwf/aAAgBAQABPxB4MgFEz6SJzI3oNHFWAesG6k9V8zchlGBLmDizk3mKogmOeKMiiBBsS3ef/9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -202,7 +494,7 @@ C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAUABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQL/xAAYAQEAAwEAAAAAAAAAAAAAAAAEAAECA//aAAwDAQACEAMQAAABxepIuuwuatUOqmEF/8QAGhAAAgIDAAAAAAAAAAAAAAAAAQIQEQADEv/aAAgBAQABBQKWQrNnnYorP//EABYRAQEBAAAAAAAAAAAAAAAAAAEQIv/aAAgBAwEBPwGJhn//xAAWEQEBAQAAAAAAAAAAAAAAAAAQMQL/2gAIAQIBAT8Bpmn/xAAZEAABBQAAAAAAAAAAAAAAAAAQABESQVH/2gAIAQEABj8COmNJx//EABkQAQEAAwEAAAAAAAAAAAAAAAERABAhof/aAAgBAQABPyHOTRl8bCN8tmHZI6//2gAMAwEAAgADAAAAEKw4v//EABgRAAIDAAAAAAAAAAAAAAAAAAEQMUGx/9oACAEDAQE/EECGzq//xAAWEQEBAQAAAAAAAAAAAAAAAAABEBH/2gAIAQIBAT8QEGkbmf/EABoQAQADAQEBAAAAAAAAAAAAAAEAETFBECH/2gAIAQEAAT8QgKmJ2JXSUk0veCX4AfpGmLKwS8x8/9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAUABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQL/xAAYAQEAAwEAAAAAAAAAAAAAAAAEAAECA//aAAwDAQACEAMQAAABxepIuuwuatUOqmEF/8QAGhAAAgIDAAAAAAAAAAAAAAAAAQIQEQADEv/aAAgBAQABBQKWQrNnnYorP//EABYRAQEBAAAAAAAAAAAAAAAAAAEQIv/aAAgBAwEBPwGJhn//xAAXEQADAQAAAAAAAAAAAAAAAAACEBEx/9oACAECAQE/AbUOr//EABkQAAEFAAAAAAAAAAAAAAAAABAAERJBUf/aAAgBAQAGPwI6Y0nH/8QAGRABAAMBAQAAAAAAAAAAAAAAAQAQESGh/9oACAEBAAE/IZzKM3xYQ3y6EOyY1//aAAwDAQACAAMAAAAQrDC//8QAGBEAAgMAAAAAAAAAAAAAAAAAARAxQbH/2gAIAQMBAT8QQIbOr//EABYRAQEBAAAAAAAAAAAAAAAAAAEQEf/aAAgBAgEBPxAA0jcz/8QAGxAAAgMBAQEAAAAAAAAAAAAAAREAMUEQIVH/2gAIAQEAAT8QgBJRGwhaIkijvAj+cAX0lKJnuAco8//Z&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -251,7 +543,7 @@ C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 41.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAIABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUD/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAABysBEB//EABcQAAMBAAAAAAAAAAAAAAAAAAECBAD/2gAIAQEAAQUCmnXMqlSZDv/EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABwQAAEDBQAAAAAAAAAAAAAAAAEAAiIDETFBYf/aAAgBAQAGPwIOq7wFJoKvNvAv/8QAGBAAAwEBAAAAAAAAAAAAAAAAAAERMYH/2gAIAQEAAT8hk27yCTLE0NarwP/aAAwDAQACAAMAAAAQ88//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAbEAEBAAIDAQAAAAAAAAAAAAABEQAxIWGhsf/aAAgBAQABPxCcCVdslqfDI6GpyEPM5uDZUPW8/9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 41.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAIABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUD/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAABysBEB//EABcQAAMBAAAAAAAAAAAAAAAAAAECBAD/2gAIAQEAAQUCmnXFVKkyHf/EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABwQAAICAgMAAAAAAAAAAAAAAAECACIDETFBYf/aAAgBAQAGPwINl74WWUGbuvgn/8QAGBAAAwEBAAAAAAAAAAAAAAAAAAERMYH/2gAIAQEAAT8hk27iSTLE0NarwP/aAAwDAQACAAMAAAAQ88//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAbEAEBAAIDAQAAAAAAAAAAAAABEQAxIWFxof/aAAgBAQABPxCdCVZslqeaMlqanIQ+ZzcGyoet5//Z&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -311,7 +603,7 @@ C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 59.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBP/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAY3yIoIP/8QAGhAAAgMBAQAAAAAAAAAAAAAAAhEAASESE//aAAgBAQABBQIZSsiXQ7Hfpj//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAZEAADAAMAAAAAAAAAAAAAAAAAARECECH/2gAIAQEABj8CJNItHcU+n//EABsQAQACAwEBAAAAAAAAAAAAAAEAESExUYGR/9oACAEBAAE/IWZvyFSOrKWZAJiaiv2AGzfZTdDq5//aAAwDAQACAAMAAAAQYy//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAWEQEBAQAAAAAAAAAAAAAAAAABABH/2gAIAQIBAT8QXWL/xAAcEAEAAwEAAwEAAAAAAAAAAAABABEhMUFRYYH/2gAIAQEAAT8QpIq4ntwWlWFg/GMDFq7V/YVGBNpeIP7xlOKmkQauPWM//9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 59.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAMBAgT/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAFL8lRpAf/EABoQAAIDAQEAAAAAAAAAAAAAAAECABEhEhP/2gAIAQEAAQUCWDWaul2WfTCf/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGRAAAwADAAAAAAAAAAAAAAAAAAERAhAh/9oACAEBAAY/AiTSLR3FPp//xAAcEAEAAgMAAwAAAAAAAAAAAAABABEhMVFhgZH/2gAIAQEAAT8he79QjI6spZkAmPM1FfsANl32U2h1c//aAAwDAQACAAMAAAAQUy//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAWEQEBAQAAAAAAAAAAAAAAAAABABH/2gAIAQIBAT8QXWL/xAAcEAEAAwACAwAAAAAAAAAAAAABABEhMUFRYYH/2gAIAQEAAT8QOkVcTzcHpVhYPjGBi1dL9wqMCbS6g/rMpxUECC1cPGM//9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -353,7 +645,7 @@ C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 125.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAZABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAIBAwQF/8QAFwEBAQEBAAAAAAAAAAAAAAAAAAECA//aAAwDAQACEAMQAAAB2UvRz3oGJcMdFaQsD//EABoQAAMBAQEBAAAAAAAAAAAAAAABAhIREEH/2gAIAQEAAQUCIrXlUsw+MuK1ymSnk+n/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwEh/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAHBAAAgICAwAAAAAAAAAAAAAAAAERIQIQEiBx/9oACAEBAAY/Ah6gtRpvjKLxv0vp/8QAHBABAAMAAgMAAAAAAAAAAAAAAQARIRBBMVFx/9oACAEBAAE/ISqlewncfrAIO+GJfQc2PUDsDjdSq2ehARm+RP/aAAwDAQACAAMAAAAQ9zCx/8QAGREAAgMBAAAAAAAAAAAAAAAAAAEQETFB/9oACAEDAQE/EGuFQw//xAAXEQADAQAAAAAAAAAAAAAAAAAAARFB/9oACAECAQE/EE9LSiR//8QAHBABAQADAQADAAAAAAAAAAAAAREAITFBUZGh/9oACAEBAAE/EJe3dW3EoAQDqXzBHQXscCEsgOwe46UtV6nR+8JxJPMUJ1A0Hx+YpogCOO64UuJuGsfc9Zzn/9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 125.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAZABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAIBAwQF/8QAFwEBAQEBAAAAAAAAAAAAAAAAAAECA//aAAwDAQACEAMQAAAB2UvRz3oGJcMdFaQsD//EABoQAAMBAQEBAAAAAAAAAAAAAAABAhIREEH/2gAIAQEAAQUCIrXlUsw+MuK1ymSnk+n/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwEh/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAHBAAAgICAwAAAAAAAAAAAAAAAAERIQIQEiBx/9oACAEBAAY/Ah6gtRpvjKLxv0vp/8QAHBABAAMAAgMAAAAAAAAAAAAAAQARITFBEFFx/9oACAEBAAE/ISqlewncfrAIO8MTjDmx6gdqcbqVWz0ICLl+RP/aAAwDAQACAAMAAAAQ9zCx/8QAGREAAgMBAAAAAAAAAAAAAAAAAAEQETFB/9oACAEDAQE/EGuFQw//xAAXEQADAQAAAAAAAAAAAAAAAAAAARFB/9oACAECAQE/EE9LSiR//8QAHBABAAMBAQADAAAAAAAAAAAAAQARITFBUWGh/9oACAEBAAE/EKt27a3cSwAgHKvyAHAvtMCEsoHQexws9V8ro59wnFVXkUBwBoPj8impAEdO2wpqTaMj7PU5n//Z&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -425,7 +717,7 @@ Uncle Bob은 클린 아키텍처에서 Application Layer에 명확히 Feature(Us
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAgX/xAAWAQEBAQAAAAAAAAAAAAAAAAADAQT/2gAMAwEAAhADEAAAAeluNmOIJhT/AP/EABgQAQEBAQEAAAAAAAAAAAAAAAECEQAS/9oACAEBAAEFAgyMzrmfQ6NPNK//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREi/9oACAEDAQE/AU8lP//EABgRAAMBAQAAAAAAAAAAAAAAAAABESIx/9oACAECAQE/AZmMXD//xAAaEAABBQEAAAAAAAAAAAAAAAAAAQIRICEx/9oACAEBAAY/AsIcdWn/xAAcEAEAAgEFAAAAAAAAAAAAAAABABEQITFhcaH/2gAIAQEAAT8hHRbypuHlg14Eet7wL4s//9oADAMBAAIAAwAAABAPP//EABYRAQEBAAAAAAAAAAAAAAAAAAABQf/aAAgBAwEBPxCWEf/EABcRAQEBAQAAAAAAAAAAAAAAAAERACH/2gAIAQIBAT8QALo3XF3/xAAdEAEAAwACAwEAAAAAAAAAAAABABEhMWFBUZGx/9oACAEBAAE/EKLwqaaae/Eom1ZosFEPj+ws+Zj2RAql07XGRkJewZ//2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAgX/xAAWAQEBAQAAAAAAAAAAAAAAAAADAQT/2gAMAwEAAhADEAAAAeluNmOIJhT/AP/EABgQAQEBAQEAAAAAAAAAAAAAAAECEQAS/9oACAEBAAEFAgyMzrmfQ6NPNK//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREi/9oACAEDAQE/AU8lP//EABgRAAMBAQAAAAAAAAAAAAAAAAABESIx/9oACAECAQE/AZmMXD//xAAaEAABBQEAAAAAAAAAAAAAAAAAAQIRICEx/9oACAEBAAY/AsIcdWn/xAAcEAEAAgEFAAAAAAAAAAAAAAABABEQITFhcaH/2gAIAQEAAT8hHRbypuHlg14Eet7wL4s//9oADAMBAAIAAwAAABAPP//EABcRAAMBAAAAAAAAAAAAAAAAAAABQWH/2gAIAQMBAT8QVAsn/8QAFxEBAQEBAAAAAAAAAAAAAAAAAREAIf/aAAgBAgEBPxAAujdcXf/EAB0QAQADAAMAAwAAAAAAAAAAAAEAESExQWFRkbH/2gAIAQEAAT8QovCpppp96lE2rNFvqCiH0/sKPmY+SIFUuna4yMBL6DP/2Q==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -516,7 +808,7 @@ Martin Fowler가 프레임워크가 IoC를 말하는 걸 “내 자동차엔 바
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAALABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAECAwX/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/9oADAMBAAIQAxAAAAHPdJpKIg//xAAaEAEAAQUAAAAAAAAAAAAAAAABAAIQERMh/9oACAEBAAEFAqDmvEYrFbf/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwGH/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAECEv/aAAgBAgEBPwGbNP/EABcQAAMBAAAAAAAAAAAAAAAAAAARIDH/2gAIAQEABj8CRs//xAAaEAEAAgMBAAAAAAAAAAAAAAABABEhMUFR/9oACAEBAAE/IbH0k6JSbYgqplYzyK+z/9oADAMBAAIAAwAAABAvH//EABcRAQEBAQAAAAAAAAAAAAAAAAEAESH/2gAIAQMBAT8Q4XIL/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAEhEUH/2gAIAQIBAT8Qot4Oj//EABsQAQACAgMAAAAAAAAAAAAAAAEAETFBIWGR/9oACAEBAAE/ECSsQCF8wyyD17DYQpWQgJYE1AKO6kOgIK0z/9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAALABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAECAwX/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/9oADAMBAAIQAxAAAAHPdJpKIg//xAAaEAEAAQUAAAAAAAAAAAAAAAABAAIQERMh/9oACAEBAAEFAqDmvEYrFbf/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwGH/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAECEv/aAAgBAgEBPwGbNP/EABcQAAMBAAAAAAAAAAAAAAAAAAARIDH/2gAIAQEABj8CRs//xAAaEAEBAAMBAQAAAAAAAAAAAAABABEhQTFR/9oACAEBAAE/Icj6S6JS9ahYBsY3yV+3/9oADAMBAAIAAwAAABAvH//EABcRAQEBAQAAAAAAAAAAAAAAAAEAESH/2gAIAQMBAT8Q4XIL/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAEhEUH/2gAIAQIBAT8Qot4Oqf/EABsQAQACAgMAAAAAAAAAAAAAAAEAETFBIWGR/9oACAEBAAE/ECSsQCF8zbIPXsNhClZCAtAmoBR4kOgIK0z/2Q==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -597,7 +889,7 @@ Domain Layer는 순수한 파이썬 객체로 구성되므로,
 표현입니다.
 &lt;a href=&quot;https://alistair.cockburn.us/hexagonal-architecture/&quot;&gt;https://alistair.cockburn.us/hexagonal-architecture/&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC8&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주9&quot;&gt;위키북스에서 Eric Evans의 “도메인 주도 설계” 번역서에 실린
-“LAYERED ARCHITECTURE” 패턴에 과한 부분을 웹에 공개했습니다.
+“LAYERED ARCHITECTURE” 패턴에 관한 부분을 웹에 공개했습니다.
 정말 감사해요!
 &lt;a href=&quot;https://wikibook.co.kr/article/layered-architecture/&quot;&gt;https://wikibook.co.kr/article/layered-architecture/&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC9&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
 &lt;li id=&quot;fn-주10&quot;&gt;&lt;a href=&quot;https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html&quot;&gt;https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC10&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
@@ -709,7 +1001,7 @@ Product Type을 이용합니다.
 
 &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; heartKing&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; TrumpCard &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
   suit&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;♥️&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
-  rank&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;King&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  rank&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;King&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
 
 &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; isSpadeFourSpade &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;isSpade&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;spadeFour&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// true&lt;/span&gt;
@@ -957,7 +1249,7 @@ Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 8.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeklEQVR42g3I0Q6CIAAAQP//vyprFmFAIQgKzIlZm9GklCS3e7rkwiykzQrxjhk3h2X8BFI9cdkR2RNxx7JX1sUY/TcI69dkZkDcUj0kGVanq85wfSQ1Na8p/Nw4HZDe59UOijSXG1AW6hHj8vbzTbsUynPRbgEHtP0DejVqNVH48BcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 8.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeUlEQVR42g2L4Q6CIBgAff8Ha7lqoEEiChRYw1JX0TAT/WK73Y/bLskri9kVl7dj3fLGzWH130DVQOqWygcRdyK7i3UA4KdF2JHKjptXvJh+JnuqUWEOJx0pm/cvLM5PO2rS/LzNVPQGiUr3AOtnnJlxaaYwtzEibv9u22oeVA/qFAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1049,7 +1341,7 @@ Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 47.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAABx0lEQVR42mO4duvBlZsP7zx6efvhi9sPXty4+/zanSc37j69cf/Zh09f//379////+kzZlvau3oHR3n5BJuY2cYlpP4HA4ab958dPH7hwrV71+89vXzz0c59Z4+cvHT+6p2LNx6++/Dl37+/QEVd3X0CorLqtn42+sbK0oo+vkFQzUDbjp66dOHKnRv3nl29/fjIqStnL926eP3elduP4Zp7+yaJSiho2AbYG5nKy6r4BYTBNT8/fvba5ZsPb9x7CtR89vKdSzceXr/79OqdJ+8/wjT3ThQRl9e08TXVMxaVVPTzD4VqvvPwxZlLt4HagDYDnX3o+FWg/ovX7p2+eOv124///4P83NU7QV5axcre38LEUk5GKSAAphkYTkB7gOjanadXbj08dubKuat3L998cOH6g7fvP/8HBxjEZi27AFcTcx1FtUC4s+8+ennr/jOg44GmAMMcGH7X7z4BOufWgxcfPn+DOLsP6GdJRU37QCdjcxlZFf9AmOavX79+AeJv337++vX37z8gAgI448+fP0BF7R09XHziyoaOhqqavPxiLm4+UM3/8YK/f0E2nzx5avKUGUsWLFyyYPGcOQs2b94GkQUAttyNFPVxnmkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 47.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAAByElEQVR42n2QS0sbYRSG3QvVhSGKRk2NFUUqxngpmgaFuNCYTCq6cFG68be0qAnqQouFiP4DwU03gqKmBofEuWRu34wzMZNExBqrk0XIzHg0l2UPZ3H4OM/3vu+pS/IyxSkodSsoOUHOsWI2idKsqLLXmfw/zTAM0zS3f/4a83hn55dmfPOuEffXb8vmW9Vx15njaDyRlBhJJbnU7yP89IKI0+iKVf7mnw1Dh6WV1XCjxdbj9k8MDHW12n1zXyowqJ3FiASFWEmlhZvTGIUT/BUjUcJNDQ6FNy3NnT1uzDM43G5z+LHFGpyN4jTJKayUARgnBYJVGFGlUfrhsQqHNpqsHb0Tc8MfnZYWuz+wUIGRksMJATCAwfZJlMZJBCliCf7u/tE0XzOvhNY7Wh3jnsCY61N723sMq8JwJ9CBTiKV4pXzSypOiyQnJxj5/uHJfDtYWbnvM+Z1jfbbPwRrtsVUjpMyvJyF8Ei5hZlBafgRXvJPhbLtMGRusfd6glNDo202RyBYhTVNe9a0QqFQLBZ13YCGqg2lUgmWvv9Yq2+wOpyTzu6+dw1W77SvApv/LV1/VY7+iW1sbu1Hdvcjezs7kYODwzL8AqUSjOxAJDR2AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1263,7 +1555,7 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 43.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB1ElEQVR42mOIS8pJzSpLzalIyiiOSciITcxKSM3zD45eu37z////+yfPSE4vyS1tAqLsovrkjILU7OK0vPKohIyVazYwqOjoG5jZ6hhaK6rqKajqqGgZqhpaC0kqTJ46E6g5MSlNUVlRz8RcRctIVkFNWk5ZQVVbXstQUFSqpa2TQUFV08TGztzaSd/YUlVTX0lNW01TT1RSYdqM2UDNKSk5ckoadg621vbuBqZ26rqmShr6alqGUgqa3f1TGGTkVZQ1tQ0tbSxsndW1DRRUNFU19YTEpCdPnQHUnJSep26dZOmT7x5W5BVdbe1XaOSea+pZoOOQPnXeegZpeRUlVW2gHkVVLQgCauYXkZwwaSrY2ZkSsqoqmgaKqjqKajpK6npApKplKCat1N7VyyCrqKasrgN0LRypaekLiEpNnAzSHJuQLC6joKIBV6AFRKqauqJScu2dPQwyCqpAUbi1aDbHxCeJSSkATUdWoKKhKyIp19bRwyAhoyinpC6rCERqEASU5uYX7ZswGag5KjZRREIWKCKvrAFUBkFArqCodGt7F8OBg4dOnjp96vRZIAlBp06fOXLs+JMnT4GaL12+AlRw5uy5M2fPnz5zFo5OnDz16PETAMistz+kC/IJAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 43.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB2UlEQVR42mOITcxOySxNzS5PTC+Kjk+PSciMS8n1DYpes27T////+ybNSEoryilpzClpyiqsS0rPT8kqSs0ti4xPX7l6A4OKtp6+mY2OoZWiqq6CiraKpqGqgZWQhMLkqTOAmhOS0hSUFPSMzVU0jWQU1KRkleRVtOQ0DQRFJVvaOhkUVLVMbOwsrJ30TaxUtfSV1bXVtfREpRSmzZgN1JySkiOnpGHnYGvt4GFgZqeha6qkoa+mZSiloNndP4VBRl5FWVPb0NLGwtZFXdtAQUVTVVNXSEwGYnNSep66dZKlT757WJFXdLW1b4GRW66pZ76OQ/rUeesZpOVVlNS0gXoUVbUgSFVTj19EcsKkqUDNiUmZErKqKpoGimo6QKSkrqukrqeqZSgmrdTe1csgraCqrK6jpKqNVXNMfLKYlDzQLzBZoB2aKho6IpKybR3dDMBgAGpWVNMC2g9Balr6AqJSEydDNCeJSSmAFMCMBiIVDV0RSbm2jh4GSVklBWUNeWUNOSV1CALq5xEQ6584Gag5Ki5RVFJeSU1HQUVLXlkTgoBcITHZ1vZuhgMHD508dfrU6TNAEoKA7CPHjj958hSo+dLlK0AFZ86eA6LTZ87C0YmTpx49fgwAMwK3FRqOTREAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1297,7 +1589,7 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 10.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAXUlEQVR42hWMWw6AIAzAPJOgbIM9BU28/4Gcn23SbvUQpwuaCsUjN2MQ2OKV+OozwNeYiiHggpE40DtYmr3wVqoweDulg0ef1AxPVYr+L2aOLEuKNBkw2kBLmVgqf9oJHJgaZziiAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 10.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAYUlEQVR42h2MWw6EMAzEuBJQaFLyaqCw0t7/Poz4GcmWxlPZLNtJ1a3lz27lbBRDB/Dvj1AfcjmnUjdOoHA/KLzlvOq0FFWKuhs+eZxcg3azL3HJwDp3FGGQEA6hgASuRV/X+ByDzJv/qQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1330,7 +1622,7 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 61.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeElEQVR42o2SaU+EMBCG/WoWlpteQLe0RdhSWMA9lNUP/v8f5SweWY1Rk8lkms6bOZ65CZLMDXExNFgqJrtM92SzjZkK0tzxkRvgX+wGxI6H4oyzpuL1xJv7anwW5hikxd9iP2aQ5KcUqzLCIskqlN85fup46e/KRZww18deSLJWi27Q4yzMgfAaRiBiS0tDhGHSYt5QYWCiNK/8JHeXppa2A3y7TlNRiXEvdgemd0R1EZXwvQ7JlVHwLthn5XXCipi1jPdV89if5+H50B57Jv0AOe9JaLHr4EPsxFRGbOLlwZqzPc3dcZLtkzRRzFb/2fbqsu28HKzuZmVPuephMA8Q/hNVQLLcGtmd82qg0ka0XDiRr9nkJ1QeCmmGlUJZjYo6psoNKaBaeRdgb9iWZwLxt8oXzl5EaauZ1cRI0kimt0U1wsFI+6D6c2kfinpKmPZhlmtxuJwhMODjVs6W79pNP4huUv3c7F/AA2eAjDcN4jWc3fXCXwH6EUhGcmCHMwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 61.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR42o1SXW+DMAzs8wrlGxIMDSGBESBQ6NoyUfVh//9HzbSbVvWhnRRZVpKzz3deOUFiumQ7KipkIvqk6CmvfZBOmBp2ZDrkyVkh2LAiP2GgSlbtM/VRjhfenJxw+xps+4Cf7BAimXuEB1CGaWnYoWGFz5FXcACmTUyXQlvwbijGmddHwqpYaJrVMW8pb0BoklWY4A2WtnHSK6krbYe8bcKIl3w85LsjFDsqOo/m+Lxx6cPBNn+dNwGkPrTA+lJ99vN5uBzbUw+57UTGS9qGHwsPRsYPujnrae5Oo2jPovF8WP9H7fWi9pYPuuhmoadU9jiY9TvYa6scmmx1I7s5LQeUB9m89OlHbQS7cUKkjFKFOgcgLRdubi3xlljh2gowf+i8+Gz5cdwUoAvaSKoEFDVSYGqftxPS4e2Uvg9YdDHpHuxe1xA9YGMtZs12bdYPXO9lP1eHL4xoL2GKZCpiFa7dPfgb69dIOI1halwAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1366,7 +1658,7 @@ schema정보가 잘못 되었는지 확인할 수 있다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 32.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAs0lEQVR42pWQiQrCMBBEo/bInWbTpG1qref//6IjCoV6gPAIA3tkZ5h27a6SoKjVb9BTS+tCb3zSTeTaMxc6aXwlzLYUf4FdLKSR0qhs4Krh+oXQi/6GMJ5Nx1vMM5RyQRqCeKD9SqC0Av8xSx2l3LQDxQwnyhIswBuA4MrhLbl+P3tTcIYDjI/A+oRJrMQA4lm8leKZ1gqUGLrzfB0Ol2E6g35/SnlGCgjSUgI4r5bu4/Ad2mETCKhxH3MAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 32.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAsElEQVR42pWQ6wrCMAyFq+7S+3Xt1s3pVHz/V/SM7sdAEQYfITQ5J2mItN2l4aBqxX/Q03JtwqBckjYy6YjxPVeuYfpcs0PAi4Q0+TQJE6i0h2DKkXl5x/GODHquPGArbkNuSSntEToQ7XtMdl32cVQ24gkfa4VBbJiiwiLWVH6vfaooYdJqlwpQwhKCfXe5ZTnqHpQIrpVvrzw/h+sD9NMS883FERvBTq2OHlv8FH8A6NUTCSGEwYsAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1644,7 +1936,7 @@ top-level에서 &lt;code class=&quot;language-text&quot;&gt;await&lt;/code&gt;�
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAADjklEQVR42mWU729TVRjH71/AC5NBolGYg4FMwDm2KUthY7Vb1/a2hRfjBWpEY9T4A3xnFn0hBBnMsbIhU4P4C7O5wAt+jCYOkwFb23vv+ouViRgJEAypwHpvR3+t93x9zr1rR+LJyck57fN5nu95zvNcAeXBdFr0Yl6/f0X/84Ae2aXLXihexN7EX914OAE9XzYzh1DaGD+lp/H3HkRtCFsRdyAuQnZAakewBcFWJD6EdnXRuAQbh38vzE/azh1c9+V7a/e/tab/o5rwDxZEXExyMknUQ6IesLJQG5IXyohgymD3xyHbHl22D39eJx1vun2mdczX+JuvAWEXm3Jh2o2EB9e24aqbzPBg3NRvRM7dQ7gTkh2KiOveTMh595wV1zyMTBVnerz9Yn/jyL7akb21yvebCxNtiHRyZEH2rWMINENxM8mBKdfR3TU7LMuiP1sQFel497x17xurOpuWDuxe2/129fhgEyJb9ZtfGfC8huhOnhXZBdlJoT7dWWXf8MTYkUaSWpjswIxnaF/t9oaK413raZ+fdEC2I/oq5tMCtBikNpOk3FA0ytOJT9alL7VT2GKIcu7299Zvf6mClCMm6mRDxoRoMQHJUQSt/LYU1pykNu5mslMPOnS6iOIshBzXR5qzgQ7a8wBkTEhyVMC90/wZTZj+C9j1QAeRFIQnOca9GEc3U0reOdxCIEX28wKQRZDLiDs7sjF9rLo40T7za3Pw200zQ1vyhnJGa1kaGROS9Au8qsxsERwW82c3aYeeejBUP/Dx87731/S8s/qz11bKVC3ES2XYxZH0tIBiBrFd/MCz5cmdqp/tfjJ3ugGJbWzag7gncdIS8L2IS63scZKQYsZ45zvfYXILIt6C36L2raBZ8G8u/r41e6ph7kRN/ptVOd8z2mB16cJuXhSELBRJ4SHirxfHmtS+SrV3uXrkWe3oylTv8lTP09pA1dxP63NnXtYv26AYt5Vs/JELsyZsdIU2lfmljqxVX6V6eIV6mLsgPnNyA2IeygW9ORQPL2GaKdnsDaHcopnz76YOVai+KlM5eSFf2eE6hIkR+VUpw8RTY5cQA9aLtOSVwdQXS9T+6gWYR67MDr8AxYZAC6gZ/+hC5qb53Xisnxk/sLyW/vEVzvcZsnuWze5fUrjoxY0u3Poa6USJYf/7khi8rv2TGf1A7V+tDjw3N+zNXjnAHiUXAZLKFkka/wHMumoyYIs5pAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAADh0lEQVR42m2U7W8UVRTG5y/ggxFJNFBLdcGiRSh0I2Whsi3dZXdnX0zsFw0hGDWa8OJHxS+iaGst3XaDNSQVazCslSYq0E1sSCgw7c5O96XtUggqQWOEgnRnp92X6cw8nju7bTfRm8mdezPnd59z7jlnOCwPQ6dJ11Tjn+vGr+168qAe80PyI3UQv3VgToCuLpuVBldJQpnC70eR3It4MyZdmOQhuiA6MP4yxu1IH0J2qpLnVjYPIotC64X2F754p/bEGxtDRzbFv7Eh4TFEty7yWtSjCXY96sDs8DLClV7GwyuItSxcdYQ/qo/1N/7xs30kaP0l2IC4x5jwYNqLGz7cCJi+tICMTd5ULt5H/FXmnsTjlj8nuv+62EzWxpQXklu54rjca/3hky2Dx7dIZ3apQisSbSjcX3L77pcYa4LkNSjCCU/ocG3bzjWJb21IemhLBx0/8Gxb4xOhI7Xtb1pG+3YiYdfvnDLhRQXJ15lszIOYm6Q+fK3GufmxkR4r0j5V2EcuhD/e+op1df8HdZjxFQUXYk6GLCoc5BSirSWS7gZJPjFgO/N+3fyok2S1qAtT3khXQ8C6mtymtU42ZCy2IpviMHuJpYGiJVlTGSmejAzJrY+7dApEcqtR163BpvzYPlobzIZnyOwlDveGWBpLMH0bc2qCk1nQEWkfJs1TSC3FFksCPEPuDZFypKxMFglvfnCb0mdZvO6c+b5p7PSOmXO7i1FWLeRFmVxRjnBQpsu3RXCcL/60I9vx1MNz20PvPR98d+Pnb22g+4tRtZAL4hLMjB1Q0hy0HFIH2Eb0IOkrnG+Y++zJwlAD0gGDue1Ln7UJwa0YtRuVJCFazszzn/0QdiMRUIdtcvfT9KiRXdrlPfnz2xe+3lQ8bSkE12X7LEs+e1lREFIuEvURJvdrI41yd3Wmqyrbsz576hlaZDrXZkM18wN1hR9f0q+2sETEeJYkSrI6V4JL/TSR+66erOVgtdxdJXdV0SLTtS539kWk/Ih7McEzTdHJnoxkNpW+0lULF97OdDwuB2tKnjO4c20+XI+4DyLPQh3fw/hH1yq6yvwDsO6Qvsp8ukrutZThnvWZk9X58GZIe1mQVIU3jyF357/9bLCpICsDzYwn8mSV3Llm7sQqdcSP28dwtw/Z6XKA+J8/CeN15e/c8CG5d4Mcem4+HMhfazdyD0qfy7NhoGL8C/dIajUiznyOAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1722,7 +2014,7 @@ db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAClUlEQVR42mWSa2hPYRzHjzdezAukSEKSXN9Imkt4wQvFXHJ9Yctl1twi1yEvpJQmlFxC25TkzYimZqutISmiRmO2TGxuY/tv5/8/57mc53z8zn//opzOt9PpfM/3+Xyf3+Odmz2I9tNT4V0hqmIKpnAI5vx4Ar+E8OkCzOE89O1pqEwV6to6gpNTyZyfg39pIZnyfMITMwiOTSfYN5n0zkl4NxYNpmn3JL41bCVo342qmYt6MQsVVWHiB6jUfgJ7HEMLQd0R/HuL8BsL8Z+Ukn64kfSd5QQX56HLJmN3TMC7sySPR4vzeLdiOOGGMejT+QTdmwl6SjH2PtbVY1QDJlNH+KUcnapH9zUSpqpRX28Qtp4UiALs2ZmYsil4dcuG8nbdSPqLxmG2jEQfHEvQVoTfs5pQlQtZLcq/JQscxfIGYrnjCOdCYmfk2YP+KdtRuxx1eS7e84Jh/F47CrN9NMHtTdiOeqxpJ/y9B/VhKbp5KUYCHSms7cRFvgRFOVkRRK4L1bqXsGYVXkfxRMLKAnlZT6Q+klyxUETRJ3RXKeqVbPyPEiI+C00/LhYyMSSUWQll4jd991CPN+L9KpuHVa+wuh35TmwGqohHqHoI4sv0mxIZ0k0JU7mg+B+5rDcyzejX2/B6Vw7DVmzD2V4JyhkSOY2y1TKYuxJ2AeNqhVBJvd7/A5NGsTR6W4wXHp2O2TUC8/JUdqVkbwZqgXYPssfHuc/yQ9fAMGIrirLf/9JKIN/RHw7gmZZidPchTDqp5GcNkeuTurIvQQ06vD5QyXVKaBL8S/RFjtN78dpcMNmh6bYyPG2q0bEcYu5nTS5OCaXDxsnk1mCezcd0VwrpFdFVUQVhcIag/yAmapIwlSP8Jv4D/AEQE/AEYmB2ygAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAClUlEQVR42k2TW2iPcRjHXzcu5mZckBIpizlcKMoIFxQXW4i0YiEjx9KWTHJBOVwwSiinbYpyw3LKYXKIcjFJZGxOw+YwG/v/t9/p/f3ej+f/7q+89e25eL/v5/s8z+/3RrXTB/FufzG0VGDqinEVQ3BHxqAy69FPZuN2FGAvTsT01WNOLUftKaa/toTs8Tn0H5qB3j0FtWsyatt4+jYVEZ2ZM5iHW4r4dn8t6v1WzM0STPM0tG/AJtcwmSqU343jDeruDrKNc8neryD7eAN9N8rpu1SKOjYLWzOBeONYokvzC7g1r4DXZUPR5aOwB2agfq1B9WzEhavEyT2se4jtb0J1HJKAJtEDdO9l9PezqNa9mOtlxIen4gQa3Skt5OWy4WRWjsatHo7ZPhrVtopszxK0qcVyV8a9KAE1xLwi9yQEQmJJEi/1D7arAX27FHNyJtHTskK6l43ArR2JurAC97GJOH6P7t6CaV2AfbEQl70giD/EvpMQFElIBCYKQSr4pBPdug19YzHRp8pxchhl6OvL8faTpJOagm/HfF2PeTYd9WMdnnaBZUUmfZ8kYQCaq/KNzTSiH5UT/do5i9i9EH2QRDF6l46SMwV6UMlxMk7A/ryMZ0Q+D/qnAW/sXmKeVxL9XlRIXFeJD73/JecUY+LL2PiKwI7i/E3xGFHPf558h+nY7dhXAtQ1k3Cbh+Ga9w2MG3KL1qnJerk2cn1C+CIfdKTdBQlKUpGveSA/ZOfVRK6lEvOzWhZfL+ZMmprrVqbHqWtYfToN8qEj7cKHLqmficMb8bs8OAfsxbbVCDDIWDTgkkYxtYi5Nz29OPmKebsU92QmrqtOLvoJ6fakrOEcuv+g/ElVsoYHAjPp7j3fsW+r+QsnDvBq5VKVaQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1935,7 +2227,7 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 50.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACoklEQVR42jWS20tUURTGzz6XOWccL+NoM1raWJrjzBk0mwoU7UYUJhldpJsS6lORiqKh3chKyCJSu2FplAg+aERvXSCiC9hNiBIzEjMsiOihv+DXdgYfvv2ttffa3/5YeymqprIAoYooVF2TrLB5bREN+2qwM0PomoFhGWi6jtBlrS5ikHUL94RQUBRTLg4JmQhFQZUH83Eww8/b0Uf8eDXJYFMf6QmLEQ6B7pKCLimYIDlePhwv4zgJU8aGihKuqSKvdj/2gR2kRmySc/woSS5W2yvpqe/iSuNlKkoqcZqJUWeq141I9yDSJLxyL9FCpEqe3/fEowz+/kbd5Dh9f2Y4NTXOuU9j7Lw/TOOxTt4NPaGrvoPthXvYWlARda4HchGhICIYRA2sQPWlIiwToUmH3mSU9s9jBF88p+37FGdnJtg98YmBfz95+OgF74efcb2hh/LCKsJLwmieZFyV1SQebSaxoYWE+mas0hJUpyPWLjsP5cT7l6x5/YrOuWkufvlI2fgH7v+dofXNGP3XRnl84SEloS2opsBcXYzn2BnSrg7g675JyqVu4ip2yH7Gyc+QghvWo7S8fkrWyDDtv6Zply67fs9y+88sp+e+0tv/gKZdzXhSFmHFGaRX1+HrvEjSkUY8bSdwd3RgbS+XgvFRQbGpFCWrbCPmugi+mr1knGpl2/njFNzqo/LGdYYu9HHv5AjZ/kIMOR5Jtk1CaXG0l5rtx9pXgVG0EuG0Yg4joXlWokm0yKlhud1krgiSkxXkdGsbd3rvcqj6MNW1BykpLZLzKtAMC8PrwREJoPm9cly0mMOMlHkdOcgOgzSfj9xl2YRygqwK5BNYupzsXJuCyCbs/CLC+cXk5IYxnS50IwnTTMHlTsNwuVC0mClhqfwHWw9WEpHIyDoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 50.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACqUlEQVR42j2S+0tUQRzF79zH3rvuurvu+tjKLM3c9a5Zaw9StCeEKCZImYGalD8Vxhpm74dQkQWV2INMqYigUgp/iaKoMHpQ9qAHhZgpFUH1Q//Bp3EX+uHMfL/MmTNnzoyiaSqarqFKCFVFTPaGjqoqrFxUTEtdE5HpNrpmYFiG5OoIXfJ0kYDk/YdQUBSHHAwJ2QhFkUIiXoczs3h24zbjQx+5FDtH0D0V4RDoLinokoLJcnZLE25ZJ0mYWvwgxd6wnlBTLfa6KgLRfFJmTUfxOJkfmUtXSyenYieoLluL0/TIDfImaV7EFD8iIwWRnozwWIhUuZbmQ/jdKFd+jdL86TU9f8bZN/KWQx9fUHPzOrEdRxi+eo/Olg6qomson1cdd66H8hB2PiLfRg3NRs1IRVimjEo6TE9B2fn+GeFHD2n/+pmOsQ/UfHhH398fDN4ZYvjaA85s7aIyWk/BtAhawIertgHPllY8W9tIbtmGVVaK6nQk4oqEUXYPD7HwyWMOfxvl2Kc3lL96ycCfL7Q9f05vdz93jw5Saq9CtQTmghL87QcJnu4j49RZAsdPkrS6WuaZJB9DCi5bitL29D7ZA9fY/XOMXeMjdP6a4MLvCQ58H6Gr9xaxmlb8gVSsJIMpDZvIOHQM7+YY/p178XV0YFVVSkF3XFCsKEOZWbECc+kCghvryNzfTsXhPczr6aH23BmuHj3P5T395GRF0eW38BYUkLykJJ6lFpmBVbcaoziKcFoJh/PtyVmJN3GSpWJ6PWTmhpmVFebA9l1c7L5MU+NmGpvrKS0rQdUEmsPCSPPjKAqhzUhHGFrC4bSA1BEC1WEQDAYJZedi59oUhecSzsohJ8+msGg59pzFRAqLyc0rwHS60R0+TDOAyxfEcLlQtIQpYar8A/MtVe3a3OqOAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1975,7 +2267,7 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 99.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAACkklEQVR42pWU/UtTURjH9+dE0AtBKET9ZGAghdSGytQyXVpR+TKbOZjeSmyUg0A0Kg2cJaFY/VCGiKiNinRubndz3ttsGaIZpdZ0u9u9387u7qpd79p24N7Dec45n/M8z/c5R4WMmxD/CzyYZ1ZssAvSWEhapUqLIRtiH8/z4KNR0bYy8RZsx8P4PLFnBfzrm0gXu6B/Cd66dggKa1Uyd/5sSoTyYmgYrY3XMGjtx4zNJto2PSzsBTpEtkNJByl6KIYgLeBJN9hB4eWdBpirtRgfGxPtzDkT/FTnDtgO4Nb6KrhQMA7jOLFf9tnh7KOw7htF6NMKGE0dfFo9OMk7RVESiQ2MPgfba0U0FJGgEfyYncfklVp4GxuwcKgUvqM6BJdXpWiEFDmUTokEt7DYPQC6ygi22QK2vBnM3lNgc7VgckqxeKAYS20P4jtl6qYWhbRfbAB+Sy8CXQP4ePM+6H0aLB6pAEPAnuMXEd74qRiuIlCI8knwKBnTOgquPYXw7FfDXUzyFw4rCpKyDmM5FUgR8+G4MGsjb+DYVQCahP/Z1P1PiSEzYFIJxcpkZBLvj1XCk3MS3qoW8LIUZQRM5Ce4HcZVcz9u3O5Bj8EA+umg/P5kBuQl76ZmfCiouYtKQzdyCo344JhPms8aOD3HoKi2E/W3niC/ogNDr6fjYmULTIT8nZTIGcqKGvNjaA1dKDM+IspHMiwbhVeG+7qGNt11GEsaQZE7fDjvMvqGx9PclBQwv6kNzhNFcNU2Ya6sGk51OWz5arwqqsaa7V36x0EOZPVGzObmwXFJDztlhr2pBe52C9wlZ2HffRCbDLvjkf1vyDFhvk1MiZ56L9SD1pTDdboG9Pk6fLnXA47cfbmXvwGuE7h3br4XRgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 99.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAACkElEQVR42pWU/UtTYRTH/W/qB6moQH+pICgaVAjLxab5loy5+iE30zW1matlL7P6oVWSGTiTICWDyBBShiws38a8c9u97WZoKUbDapt3273frndvbrvL7cK9D8/znPO555zvc54i5P1w8S8LcsSKDdIbm3NcmlXRjhiWFZzYaFR4t54fE3ZQ93qT+wUBU7GlognQy3A1doETsU0HCg5cmvObode41qzHkHUQsx/twtpvF4W5U0pEQpvb/HJEKIDiBiw/DN2/jrfmJtxRV2Hiw7iwTioN8BktWbAsYNC/hvBmIAYLR4RxxTOL+f5O+N1jCNHfQcq08FQ0IxwM5RYlUdilsRFQzwd4WKz4bCQKv8MDm0aDxSuX4T1UDc8xJQIrq6KCpCKM/yUcCIJ+NAiivhVkazeoKj28xVJQpZUgS8+BPqDAsulpzFMElkMU4C/5Fb7uPixZBvHlRg+IvTLQh+t4aAWI0xfBbPwRTVcUmEwjbhvl54TKCGdxGVz7yrGg4OvHMKKC5DyHHC8vF2XBMmFhvj46ibndJ0HsOYNvhscpGIf8gNu7RDgmozZMSerhKpFiUdkBNqNEeQGTXRFk0HJ7AMa7z9Cr04F4+Sqjf/IEsvHobNNuSFQPUKd/goPSNnyad6ftFwycdnghb3yIplsvcKLWjOH3n5NiFQRMpPyLPyLnO/uh5tOu1FlQ096HSCQiZMwVUsNElZjVNZiURrQrWtDJC3Lk+CVYh8fzPIcZMJ/BBEeZHE6NHs7qBjjO1sIukeGdvAHr9qmdL4dMINnUhtmSo5i7oMWMoQvTLVfhNJnh5MEzu/bztzaV1dP/TXlLmJ+2SdCGm1hUa0GU18BZo8KCWoPlnj6+9wNZ9+E/74W4aL3S29MAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2008,7 +2300,7 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 68%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABJ0AAASdAHeZh94AAADyUlEQVR42iWQ60+TZxjG339jn5Ys+7AsO31YsgNfSIwxMXK0QBFhulkOBQqVwlQawWxmZAsji8I0MN1sKQVaaKG00MPbA9DaCXJmwhxyHNMCHUXlJP3tXfxw5Zfrue/7ynPfQuqpJGSnZWTIMsjMzESeKSMrQ4ZcnkWWPFtiDrln8zh37hxfnldw4UIR+QXFFOQXoywqQ6m8iEqloeJiNaoSDUKbZRSTY1bSNB2OGazueSyuOcwDj/CJIpPeFhyO+1jFv7B4HmP3L9MfWMM+uIor+BRn8Bm+36OEp3bxBdcROkwiJssQpm6fxAB3frPQ2KRHZ3AxJd5gffg6VvMAdosXsduNr8uGv9uDyxrE0RvG3vuAfscYftcMTksYoddowGrsoqu9D62mihMJH5GW+C6XFWdYEbWETDcwt9pxd1oZMppZ8dQz12vAZ3AStvoJmj1Sj8hD2xCBdg/CQl8JS04t9ts/kp34Pt8XfciYPhn3jZM8c+Uyom/A86sOr86I2GpgwduOuV5LQ0UejVc0PDDoWHHdYrZTR7i1C+GZuZrYQDFRTy7Gmk8ZuZdIzJfEuuMEEY+CiZY6xu828rD5JlMdd9gYF5nqVBMNVmK8ksykoZ7t4E2W2lv4Q6dHeNpWy3rrNSKWi+wGFSzbTrIznMTfYi4bIQ1PPHUs2xtYbf+Oub6fWA3peTF/l2joGmveW7ycC/Gkq4Vodwv/mG4hbPdoiPVoed5Tzb5DTTyYD1PZRFxy1pxfEfFr2Lapwa1mb6iWR456VoZ17P8psjdmZH/4Z17Yr0PgOjH3VYRDbwEMFksPpcT95Rx4CzkI5hDTf8BWWyIRWw5RQzLTjafpuJaBsUFJ06U8Ju6VSzMqjrxlxIcr4P4ltt2VCAcjRTBZwtGEFCiRGSWHoS/YaX6Ll7ffYPv2m7y89w6dlZ9RmvQJVfIESlM+pvtqIoyU8CpcLkkKHJcCw1VS4EwhLBQTX1QRXy6DlVKO5vPZaXuPbcPbvAicYm80i82ADP3V43xzPoGavM/pqD0G84XSnJqjpUp4eoXY468RdhcVHEUKOdxQ8mqrmMOtQvbXFcQepvJ8JoPDSD57m80crP3A87F01kYvMSt+S7gjhVeb0jYbKg42pLX/VbO1WCbdcFe6H9KX4xWvSflrxS4Qj5yBo1rJh6R6E+wpYLdO8q2Svyzxf1UTj2sl1rATq0aYDqczP3mG2YmzTE1kMzmSxVg4g1F3CiHzMYIuNYPOUgbdpwh4MnEajtP7SwKevjTctnT6bakM2NLwDsjo78nkP55CRqs/Y1kXAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 68%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABJ0AAASdAHeZh94AAADxElEQVR42k2S20/TZxzG+2/sahfLki3Z4i6WbHNesGzhYobDlEJBheDkIAXKWSed52hmoi5DtnUO51ZaKD1gpZTS9veDUikURA4FHaAMRGRSToUJCLSfvWY3u/jked9v8jzJ831fRXJCIikpSlKVqaSlppGmUgpVkq5SoVJloEo/TOaRLLKzs/n6aC45OQXk5ReSn1eIukCDWl2ORlNJRbkWTVEligb7AJa2h1hcozQ5R7njGRf8ic31CF+HTKizDpcriF2ewi49ps03g6trjjb/M7yBF7gDYXx9K/SFNukMzKNoskhYmv1YbDJmWye3btu4UfsHekM7IfkH5u9dxG5x4WyWkZo9dNpa8Nm8eOz3aLvbQ2tLH662ATrdIdrv9KJoaTRib7RibXSgragkfu8ekuPe5WROOk9lLQFzDVaDE6/Zjr/Rwqx0lYkWIz6jm6DdR8Aq0WOWeeC4R5dJQvGktZBptxan7hqquPe5cvwDBg2JeGr2s+DJ5H79daTbemR9I7LByFSHCetVLdfKs/jxVCX9xnpm3T/z0KwnaLCheGGtJtKuZlk6QsPpj+n7PY5VOYHnbfGEpWMM/XqZod9qGbhZS8h0i/CgxIi5lJXuKkzVSQwbrhIJ3GDaVMcjfT2KvxvOMW84T9hexkZ3DjOOL1nrTmBOPsJibyV/Sd8x4/yeZ02XmXTWMNdrYHPyNqvBC8x16NgY72HKWseKYN6iQ7FqryRi/5Z1u5ZXzjKigVwIqVjwZvDMncNCVxWrjjKQytgOnGey/TrPg0a2n/jYHDSz1a3jZesl6LrEmuc0ih05D/xqMSgi1qlhW84XxkOsGfawbIwj7DjESkMiY7UHMZ9TYrpewE8nMxnWlwpPMdEODbHucug9ScQr/uH2/eMwUkh0WAQKZayAnZ4s1m++xYbuDSK6N9nQv4Ol6hOKEz+iSrWX4qQPaT79GfQXshssEYjAIREYrBKBY/kwpSY2XUzsqQZmi4iO57Le8B4R49u87NrP1kAaiz4l9WfiuXh0H2czP6Xp3OfEJvKFr5ToTAW8OEXk8QkUW9O5RMPH2V1Ss7v8GlF5XgQ+SOKfsRR2wrm8WvqFnbkrrA8cYLb/BKPeCwRNSUSXhG+xmJ1FUXtVvPyMRuxwU9Sk/H+U/MfaMWLhDIieFfceiNXCVg5sXBbnesE3Yv4aLbGYVugZ1teqUYwGDzAxksHD4cOEhtIZuZ/GYK+SAU8SPdYvCHhK8LuL8XsT6JJS8Rjjaanbh9SajNdxgHZHsuArOtpTcN1N5V/+ukbSAyVK/gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2055,7 +2347,7 @@ Language…]]></description><link>http://onepredict.github.io/hello-world/</link
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 140.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAIAAADuuAg3AAAACXBIWXMAAAsTAAALEwEAmpwYAAACeElEQVR42qVUaU/bQBDN///ab63aSohSCbUICgUkjgooV0I4cjQnCY7jI4mvtb2213ukYxto0gYR6Gq1Go/m7cx7ntmcaZphFAUvXAABYA6s8asWAHMBxq8EYzwbLMbjKGaUccYFbPEiMOXioK6uXUnvDpv5Wz27bu7MYmzh6HbolvuW4YYvK5vErNLq75xWd8+qpaYckXhesBDix0Xj/erx8k7x697l25Wf+4X682CRSiPr1sLG2fphCYeEMb6fr8MVjoczOk+CM12rHfXD2vF5uTOp0/OCZeBaV/v47eSg2MqcI9vTRohS9mzZyWkh//N2YWm70JR0deQs71x82jz3cPhX/hmCZfh6V1vaykPxUMLi5nmlrUyK8geMcaaE4IJnlXMusvzt3qAh6SbywQGopNXuw5IA/AhGAVk4bb/Zqx01tC8X3UrfWDy9remoKBnfS/316952SV4p3m2V5ZOWxjifAmNCmzraq6kVxbqSzJueuVtVfilWWTbynWFZTpzXvVFdc25kM07Fw4+cMzIWJhBaVW1Arl5KJ63BQUNrD+yNG7nQGa4Vu5O/bYoznBFlsukpNjb9SHMC1cGag50g6g5d3cF3hpeyvg/GT/X2K+c5uXiiq8SEIeacqnkzI9cLKYsZCwkNCI1iCmKSdIMTVAhInNoc7DBmQQSflDDu+35ON6ye4SqWq9qgii+brmKiu5HTGdqq5dl+CIZkIN32BsgHT2foqJYLYZaD/uH8xAxNx4hZg/HfagvgljBnDMhHQC89KZs5ktOPPvQtdAW0uh/FsJ2AoJCAB+wZjz5CiEGSh0VjeK8phzc7SZbuh894YgEEgL8BY1lJ8KqPUocAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 140.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAIAAADuuAg3AAAACXBIWXMAAAsTAAALEwEAmpwYAAACiklEQVR42q1Ua0/bMBTt//++b4ihibFJ20DlIUArMEBrK9ryaFlpCzRtQ57Nw3k4tWPHnRND17JOFLSryLrX9vH1ObnXOdu2RwhFrzQO4cAc98ZvMg7MRRC+EQzhfDAbj1FMCU1IktCEsVeBOeCkpeYv+kunncq9Lo5bODNjToi6pn/94Az96HXXxjFpdOTvpWah3LxqywjHi4I5x6Nqe3mz+LVwvn54sbTx80e1/TKYZdLIhvNhp7x1Ug8jRCk9PGutH56DAGYb/g0Wuja72nK+WG50p3ViC2ZuSfrKZvG41hGTpuOrQxAT+iI4HW0Qft6vfNqvdPq6aoIvhdrabiWA6Fn+OYKJ5DeStrZ39n6zuLJV+rh71rhTBHK6XlIwhEIJliSJoJ2kBzAbBLd9o93TLRCkM4zxastWE3EDOAF7I7xaun930DrtaN+q0rVsrZa6N5pX61s79Yfty8FeQ9447+1dy+U7nZftDBhicmt4Ry3tl+JcDuy6bB801aZiN2Sr0jV5nV0OrKuB1dYBXxLiwQlnQdWBON2qOIWmkr/olW6Nk7Z2Z7jbdbkqmfmaNK3rDGc+IkJlJ1BcaIdIA5EKoAYgiJA09HUA+1aQCD0mnP9nP7M/Nn4cs3uKcKGuWjSz5wecKhdwhEmECYoJ9zGh6SRNnQjHONvAZ/jzkoUE0yQMw5xuObLtK66vur4BwtR3/N4QSKaruoEbjiQTDCxPB6HhQdUJeKg6Pt/mAO/p2k98BDE2njBkf3eUWJrhzOb13QucH//zVEsjkjLHlPMk3MfkUYhnObL/PPvo0yThVeFFKEQx/wDkPgZZOOfRBwAQfvzEYkwJf7IJiXnimD59PMRTxtcBAL8BB2NJ1rjhg90AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2114,7 +2406,7 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACm0lEQVR42i2OWVNSAQBGLyjKJgYM+3pjU1YhEJAdZLssFxhQUAi4IobLiAmpiGI6bUNUSiE2WQ9O40yLTjnTY78tHnr+zjnzAWY1p1qEGpupvFeeMzHjJlY1q0MWjOW86cvLZK8R7B9EHsWUWR/nJCOuLlnWsrp0TFuM2zVsCqDk05qQHglreKAg5Ve06+7Whu3JVrBRtr7fcX44CHZPEuYpLmzjHid4CKws+sEcNBFSsPj4EcDMxpZkxIiGLCBjtgu2tydzmwXT8324UrMWC5rqsnE+ZZCKmUoJ9XhehCSUacu4hocLSXF6LhEICYkIfdwtIKeczI24aELOfJg2thtRa5yn8dIfL9B8eiqPQ51SsLr7s+1m4GhFp1fQ3+zY13MPAAphKEkeLRgoZ3Vup0zTyynIgmkDcRAAgAsScxE67GTdBxnTOkH3MNCuObaLhrhXcvVurl6aARi44XUH9QgBoy5O2sF2atm5pK5Zg3IOUdDGW81wUh4aYYyokrOuXkEZSIIdQTkM7F7Lt7tsAo7s0rxDUI3yYRsficv3lgzhgKwEq/5WvLfVwLNm4mkdthlFcyHVzSkccwqBwSMa/vXWzFpKBoRBKgGPaRbU/Yb1awc+O/QlrOCfWuzHinfRLfrcTh1WAwHX5GbR/vtTod/wTEvvZf2Si5Zne3ESwA6jBzGngfu9E77pZc5fxCuQ+nrZY1Yw1Ara7XkW9qsGAI9Nur3I310W98oOr026mtIelLTAEBo12CA7+PMU/vUxe9Vd9Go5kImvUDDkYmqvFQjaRaQxLIE42lgxx7yyEdwogEZRMOjVWfF/OeQUX3ei386Sd5dILjFltwjdFpBFJ+xXZvq7rrJLmA/JIy4ZiYTD4zGYYTQKBfgFxH+b67PZiRMGxQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACmklEQVR42i2P6VMSAQDFV4QkQA0RZLlvlEMOXV11gQUBOV1A10EOgwUhUgdMTF1FIqdTc0xKsen44FQzHTrVTB/726KZPr/3+817wIRJVCGCu5WFjEefhsEIDFZSViIxXliCPzzFz0h/ay9cihpSXuHDRdV6DllJWeMRSzZiN4FswCjh7gYhImwSy2X4jP551VVftW2t+8ki8mobfV3zNw9iE2YRZhM1YuIcZsjOyFOBwaBeIGHcACYEN/Pa7rCJLWHfuJdBTg7wcgZ+RGJ37yNE1lxeHo/jkEbFN6o5jQUFETMsTvWaJYyghj4qZAFBGYvg9TqlbBzlr8WUgzr+Unz8kJxFomKzh7eR4HkhjljIMevBJuk+3PM9KI5Aet7xlm01NQKwmZ04uysz1tesil4UuZCuj0jAa4SDAQAiBSsd5mEOvkI+MGaRNmszR5uOanY04lZfnuCb+UmAS6euoZxGTh5CBQt20GEG0/PW3WowZVf6beJSXIBP9zNYLMMQePksEPeraTTAAQnP6t6dAgzU7ZolVFqelWA2STaqJ/NQyKfNY8Y/Jc9Vxfe4NtfYxJAxBR4wXp9iEVQGtBdxGUfrkyu4FgjJ+5kM2l5m+IJEPh5hp/vemE32uxr5VvQkXcr3h/h+xedzDpWz9p9vMy3SBWluJb3q1v70RnIIoFMpbRkKib4eh67OE+dPoncCw5+Wp2E9z6jnXreSmM/YLojBnquL221+u+BwI+rSvKWWswCdlI52FrDLv7/EfrxJXTaTXqswCEsNhgGdinNW9wUcyh4WncXq2inCEbe2i0EHKB19NErJrfwPB1HV5+PZL6fzv94R6TmzfUrqmpKDPCZZmrzYcRacskxIF0I13d309kcq9R/jlTD/Apr/s76//bAIAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2145,7 +2437,7 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
     &gt;
       &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 68.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAABz0lEQVR42qVTy67aMBDl27vqopuuuulfdFupXVWCVGJx3wl5hzxJIARCEts5nTEEsahU0WvpMJMZ+8yxZ5iBVt/36LqOXYzjqKGUuuKeNeuJ6Of3b5j/+gHHtTGfL7BYGFgulzCM31gYBqSU/ySSUmkhs/Z4wKePH/D1y2fE8Rp+uIZlu3D9UPtltb1PIf+YpgXPdXVAqRFCSH1VrkiPcB8hX6dpGuzqGjWB/e12q3E4nH2O7fd77HY7/c0+x+rLmbKq0LbtmVAIoRWapokgCOD7DB8uKbYdBx75L6+vGkmawvM82hciy3JYqxVWBD/w0Z5Ol6ZQhzkRhiHiJIFtO0TkavKHh0c8P7/AIeIwisDFp6eYJoBvOFlNyEmthoje3kyYlkUVA1Liw7JWCKgQ+xERPj49wSWFnOdb6f1k+WwYRmdCnj8+yAdY5TAMVwWsaJrL8dIwpeR1Xm/z07zORnJO7RFi6PWG966ZpNL7biQoNGTrk0Ivx/8npFugOkqUhKqV2JAd1DsU8pvlxQZZXqCiGduUFdZJhihOEac5sqJEQbE032i7jmMkWUFz2/ydkB+0HwSEVPofwn7XD9QcgUEwpI7zt87fxBQ34wa8/gDUgDWpVX7SxAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 68.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAABzUlEQVR42qVTTW+bQBDln/dWqaeeeunP6LVSe6pkE8mXNLbCpzFgG2Mw4Bazy8LrzJKNnCpRWmWkxw6zM29mdnYtkAjRoesurGIcRwzD8ARs+1dYgoi+f/2C+Y9vCAIfs9kM87mNxWKBmxsbtm2j7xVeE6WmxFbb/sKH9+/w+dNHpGmKKE7heCHCKNZ6WZ4eK7/G3zYjFn9c18N6vdYGblH2/dQuO+P/xFJK4Xw+o6pq1HWt9dPppGF0XpumIZ9K/7PONvZnFGWJtm0nwp6qcV0X9/cOomhDiKjaCGEYwvd9XflqtdLY7Xb6f7PZIMsyHcfgmPbyQCiEgOd5iONYBzBJEAQ66Pb2J5bLFQI/oP0EvTkKA+qOO2SdV03IB8pZmcRxHJ2RyTirScSVJzSwu7vlQ4WxPvfJ34NPsXGSTIRd18GlwIQMXIWU/eNdNFmvp8p2o3PFZsrGbo2kXKj/Xkrt8FaxFCVvupEwaFQXBaFevizXd+5ZwoH2y3ZA+Vvp9UirHN5QoaRWD4ccGYFfxbEokG73SAjb/QFZXiA/ltgfjsiLkva22GU5qrp5npBbEDQISe+VwXonpB4Ov5gJk53fNBfANtb5JV2DCf8AU6Y1RfJXfNAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2177,7 +2469,7 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.39999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB6ElEQVR42oVRyXKbQBDtYRHDMixiNUJowUiAQMhiMYqcKEqVLk5clUt+IJX//4bMWI6dkz31qutNT79epoEXDYGzVOwR3RsOn/ZNt87KTbVLVwWADLz6HrDkdMXPh/bX2Iofvz8ejw/FZtv3Q7W9A8DofbHAW/X97/Pxj0HCG1ucTuN8U0tYBRCA1z6ozPEah9SRYIqCSoiuEFu3fGGkI+EjJQVgC8IExhMwAhB0QDLFa7c0xT+8Xf8TSyboASg2KA7rk1MAKcxy6jNkBpZReiG88qYfSST03cBzQ98Lg8Aw7eU8Cnw/mgRRGGRFla6LdV7SL4zi5TLJdNOjBVl2KlY0syqWt8u4WM2zdDYeO8N+vUpmfUdP+/T0o2n78/n88PlL1w+Xy+V0OtN1ZnklYgO8YHo8HOpt3VBf2+V5+e3riRIaOgyHaLKQsIllkxc0STY13VWIQwxX0WxOJMCPdFG1JcPDuisRh1pMHJlx6nQ5SQeRzkaAhiLMJr8CRqxz0F1YbSArYbGC7h52LSRrqHaorKHcod2ea3pEyV2DnBBhEykWA51cMgAsH9HnwxE1HWp7WKQwTyHJIM0hTiCI0ZXPbl9stIBpApsarADA9FlZGkc1NzH7SV5hK+GeF3bl1+W9OhnH1P4F8s85CqnbBPUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 66.39999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB5klEQVR42oWRx27jQAyGOaqjMqNitci9yJYsySUqlm2kOAGSg7EB9rT3xb7/M+wI9sI5rYEPBMnBT3JI4EVD4G1d8Qn1mv3hsagWcZZm62ieACjAa/8Dy06d/XyqftnW4Hw+H49Py3RV102+2gLgO2KBt9a736fjH4OEYUcc9AdJupaxBiAAr98Rc7zOIV0STVHUiE5V3Samx0sUCdodJQOwBeEU7C4YAQgUkMJAvHYRI0H/xjX8JpYNoAEoHVCcdk5OvYEY+B8ycG1d4NWbXpJJ1/cCzwt9LwwCw7Qno17g+73woRcG8TKP5stFnLIV9gaTyTSmhssatqWZWNXNfDmZTfrLxSiOhrbtNMViPhvWdVXV5dfXj7Levb2/Pz+/1Lv9x+fH6+n0WNasqIQN8IL+Yb9frzYFO3FZJkn29vpSlRVr1TSHbnckYxMrJi/osmrp1NWIQwxPJQ4nEuAkKmq2TF1MXJm4uHUchTK/w5IcpiDqIBEQ6fXnF0BqJwfqwiKFOIPxHKoGtgVMY8i3KN9AvkGbR1TUKNugbYGcEGETVAsxTK/dNFh++3w4trbcofEcjSM0i1GUoOEMggFitaIEmH+xvTH0p5CuwQoATL9ty+JRBA+D6ybR9SotF/+SvF0RA6f+BTjjOT5vLYXbAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
