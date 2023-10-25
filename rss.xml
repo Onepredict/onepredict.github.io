@@ -1,4 +1,691 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 18 Oct 2023 11:42:14 GMT</lastBuildDate><item><title><![CDATA[좋은 동료와 함께 자라기]]></title><description><![CDATA[시작 흉내만 낼 것인가? 스터디 시작 전 당시 어느 날 평소처럼 개발 결과물을 PR하고 리뷰를 기다렸다.
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 25 Oct 2023 08:47:49 GMT</lastBuildDate><item><title><![CDATA[AI 동시성 이슈 극복 과정과 성능 개선 (feat. AWS Lambda)]]></title><description><![CDATA[기존에 발행된 글을
+정리해서 다시 소개합니다. Intro Substation 2.0 제품을 개발하며 새로운 기능을 만드는 와중에,
+기존 백엔드 서버에서 동작하던 AI…]]></description><link>http://onepredict.github.io/solving-ai-concurrent-issue/</link><guid isPermaLink="false">http://onepredict.github.io/solving-ai-concurrent-issue/</guid><pubDate>Wed, 25 Oct 2023 07:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://tech.onepredict.ai/3461d6cc-bc49-423a-b9c8-de816776461f&quot;&gt;기존에 발행된 글&lt;/a&gt;을
+정리해서 다시 소개합니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;intro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#intro&quot; aria-label=&quot;intro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Intro&lt;/h2&gt;
+&lt;p&gt;Substation 2.0 제품을 개발하며 새로운 기능을 만드는 와중에,
+기존 백엔드 서버에서 동작하던 AI 연산부에서
+치명적인 이슈를 발견한 적이 있습니다.&lt;/p&gt;
+&lt;p&gt;해당 이슈는 스프린트 플래닝 과정에서 PO와 당시 옆에 있었던 프론트 대빵,
+그리고 팀 내 개발자 등 당시  180cm가 넘는 거구들과 화이트보드 앞에서
+열띤 토의를 했고(심리적 압박감 무엇..?),
+아래 이슈로 인해서 백엔드와 AI를 분리하기로 했습니다.&lt;/p&gt;
+&lt;p&gt;&lt;del&gt;스프린트를 거듭할수록 왜 이런 부류의 개발 난이도가 계속 발생하는가?!&lt;/del&gt;&lt;/p&gt;
+&lt;h2 id=&quot;issue&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#issue&quot; aria-label=&quot;issue permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Issue&lt;/h2&gt;
+&lt;p&gt;Substation2.0 서비스에서 AI 알고리즘이 동작하는 순간은 크게 3가지로 분류됩니다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;신규 고객이 서브스테이션에 변압기 및 DGA(절연유 가스) 데이터를
+처음 등록할 때 (Bulk Upload)&lt;/li&gt;
+&lt;li&gt;기존 변압기의 DGA 가스 이력을 새로 추가할 때 (Web Upload)&lt;/li&gt;
+&lt;li&gt;작업자가 변압기 점검일지를 작성할 때&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;이 중 3번째 상황에서 여러 사람이 점검일지를 동시에 작성하게 되면,
+AI 알고리즘도 동시에 여러 개가 돌아가야 합니다.
+하지만 AI 개발자가 처음 알고리즘을 개발했을 때는 동시 실행이 불가능한 구조로
+설계를 해뒀습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;u&gt;즉, 백엔드 서버가 동시에 여러 개의 API 요청을 받을 수 있고,
+동시에 여러 개의 DB 트랜잭션도 가능하지만,
+AI 연산은 오직 1개의 프로세스만 가능한 구조입니다.&lt;/u&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/414a176b050f3c081022879d2672cabe/97bfd/flask_1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 35.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsSAAALEgHS3X78AAABiUlEQVR42mWR2Y7TQBBF/ek88y+IR56QQKBBKMvMJIrjjBNnc7wmbu/dbjs+0xFPQEulqlapbunWsfjnKd1TyYFaDdzymiBOKduOWvYUjaI00aietrvTmjyO41/z1v1+J68KM5whVUtuBg5GZB8EvJ19njcHXD/gHIfEZkFSKY5RxCmOScsWKVtUW5lcMQw9ltIKL95jnx3OVx/v5LPZPLFzv+F6UwIhzP8H7vanEfWYvM5w1l85HJ7wozNlkZCENlnyRq8rLKkkYijIqUialIW95nia0vc74tRmulyQpq8U3hecX5+YvEyMyJK23TBfznh5/g1jwqhDdFdgtUYw1RnZmHMpQ+aLJZfLzNiwud1sVluXKJpz/f6R7ecPrDdzinJFU69wPIe9Z8M9ZFA+nRRYutdkrSDrcoTMia7CWDsSJluiW2As14TXE/5xjn9yuIgCP3ZN7EyvoKpKs1wgm8y4UlgPMg9Sf2iNdPpBsyMzBxcGQF5LUzdkj7rRiFpxe/TqztDX/1F+B3UwDb0ledNYAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;기존 동작 Process&quot;
+        title=&quot;기존 동작 Process&quot;
+        src=&quot;/static/414a176b050f3c081022879d2672cabe/0b533/flask_1.png&quot;
+        srcset=&quot;/static/414a176b050f3c081022879d2672cabe/fac75/flask_1.png 125w,
+/static/414a176b050f3c081022879d2672cabe/63868/flask_1.png 250w,
+/static/414a176b050f3c081022879d2672cabe/0b533/flask_1.png 500w,
+/static/414a176b050f3c081022879d2672cabe/1d69c/flask_1.png 750w,
+/static/414a176b050f3c081022879d2672cabe/00d43/flask_1.png 1000w,
+/static/414a176b050f3c081022879d2672cabe/97bfd/flask_1.png 1078w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;기존 동작 Process&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/06b157244bc37531cffd4056b2424342/7a1fb/flask_2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 40%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAICAYAAAD5nd/tAAAACXBIWXMAAAsSAAALEgHS3X78AAABqklEQVR42l2SW4/TMBCF86P5JTzwyit/ACQkWCS0SICE1BVt2bJtSpLm1sRJmqsdt/2YZMVqxVgjH2vOOb6MHZ7F9XplMJa2N5IaVVYU1WnGTTdI9oKHed3rES3cSfNPO4Vjz1YKBmsnwkhcDcSngaTWrPchi98eeX+m7C1595iF4GI4kzWT7vxkeLlccLxjwM8/K7bxlqrrcP0tm81nlstP+KlPkCUz3jx8ISlS9uFe1jfcb27xIg+te7LkgYO3xpoTjhoKUp2RjTmqqfFDMS7vKIoF4dEnViFp/J1g95EgWJOWMaX6QaEW7A9burbC9h5D7TLqI05pKipqGQ2qrTnErpB+0TYizn0OWUzk3rB68wL/wytS5dG29zT1Ugx31HUJl0QyQ/dimPeKfCzJjZoNI3mCslpRV9NpEmK5ZuB94+79S76+ey0njijKFapYy5OEYn7iamLOOkZ3GY6xhs70dLpj0FpMGiJVirAgOfWkVTvjXZTw9uaWfaKkXnCYOGWHGUfsqDFmmBvr/P9tRmuFZOeOTxtobWQe6QeN6+5E+Fgz4/mpw8/jL6wmXCOI+BlGAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;AI 연산 중에 또다른 AI 요청이 들어오면 Exception...&quot;
+        title=&quot;AI 연산 중에 또다른 AI 요청이 들어오면 Exception...&quot;
+        src=&quot;/static/06b157244bc37531cffd4056b2424342/0b533/flask_2.png&quot;
+        srcset=&quot;/static/06b157244bc37531cffd4056b2424342/fac75/flask_2.png 125w,
+/static/06b157244bc37531cffd4056b2424342/63868/flask_2.png 250w,
+/static/06b157244bc37531cffd4056b2424342/0b533/flask_2.png 500w,
+/static/06b157244bc37531cffd4056b2424342/1d69c/flask_2.png 750w,
+/static/06b157244bc37531cffd4056b2424342/00d43/flask_2.png 1000w,
+/static/06b157244bc37531cffd4056b2424342/7a1fb/flask_2.png 1030w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;AI 연산 중에 또다른 AI 요청이 들어오면 Exception...&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;어떻게-해결하지&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%B4%EA%B2%B0%ED%95%98%EC%A7%80&quot; aria-label=&quot;어떻게 해결하지 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;어떻게 해결하지?&lt;/h3&gt;
+&lt;h4 id=&quot;ai-알고리즘-연산부를-동시-처리가-가능하도록-바꾸자&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ai-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EC%97%B0%EC%82%B0%EB%B6%80%EB%A5%BC-%EB%8F%99%EC%8B%9C-%EC%B2%98%EB%A6%AC%EA%B0%80-%EA%B0%80%EB%8A%A5%ED%95%98%EB%8F%84%EB%A1%9D-%EB%B0%94%EA%BE%B8%EC%9E%90&quot; aria-label=&quot;ai 알고리즘 연산부를 동시 처리가 가능하도록 바꾸자 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;AI 알고리즘 연산부를 동시 처리가 가능하도록 바꾸자&lt;/h4&gt;
+&lt;p&gt;해당 이슈를 처음 발견했을 때는 AI 연산 코드를 동시 처리 되도록 수정하면 되지
+싶어서 해당 코드를 훑어봤습니다.
+하지만 하나의 함수가 600~700줄이 넘는 코드를 리팩토링할 엄두가 나지 않았고,
+ADSP 라는 자잘한 데이터 분석 자격증을 가지고는 있지만 &lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt;
+당시엔 도메인 지식도 부족했고,
+실무에서 사용하는 AI 코드를 건드리는 것은 Risk가 크다고 판단됐습니다.
+현 스프린트 일정 내에 처리하기엔 배보다 배꼽이 더 큰 상황이었습니다.&lt;/p&gt;
+&lt;h4 id=&quot;ai-연산을-큐에-쌓아두자&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ai-%EC%97%B0%EC%82%B0%EC%9D%84-%ED%81%90%EC%97%90-%EC%8C%93%EC%95%84%EB%91%90%EC%9E%90&quot; aria-label=&quot;ai 연산을 큐에 쌓아두자 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;AI 연산을 큐에 쌓아두자&lt;/h4&gt;
+&lt;p&gt;AI 연산하는 부분을 큐에 쌓아 두어서,
+순차적으로 돌리게 하자라는 의견도 나왔습니다.&lt;/p&gt;
+&lt;p&gt;얼핏 보면 그럴듯한 해결 방법으로 생각할 수 있지만,
+이 방법은 제품의 사용자가 많아지면 많아질수록
+큐 대기 시간이 증가하게 되는 문제가 있습니다.
+트래픽이 많아지거나 시간이 지날수록 고객에게 좋은 서비스를 제공하지 못하는
+구조는 개발자로서 제 자존심이 허락하지 않습니다.&lt;/p&gt;
+&lt;h4 id=&quot;backend-서버와-ai를-분리하자&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#backend-%EC%84%9C%EB%B2%84%EC%99%80-ai%EB%A5%BC-%EB%B6%84%EB%A6%AC%ED%95%98%EC%9E%90&quot; aria-label=&quot;backend 서버와 ai를 분리하자 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Backend 서버와 AI를 분리하자&lt;/h4&gt;
+&lt;p&gt;Clean Architecture나 DDD 관련 서적을 찾아보면,
+개발할 때 유지보수 측면에서 코드 간 응집도는 높이고 결합도는 낮게 설계하도록
+권장하고 있습니다.
+평소에도 Backend와 AI 간에 관심사의 분리가 필요하다고 생각했고,
+DB와 강결합 되어 있는 AI 코드를 간섭이 없는 순수한 함수 형태로 떼어내서
+이 AI 연산부를 별도의 여러 대의 서버에서 구현하게 하면
+구조적으로 해결 가능할 것 같았습니다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0270196d0db041d34c1befd0e899376d/af590/flask_3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 59.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAAsSAAALEgHS3X78AAACJklEQVR42mVSy27UQBD0P3HixIEv4Bf4AuATOCKExBEJJBQJcYITEhIBiSTSkg3kTdbezWa9u/bY48c8PeOd8dgexhAJRErdx6ru6i7PWtt1raveoetcdW3ryg7oXWvTclI2TWNvwNsonVFZ8jqMISwJxAxXChZEa91ZCyf7861HweuH8e4bLdmg13d/ybSSed3HTI+O/c+jwx/+krU2pUKZHl8dhc/vLR/fip7ezd4+IGD+P5kwHpNNEAbz1eRidhKuz9dpuEjQ9Gp19WVr9fL+6skd/uz24tMrUSvTNG3bGtMYM/jyCkwBkX6ws7f37vR0+/jow3p9cHjugzRL1iH+/p5+fQEnI6nURqQUrU6P9ki5VBI1jfZKwhy5xNNaTmvhV9V0ejkO07wSAqHS6ZtuOJsQzLaZZPOD0UfBV0YBJ+ZhVgEi0vxCVBNGzup6dnK2u737LQbJtbPBZM857TaxNantkG2hqpZKSQ9RHiGeDWSfsgllfoGCRVLwSjDGYJbBNKWMjfdHNV/ZtuzUIKFENExmlUwwR9gtHDgy4wEh/ixKojhhjEop/7wfgKjVpTXQNsC2uZaRdpPdDRNaJ/AnYTNM54xdpPn0EhT743GeZwCAOI4RQhgjs4G9jjsV2QYqsda69rj7c2UiJBZpMQfZEhYJU8tCKK2vI/YbxhjBS8EzTtNaFFIg9zPP5Q5TjrnMECtIVVKBqw2izMX03yS65W/G8xcK7ZWN92hygAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;AI 연산부를 AWS Lambda 로 분리&quot;
+        title=&quot;AI 연산부를 AWS Lambda 로 분리&quot;
+        src=&quot;/static/0270196d0db041d34c1befd0e899376d/0b533/flask_3.png&quot;
+        srcset=&quot;/static/0270196d0db041d34c1befd0e899376d/fac75/flask_3.png 125w,
+/static/0270196d0db041d34c1befd0e899376d/63868/flask_3.png 250w,
+/static/0270196d0db041d34c1befd0e899376d/0b533/flask_3.png 500w,
+/static/0270196d0db041d34c1befd0e899376d/af590/flask_3.png 626w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;AI 연산부를 AWS Lambda 로 분리&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;lambda-도입&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#lambda-%EB%8F%84%EC%9E%85&quot; aria-label=&quot;lambda 도입 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Lambda 도입&lt;/h3&gt;
+&lt;p&gt;AI 서버를 분리하기에 앞서,
+“하나의 EC2 서버에 쿠버네티스와 비슷한 환경을 구현해
+여러 AI 컨테이너를 띄울 것인가?”,
+“2, 3개의 EC2 서버를 띄울 것인가?”
+아니면
+“Lambda를 이용해 함수를 호출할 때만 비용이 나가게 할 것인가?”에 대한
+고민이 있었습니다.&lt;/p&gt;
+&lt;p&gt;개발 난이도만 본다면 여러 대의 EC2를 사용해서 구현하는 게 가장 쉽고,
+쿠버네티스, Lambda 순으로 어려울 거라 생각됐지만,
+비용적인 측면을 고려한다면 압도적으로 Lambda가 저렴했습니다.
+또한 최소한의 비용으로 최대의 효율이 뽑아내도록 하는 것이
+백엔드 개발자로서 숙명이라 생각해 Lambda로 결정했습니다.&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/2847d6a29f91b206634cf2d9d91f4537/01e7c/aws_lambda.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 50.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAAsSAAALEgHS3X78AAABjElEQVR42mNgAIL/9fVM/1eFMgOZjP/r7VlAfAZKwX+gYVfqtdgYqAHutpqLb0nSLrlWbXL9/wzbmv+zLYTAloSGMq8CYrAPQPg/0AdgX0B89D+UASrHwAT1FSPDhiR1qXMlhg+vVJj8v1tv9utJq9ntJy3mq/7/BwcB2OUkuW5/lqHKhTKjP6eKDf9dKjf+e7Hc6PSFcqON/9c5C3/pt034MsEm8Wu/Td53IPvXZHuTHz02aj8nWOp8nmDj/KXP1u17n63T5z4bl899lk7/u125wQaeLzX6e7rY8P+lCuP/12rNLl6vNln3f6aj8tc+u7TvE2wzgJpSvvbZhHydaG3xbYJN6Jd+m9SvE6zzv020jf42wa7460SbtG8TrIG0vQzDriRDqbOlRo8ulhn/v1tn9uvPPL+b7yY4rQWGCwvYy/9RvQwKL4LevlZlLLk1Taf4erXx5f9TLKqetJkKgzXPNGaFJCMghkcOAzhCzoDkQBEDkgPRIIwe3qtWMTBTJdmAkwLUa0CaokQNAIzSyB0tM6wdAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Aws Lambda&quot;
+        title=&quot;AWS Lambda&quot;
+        src=&quot;/static/2847d6a29f91b206634cf2d9d91f4537/0b533/aws_lambda.png&quot;
+        srcset=&quot;/static/2847d6a29f91b206634cf2d9d91f4537/fac75/aws_lambda.png 125w,
+/static/2847d6a29f91b206634cf2d9d91f4537/63868/aws_lambda.png 250w,
+/static/2847d6a29f91b206634cf2d9d91f4537/0b533/aws_lambda.png 500w,
+/static/2847d6a29f91b206634cf2d9d91f4537/01e7c/aws_lambda.png 512w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;AWS Lambda&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;efs-elastic-file-system&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#efs-elastic-file-system&quot; aria-label=&quot;efs elastic file system permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;EFS (Elastic File System)&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://aws.amazon.com/ko/efs&quot;&gt;https://aws.amazon.com/ko/efs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;AI 코드를 Lambda로 분리하기 위해서는 필요한 Python 패키지를 설치해야
+하는데, AI 분야에서 사용하는 라이브러리는 보통 용량이 큰 편이었습니다.&lt;/p&gt;
+&lt;p&gt;Lambda에서 실행할 수 있는 형태로 올리기 위해서는 Zip 압축 파일로 올리거나,
+S3 Bucket에 올려야 하는데, 각각 50MB, 160MB의 용량 제한이 있습니다.
+의존성까지 포함해서 2GB가 넘어가는 프로그램을 Lambda에 올리기 위해서는
+대안이 필요했습니다.&lt;/p&gt;
+&lt;p&gt;DevOps 팀의 열정적인 분에게 찾아가 조언을 구하니
+AWS EFS(Elastic File System)을 활용해서 패키지를 설치하고,
+EC2에서 가져다 쓰게 설정하면 해결이 가능할 것 같다는 조언을 받을 수 있었습니다.
+이를 구성하기까지 많은 시행착오가 있었지만,
+덕분에 Lambda를 돌릴 수 있는 환경을 구축했습니다.&lt;/p&gt;
+&lt;p&gt;&lt;del&gt;이렇게 해도 해결하기 어렵다면 Lambda Layer를 고려해 보려 했지만,
+다행히 성공했기에 Pass...&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 332px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 51.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAKABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQBAwX/xAAUAQEAAAAAAAAAAAAAAAAAAAAB/9oADAMBAAIQAxAAAAHeStgWhUT/xAAYEAEBAAMAAAAAAAAAAAAAAAABAgMgIf/aAAgBAQABBQJ4YLW9P//EABYRAAMAAAAAAAAAAAAAAAAAABARIf/aAAgBAwEBPwFwf//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABcQAQADAAAAAAAAAAAAAAAAAAEAAiD/2gAIAQEABj8Clhz/AP/EABsQAQACAwEBAAAAAAAAAAAAAAEAESFBURAx/9oACAEBAAE/IVY0taIODlv44eeW93LexXs//9oADAMBAAIAAwAAABCfD//EABYRAQEBAAAAAAAAAAAAAAAAAAEQEf/aAAgBAwEBPxAAjJ//xAAWEQEBAQAAAAAAAAAAAAAAAAABECH/2gAIAQIBAT8QTZ//xAAdEAEAAgICAwAAAAAAAAAAAAABESEAMRBRQXGB/9oACAEBAAE/EHHQFglcbXJLERHk164uLfWbra7ycW13n//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Aws EFS&quot;
+        title=&quot;AWS EFS&quot;
+        src=&quot;/static/490e1004d242a7ec8d4a06378f944da2/71bac/aws_efs.jpg&quot;
+        srcset=&quot;/static/490e1004d242a7ec8d4a06378f944da2/aa2ed/aws_efs.jpg 125w,
+/static/490e1004d242a7ec8d4a06378f944da2/0479a/aws_efs.jpg 250w,
+/static/490e1004d242a7ec8d4a06378f944da2/71bac/aws_efs.jpg 332w&quot;
+        sizes=&quot;(max-width: 332px) 100vw, 332px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;AWS EFS&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;a href=&quot;https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html&quot;&gt;https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;lambda-함수-마운트-폴더-설정&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#lambda-%ED%95%A8%EC%88%98-%EB%A7%88%EC%9A%B4%ED%8A%B8-%ED%8F%B4%EB%8D%94-%EC%84%A4%EC%A0%95&quot; aria-label=&quot;lambda 함수 마운트 폴더 설정 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Lambda 함수 마운트 폴더 설정&lt;/h3&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; sys
+
+sys&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;path&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;append&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;/mnt/efs/packages&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;# 마운트 폴더 설정&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; MtrAPI &lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; MtrAPI
+
+
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;lambda_handler&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;event&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; context&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 
+    ai_processing_result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; MtrAPI&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;event&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; ai_processing_result&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이렇게 기존 Substation 제품의 AI 동시성 이슈에 대해서
+구조적으로 Backend 파트와 AI 연산 파트를 분리해서 결합도를 낮췄고,
+분리된 AI 파트를 AWS Lambda를 활용해서
+별도의 AI 서버를 통한 로드 밸런싱 없이 다중 처리가 가능하도록 수정했습니다.&lt;/p&gt;
+&lt;h2 id=&quot;새로운-이슈의-등장&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%83%88%EB%A1%9C%EC%9A%B4-%EC%9D%B4%EC%8A%88%EC%9D%98-%EB%93%B1%EC%9E%A5&quot; aria-label=&quot;새로운 이슈의 등장 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;새로운 이슈의 등장&lt;/h2&gt;
+&lt;p&gt;해당 기능을 만들면서 단일 변압기 설비에 대한 AI 연산이 많이 발생할 것으로
+기대했으나,
+시간이 지나 추가된 기획에 의하면 오히려 단일 설비보다
+회사 전체 설비에 대한 AI 연산을 돌리는 기능이 많아질 것으로 확인되었습니다.
+이런...&lt;/p&gt;
+&lt;p&gt;설비 하나의 AI 연산은 약 4~5초 걸리지만,
+회사 전체 설비에 대해 AI 연산이 필요하다면 구조적인 개선뿐만 아니라
+성능 개선 또한 같이 이루어져야 했습니다.&lt;/p&gt;
+&lt;h4 id=&quot;boto3-비동기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#boto3-%EB%B9%84%EB%8F%99%EA%B8%B0&quot; aria-label=&quot;boto3 비동기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Boto3 비동기?&lt;/h4&gt;
+&lt;p&gt;처음에는 AWS Lambda 함수 호출을 비동기로 처리하는 것을 고려해 봤습니다.
+AWS에서 Lambda를 공식적으로 지원해 주는 Python 라이브러리로 Boto3 가 있습니다.
+아래와 같은 방식으로 Boto3 Session을 만들어서 쓰면
+AI 연산이 Lambda에서 동기식으로 정상 동작하는 것을 확인할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# 동기 방식&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;execute_lambda&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;payload&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    lambda_client &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_boto3_session&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    function_name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;substation_lambda&quot;&lt;/span&gt;
+    
+    &lt;span class=&quot;token comment&quot;&gt;# Lambda 함수 실행&lt;/span&gt;
+    response &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; lambda_client&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;invoke&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        FunctionName&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;function_name&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Payload&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;json&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;dumps&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;payload&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; json&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;loads&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;response&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Payload&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;read&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;decode&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; result&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;다만 ‘성능’과 ‘동시성’ 처리를 위해
+&lt;strong&gt;비동기 방식으로 요청하기 위해 여러 삽질이 있었고,
+Boto3 1.26.94 버전 공식 매뉴얼에서 해당 기능이 deprecated 되었고,
+응답 코드만 받아올 수 있다는 결론을 얻게 되었습니다.&lt;/strong&gt; &lt;sup id=&quot;fnref-주2&quot;&gt;&lt;a href=&quot;#fn-주2&quot; class=&quot;footnote-ref&quot;&gt;주2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# 비동기 방식&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;execute_lambda_async&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;payload&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    lambda_client &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_boto3_session&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# Lambda 함수 실행&lt;/span&gt;
+    response &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; asyncio&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get_running_loop&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;run_in_executor&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        lambda_client&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;invoke&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;FunctionName&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;substation_lambda&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Payload&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; payload&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; response&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Payload&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;read&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;decode&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;utf-8&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;여기까지 오기에도 많은 시간과 에너지를 소모했지만, 뭔가 2% 부족했습니다.&lt;/p&gt;
+&lt;p&gt;실제로 많은 변전소 설비와 DGA 데이터를 담고 있는 Excel 파일을 Bulk Upload할 때
+동기식으로 연산하게 되면 많은 시간이 소요되었습니다.&lt;/p&gt;
+&lt;h4 id=&quot;동기식-처리시-소요-시간&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%8F%99%EA%B8%B0%EC%8B%9D-%EC%B2%98%EB%A6%AC%EC%8B%9C-%EC%86%8C%EC%9A%94-%EC%8B%9C%EA%B0%84&quot; aria-label=&quot;동기식 처리시 소요 시간 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;동기식 처리시 소요 시간&lt;/h4&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;    start_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; asset &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; asset_list&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# AI Input 데이터 추출&lt;/span&gt;
+        feature &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_feature&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;# AI 연산 시작&lt;/span&gt;
+        result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; execute_lambda&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;raise&lt;/span&gt; Exception&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Ai Lambda 연산 중에 에러가 발생했습니다&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;# AI 연산 결과 저장&lt;/span&gt;
+        save_result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;response&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    end_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    elapsed_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; end_time &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt; start_time  &lt;span class=&quot;token comment&quot;&gt;# 경과 시간 계산&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-interpolation&quot;&gt;&lt;span class=&quot;token string&quot;&gt;f&quot;실행 시간: &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;elapsed_time&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;초&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;실행시간: 760.14 초&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6fa07e748eb3a9289f1e97173bf4d01e/01dae/flask_4.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 53.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsSAAALEgHS3X78AAAB8klEQVR42lWRy27TQBSG84hsUF8AiW1X8BBIdIGUFYtKLAAhJCRWLSgVFYJWKWka147tOG4dx7fxXDwXz9hO7cHikrS/zuocffo/6Qy01lLViKsM0TAGGSowl5Cwu81dWcmEpIZr2Teuv/bnS7sfxHDbtvpPBlp3hJV5rRcJ/jm1zmYOkB0QjZRKbmTAk9PxaB45ZuiMrYuJO41ZWm+af3DXtYiVQY5n5pnp/DLt82BtBYDAHE0tw738HH8bpsYnUiOhpdAqEZmqVE92uhvork0hjQmy7ZFhfLHMr1E0Nj0X5MjxLO/44PJwf/XmqW+NUCfRBvfNvdMOzgmPMBTlolZu03hRMvt+MVmHkR+vgsWpf/jk/GAv+Pg8yGyqZdLD95t7OIQ5IdeUmkVhQmzfpoBSIesSNMXNydAd7l29erz68Rq0ZcKTB82wEBECjNmUWgW1+1nnUAjFJMWtSHPHe7t/9fKR/26/l8okug93VDZrCDA2CuoyNofwOgCIC8kVhxXEukkmH5z3z+LjF9g7ySpa1Wr3KipUxpsQoiADIUjTgmWiUVUtKsFbwXWZkNvcOQLzo7xMgYJVXW1hXdU1YaKXB5ihQiSQzB0vjuMgCBzPDZN1UTJSclYpXpW9Ttd1O3ibv1vG6HK5jP8HIbS964f5DSscV4o2kzeiAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;여러 개의 AI 연산을 동기식으로 처리&quot;
+        title=&quot;여러 개의 AI 연산을 동기식으로 처리&quot;
+        src=&quot;/static/6fa07e748eb3a9289f1e97173bf4d01e/0b533/flask_4.png&quot;
+        srcset=&quot;/static/6fa07e748eb3a9289f1e97173bf4d01e/fac75/flask_4.png 125w,
+/static/6fa07e748eb3a9289f1e97173bf4d01e/63868/flask_4.png 250w,
+/static/6fa07e748eb3a9289f1e97173bf4d01e/0b533/flask_4.png 500w,
+/static/6fa07e748eb3a9289f1e97173bf4d01e/01dae/flask_4.png 721w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;여러 개의 AI 연산을 동기식으로 처리&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;병렬처리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B3%91%EB%A0%AC%EC%B2%98%EB%A6%AC&quot; aria-label=&quot;병렬처리 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;병렬처리&lt;/h3&gt;
+&lt;p&gt;Boto3 라이브러리에서 비동기를 지원하지 않는다면 파이썬 기본 기능을 이용해
+자체적으로 &lt;strong&gt;Thread&lt;/strong&gt;와 &lt;strong&gt;Process&lt;/strong&gt;를 활용해 구현해 보기로 했습니다.
+참고로 보통 아래의 상황에서는 Thread나 Process를 사용해서
+해당 작업을 병렬로 실행하는 것을 권장합니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;애플리케이션이 I/O를 처리할 때는 운영 체제가 스트림을 처리해서
+결과를 돌려줄 때까지 계속 대기한다.
+이 시간 동안 애플리케이션을 멈춰 있다.&lt;/li&gt;
+&lt;li&gt;애플리케이션이 CPU를 사용하여 계산할 때 CPU 중 하나만 사용한다.
+다른 CPU는 유휴상태로 있다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;thrad-vs-process&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#thrad-vs-process&quot; aria-label=&quot;thrad vs process permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Thrad VS Process&lt;/h4&gt;
+&lt;p&gt;Python 언어에서는 C#, Java와 달리 GIL(Global Interpreter Lock)이란
+골칫거리 녀석이 있습니다.
+GIL은 ‘파이썬 전역 인터프리터 락’의 줄임말로 CPython이 Byte 코드를
+실행할 때마다 Thread에 Lock이 걸리게 됩니다.
+그러다 보면 Thread 여러 개로 애플리케이션을 확장하더라도 GIL로 인해
+모든 Thread가 이 GIL을 차지하기 위해 경합하게 되고, 성능이 떨어지게 됩니다.&lt;/p&gt;
+&lt;p&gt;반면에 멀티 Process를 사용하게 되면 한 번에 많은 작업을 실행할 수 있습니다.
+GIL이 관여하지 않으므로 Thread보다 빠르지만,
+Process 사이에는 어떤 메모리 공간도 공유되지 않기 때문에
+Process에서 다른 Process로 전환하기 위해서는
+상태 없이 (stateless) 동작해야 한다는 조건을 만족해야 합니다.
+또한 Process를 사용하게 되면 네트워크 비용이 더 증가할 수 있다는
+단점이 있습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;정리하면 I/O 작업을 동시에 처리할 때는 Thread가 효율적이고,
+CPU 사용량을 최대로 끌어올리려면 많은 프로세스를 사용하는 게 효율적입니다.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Lambda 같은 경우도 Backend 서버에서 Lambda 함수를 호출하는 I/O 작업이기에
+Thread가 좀 더 효율적일 것이라 기대했습니다.
+다만 Python의 GIL에 의한 성능저하가 우려되어 Thread를 사용할 때와
+Process를 사용할 때를 비교해, 더 효율적인 것을 사용하기로 했습니다.&lt;/p&gt;
+&lt;h4 id=&quot;병렬처리-오류&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B3%91%EB%A0%AC%EC%B2%98%EB%A6%AC-%EC%98%A4%EB%A5%98&quot; aria-label=&quot;병렬처리 오류 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;병렬처리 오류&lt;/h4&gt;
+&lt;p&gt;해당 파이썬 코드에서 사용할 병렬처리 라이브러리로 &lt;code class=&quot;language-text&quot;&gt;concurrent.futures&lt;/code&gt;를
+선택했습니다.
+기존 코드에서 Lambda를 돌릴 함수와 해당 함수에 Input 값을 넣어줄 부분을
+묶어서 하나의 병렬처리를 위한 함수로 구현하면
+Thread와 Process 모두 동일한 에러가 발생했습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;TypeError(&quot;&apos;dict&apos; object is not callable&quot;)&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;ProcessPoolExecutor&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;        &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; futures&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ProcessPoolExecutor&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;max_workers&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; executor&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            futures_list &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+                executor&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;submit&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;process_asset&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; asset &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; assets
+            &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+            &lt;span class=&quot;token comment&quot;&gt;# AI 알고리즘 연산 결과 저장&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; future &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; futures_list&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; future&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                    save_result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;response&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;process_asset&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# AI 연산 Input 데이터 가공 &lt;/span&gt;
+        feature &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_feature&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# AI 연산 시작&lt;/span&gt;
+        result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; execute_lambda&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;raise&lt;/span&gt; Exception&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Ai Lambda 연산 중에 에러가 발생했습니다&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; result&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;TreadPoolExecutor&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;        &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; futures&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ThreadPoolExecutor&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;max_workers&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; executor&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            futures_list &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+                executor&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;submit&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;process_asset&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; asset &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; assets
+            &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+            &lt;span class=&quot;token comment&quot;&gt;# AI 알고리즘 연산 결과 저장&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; future &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; futures_list&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; future&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+                    save_result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;response&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;process_asset&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# AI 연산 Input 데이터 가공&lt;/span&gt;
+        feature &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_feature&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# AI 연산 시작&lt;/span&gt;
+        result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; execute_lambda&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;raise&lt;/span&gt; Exception&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Ai Lambda 연산 중에 에러가 발생했습니다&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; result&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;가능성이 있어 보이는 코드에는 모두 예외 처리를 했음에도 예외를 타지 않는
+에러가 발생했고,
+ChatGPT의 도움을 받아보니 아래 공유 데이터에 대한 이슈가 해결의 실마리처럼
+보였습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;“스레드 간에 공유되는 데이터에 대한 접근 충돌이 있는지 확인합니다.
+스레드 간의 동시 접근을 막기 위해 동기화 메커니즘을 사용할 수 있습니다.”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/ebe603b6ce0112285ae8d396ed1ed53c/394f7/chat_gpt_1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 87.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAARCAYAAADdRIy+AAAACXBIWXMAAAsSAAALEgHS3X78AAACi0lEQVR42k2U6XLiQAyEebMNJNyHzeET8AHmCiTZbDZV+/ZafRqGyg9ZM9JYbrV63BoFa0mzoyyjnSTqs/VZ4vQgi1Utq7iRJD9JmrsY+VhtFe8l31xsz3oabOSpE8pglEqrP041sJVZWEi4KGW+rNUqCealxdi7eGUvzsKtLHQNAIw4eXIvvZW0JrO17A+fUtbvUu3eZb19Vf8h++Mf2TWfcrx8y+H0ZZ4zjcaP579yOn+bf739k0bzvDtUcK3xNJdNcbVCWKotRkkjvUEs3X5kX8VY94axxUeTTCaKiHcnas/3PNYajjOZhltrJVT4tECr4+naYoG2A5+0F8wLM84kd07JWVzPdfvaMi83xy/ZljfZaeu75re1SnsLLUJhXwiu8Y5bx2O4qCwOh4awP0wEHofaxlg9BIOMQxSDF/xokpuRm2nR0D7g2gblTNfP3aW0mCJEM4g0V/moDGyyDwSlSQZeQQOyWNeRxiyvhckjHysIyaDxozfyNYamQA/Hfs0wWJNnQD/z3X7sZENVqsNhUb2ZRwJFdbN1pgKOkoMhi+6CR6MgBimDSbKDAXoUJMkwNoVKR42B+MLICN78lKGCGOvewMnqVzuQzsvCFeSx0oKb8mqF0GS9/7DiHjWF+SBXkIGskr3dlgBZqdE27T8KgjDfXrS9s2T6Uqr32VrSFr3o2dMuLYKwqrlVF73TZ9szMBsKBSGVTft5btAx9hhrH3d7Z4jY533OEDK56EHu0VD6P4v/+zxQaevce2J273VghdICReRN2BCOBmvl6KQ/AA7CJYfs9micvQ3KJn+1D/D7Io8v6zcriJzspoT+vpqo3W8Kcft7C+lMktbbnbnzak8d70P1bsr/Adv9rpwh8gfcAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ChatGPT 와의 대화&quot;
+        title=&quot;ChatGPT 와의 대화&quot;
+        src=&quot;/static/ebe603b6ce0112285ae8d396ed1ed53c/0b533/chat_gpt_1.png&quot;
+        srcset=&quot;/static/ebe603b6ce0112285ae8d396ed1ed53c/fac75/chat_gpt_1.png 125w,
+/static/ebe603b6ce0112285ae8d396ed1ed53c/63868/chat_gpt_1.png 250w,
+/static/ebe603b6ce0112285ae8d396ed1ed53c/0b533/chat_gpt_1.png 500w,
+/static/ebe603b6ce0112285ae8d396ed1ed53c/394f7/chat_gpt_1.png 707w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;ChatGPT 와의 대화&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h4 id=&quot;병렬처리-해결&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B3%91%EB%A0%AC%EC%B2%98%EB%A6%AC-%ED%95%B4%EA%B2%B0&quot; aria-label=&quot;병렬처리 해결 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;병렬처리 해결&lt;/h4&gt;
+&lt;p&gt;GPT의 도움을 받아 고민해 보니 병렬 처리에 사용되는 &lt;code class=&quot;language-text&quot;&gt;process_asset&lt;/code&gt; 함수가
+마음에 걸렸습니다.&lt;/p&gt;
+&lt;p&gt;Lambda 함수를 실행하기 전에 Input 값을 만들어 주는 함수가
+&lt;strong&gt;공유 데이터에 대한 이슈&lt;/strong&gt;와 더불어 &lt;strong&gt;DB session까지 물고 있었기&lt;/strong&gt;에
+문제의 원인이라 생각됐고,
+전반적인 레거시 코드를 수정하고 병렬처리로 사용할 &lt;code class=&quot;language-text&quot;&gt;process_asset&lt;/code&gt; 함수를
+Lambda 실행 부분만 포함하도록 분리해 정상적으로 실행되게 만들 수 있었습니다.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;[Before]&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;process_asset&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI 연산 Input 데이터 가공&lt;/span&gt;
+    feature &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_feature&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI 연산 시작&lt;/span&gt;
+    result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; execute_lambda&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;raise&lt;/span&gt; Exception&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Ai Lambda 연산 중에 에러가 발생했습니다&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; result&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;[After]&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;process_asset&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI 연산 시작&lt;/span&gt;
+    result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; execute_lambda&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;raise&lt;/span&gt; Exception&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Ai Lambda 연산 중에 에러가 발생했습니다&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; result&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;병렬처리-성능-비교&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B3%91%EB%A0%AC%EC%B2%98%EB%A6%AC-%EC%84%B1%EB%8A%A5-%EB%B9%84%EA%B5%90&quot; aria-label=&quot;병렬처리 성능 비교 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;병렬처리 성능 비교&lt;/h3&gt;
+&lt;h4 id=&quot;4개-thread로-돌릴-때-시간-확인&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#4%EA%B0%9C-thread%EB%A1%9C-%EB%8F%8C%EB%A6%B4-%EB%95%8C-%EC%8B%9C%EA%B0%84-%ED%99%95%EC%9D%B8&quot; aria-label=&quot;4개 thread로 돌릴 때 시간 확인 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;4개 Thread로 돌릴 때 시간 확인&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;TreadPoolExecutor - 4 worker&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;    start_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# AI 연산 데이터 추출&lt;/span&gt;
+    features &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_features&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; company_id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI Lambda 연산&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; futures&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ThreadPoolExecutor&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;max_workers&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; executor&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        futures_list &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+            executor&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;submit&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;process_asset&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; feature &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; features
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI 알고리즘 연산 결과 저장&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; future &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; futures_list&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; future&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            save_result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;response&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    end_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    elapsed_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; end_time &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt; start_time &lt;span class=&quot;token comment&quot;&gt;# 경과 시간 계산&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;실행 시간: 126.87955212593079초&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;8개-thread로-돌릴-때-시간-확인&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#8%EA%B0%9C-thread%EB%A1%9C-%EB%8F%8C%EB%A6%B4-%EB%95%8C-%EC%8B%9C%EA%B0%84-%ED%99%95%EC%9D%B8&quot; aria-label=&quot;8개 thread로 돌릴 때 시간 확인 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;8개 Thread로 돌릴 때 시간 확인&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;TreadPoolExecutor - 8 worker&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;    start_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# AI 연산 데이터 추출&lt;/span&gt;
+    features &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_features&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; company_id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI Lambda 연산&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; futures&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ThreadPoolExecutor&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;max_workers&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; executor&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        futures_list &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+            executor&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;submit&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;process_asset&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; feature &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; features
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI 알고리즘 연산 결과 저장&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; future &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; futures_list&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; future&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            save_result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;response&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    end_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    elapsed_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; end_time &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt; start_time &lt;span class=&quot;token comment&quot;&gt;# 경과 시간 계산&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;실행 시간: 197.9756360054016초&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;4개-process로-돌릴-때-시간-확인&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#4%EA%B0%9C-process%EB%A1%9C-%EB%8F%8C%EB%A6%B4-%EB%95%8C-%EC%8B%9C%EA%B0%84-%ED%99%95%EC%9D%B8&quot; aria-label=&quot;4개 process로 돌릴 때 시간 확인 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;4개 Process로 돌릴 때 시간 확인&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;ProcessPoolExecutor - 4 worker&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;    start_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# AI 연산 데이터 추출&lt;/span&gt;
+    features &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_features&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; company_id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI Lambda 연산&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; futures&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ProcessPoolExecutor&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;max_workers&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; executor&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        futures_list &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+            executor&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;submit&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;process_asset&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; feature &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; features
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI 알고리즘 연산 결과 저장&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; future &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; futures_list&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; future&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            MtrAPI_RusultUpload&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;response&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    end_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    elapsed_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; end_time &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt; start_time  &lt;span class=&quot;token comment&quot;&gt;# 경과 시간 계산&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;실행시간: 276.74906373023987&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;8개-process-로-돌릴-때-시간-확인&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#8%EA%B0%9C-process-%EB%A1%9C-%EB%8F%8C%EB%A6%B4-%EB%95%8C-%EC%8B%9C%EA%B0%84-%ED%99%95%EC%9D%B8&quot; aria-label=&quot;8개 process 로 돌릴 때 시간 확인 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;8개 Process 로 돌릴 때 시간 확인&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;ProcessPoolExecutor - 8 worker&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;    start_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token comment&quot;&gt;# AI 연산 데이터 추출&lt;/span&gt;
+    features &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; get_features&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; company_id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI Lambda 연산&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;with&lt;/span&gt; futures&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ProcessPoolExecutor&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;max_workers&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; executor&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        futures_list &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+            executor&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;submit&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;process_asset&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; feature&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; feature &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; features
+        &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# AI 알고리즘 연산 결과 저장&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; future &lt;span class=&quot;token keyword&quot;&gt;in&lt;/span&gt; futures_list&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; future&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;result&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; result &lt;span class=&quot;token keyword&quot;&gt;is&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            MtrAPI_RusultUpload&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;session&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;get&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;response&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    end_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    elapsed_time &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; end_time &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt; start_time  &lt;span class=&quot;token comment&quot;&gt;# 경과 시간 계산&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;실행시간:212.99634408950806&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/3e921d164d16c8e7ed7cb5efa21ff210/6bbf7/flask_5.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 55.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsSAAALEgHS3X78AAACBElEQVR42mWSS2/TQBSF+xNZICGxLP+AFRKrblixQrBMBRULyiabBqImVUOjNG8nNCW2kzq2x3E8znjG9vgx8SvGbYRC1as70izupzn3zDnI83y73bp+6PgMWjZ2qO2FxPWDkKVpSnyyWClzIGmmdgckYTGzXJykSf5QB8VJksRwNsCOWiOhfj0SlzYKtzYN43iDM+960ukLg7kpD/hhZ9LTqeGz4BEMkK0ac2j+0XTONMeiIq2xA3R9yNVh7wvkTrGnB3kc5owkjk2de707OIpjBWKCb7juCdctDbvH43G516kCw5A6p/y3N3elQ6X1GaW+lWArIsS1H+DtPRzHsbYmEI7XywrUzqBWmc2q/e7ZbD5tj5qjk9e/P7wQj1/JwiXJQxyRfy/v4CRRTVJopLjhkZpv17VlQxSazasLHmr9q++3n1723j9TKkeGD0nqEofs4SRJdURWK86xLqlVLRqodWnekuWZBGUJKY2vR/zH50LpUBNqOPWKD9nvnGYZtP3CKmzWXVT10A+gXmhgYMIlx48UF96Mzhflt+rPd2RSRrFLA/rI7bXLVGSPp8PJ9NdMavMSB8BtEFAU4HVo6e4KKm0k1iBWUGT7zN/DhYIiE164wY6PsIMdr4gKJoRSCjTgek7AAsqYF8Usjop7lmX/wU+qyJYoirIsC4LAGNul8OnYXy7wUH+q8f3BAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;여러 개의 AI 연산을 병렬로 처리&quot;
+        title=&quot;여러 개의 AI 연산을 병렬로 처리&quot;
+        src=&quot;/static/3e921d164d16c8e7ed7cb5efa21ff210/0b533/flask_5.png&quot;
+        srcset=&quot;/static/3e921d164d16c8e7ed7cb5efa21ff210/fac75/flask_5.png 125w,
+/static/3e921d164d16c8e7ed7cb5efa21ff210/63868/flask_5.png 250w,
+/static/3e921d164d16c8e7ed7cb5efa21ff210/0b533/flask_5.png 500w,
+/static/3e921d164d16c8e7ed7cb5efa21ff210/6bbf7/flask_5.png 716w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;여러 개의 AI 연산을 병렬로 처리&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;결론&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B2%B0%EB%A1%A0&quot; aria-label=&quot;결론 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;결론&lt;/h3&gt;
+&lt;p&gt;기존의 Substation 제품에서 동시에 AI 연산을 할 수 없었던 근본적인 문제를
+해결하기 위해 Lambda를 활용해서 동시다발적으로 처리할 수 있도록 아키텍처를
+변경했고,
+예상한 대로 I/O 작업을 하는 병렬처리 작업에서는
+Multi Process보다 Multi Thread가 성능상 이점을 가진다는 것을
+확인할 수 있었습니다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Excel Bulk Upload 기준 성능 향상 지표&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/bc639605e74b4eaf4d87a62cab8a0bbe/6c2f2/result.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 36%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAAAsTAAALEwEAmpwYAAABIklEQVR42m1R2XKDMAzk/3+v00zSEELSXNxHANvYZisJaHmoZjSy16vV4SDJCnzuT0jSAl+nC8LzN6q6RRTfsA9jpHmJQ8g43Y8xca4YlJL4sQtxjK7YHc6ILnfCNYJ+UMjyCuNohdj3Cs55PF6ZuDGWfBThsmxg9EhcB6WMCGht6EzRGDjrEDC5at5w3mOaJhFjK6oGZdUSJld0/QBFyWzTAnLsqAHv1zsQsEDTdiTkxLkS2zMpqMP8l8wcnobNU3FIcYe8rGGtZTkpEHD7I7XKiZbENY1EbzLu/ZltBHsS1IvgjHEzBa3BWv/XIe9iruKkwhqzohZ8TW67Qfa2HZnfSvrAdU0iuN2HXUbm84t+/fZI5/H+GZk5HOv6LXmsxtgPKOYet6u6vrUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;표&quot;
+        title=&quot;쓰레드와 프로세스 성능비교&quot;
+        src=&quot;/static/bc639605e74b4eaf4d87a62cab8a0bbe/0b533/result.png&quot;
+        srcset=&quot;/static/bc639605e74b4eaf4d87a62cab8a0bbe/fac75/result.png 125w,
+/static/bc639605e74b4eaf4d87a62cab8a0bbe/63868/result.png 250w,
+/static/bc639605e74b4eaf4d87a62cab8a0bbe/0b533/result.png 500w,
+/static/bc639605e74b4eaf4d87a62cab8a0bbe/1d69c/result.png 750w,
+/static/bc639605e74b4eaf4d87a62cab8a0bbe/6c2f2/result.png 767w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;쓰레드와 프로세스 성능비교&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&quot;fn-주1&quot;&gt;데이터분석 준전문가 (Advanced Data Analytics Semi-Professional)&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주2&quot;&gt;&lt;a href=&quot;https://boto3.amazonaws.com/v1/documentation/api/1.26.94/reference/services/lambda/client/invoke_async.html&quot;&gt;invoke_async - Boto3 Docs 1.26.94 documentation&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC2&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[좋은 동료와 함께 자라기]]></title><description><![CDATA[시작 흉내만 낼 것인가? 스터디 시작 전 당시 어느 날 평소처럼 개발 결과물을 PR하고 리뷰를 기다렸다.
 다양한 리뷰 중 내 마음에 불을 지핀 리뷰가 있었으니...  그렇다. 나는 Repository Pattern…]]></description><link>http://onepredict.github.io/growing-up-with-good-peers/</link><guid isPermaLink="false">http://onepredict.github.io/growing-up-with-good-peers/</guid><pubDate>Wed, 18 Oct 2023 02:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;시작&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%8B%9C%EC%9E%91&quot; aria-label=&quot;시작 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;시작&lt;/h2&gt;
 &lt;h3 id=&quot;흉내만-낼-것인가&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%9D%89%EB%82%B4%EB%A7%8C-%EB%82%BC-%EA%B2%83%EC%9D%B8%EA%B0%80&quot; aria-label=&quot;흉내만 낼 것인가 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;흉내만 낼 것인가?&lt;/h3&gt;
 &lt;p&gt;스터디 시작 전 당시 어느 날 평소처럼 개발 결과물을 PR하고 리뷰를 기다렸다.
@@ -17,7 +704,7 @@
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 81.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACW0lEQVR42m1U25KaQBDdt+wGr6AiyFVAREXBXTVVsSpVyVP+/4NO+jQOMal9ONXdM0P36Rsv1SZDWW6xDHM4boix42EwWfQYTl0MVXf7s5G9/BTT+QovaRhhV9U4fXxHku+Qbg5Iiz3irNNXcdHZvNPzSoM8Bx08AqrDt7GwsD34UQFPWHrhGq4fw10RCRZ+Ai/gWSJ2KlhjLvpsGctdqnLuJZjMfMXLWKja4nnupXD8HKN5DMsOMHQCDJxQMaS0Q1iTJazxXBlRGp3pkrU6pGEvAgSp1DE5ICzOCPIWbrwTu4afNXDl3FufEBUnLFaGaQfW3aQ9mUnK1mgm7GJE6wpBnKOojkjzSlJPESS51KzEKsrkvkS5bxFKYOphWorcqtO3odM5ZA3deIsg26tTdvjVsvWBJbX9Yk0VtF8H9j+6AdOm076GiyDHvrnhx6/fuN1/4tDe0F7vKHaNsD2pZLfZXdNlykjkRu7ozI9yKVvYOSQjGhyLINloGs/wwkzHgY/HDxg2PGcPvkrZyFTHJogiqVmpI8BO8YKpMDUD84EZ9L9D39mmy+qwLjM0xwabwzvystZUOMxkS3aUTOm5m5/DDPZwhilTls1gB1kjOqWkze1hRxnEcSMZ5AgOIQGMNA3tB5uUdSMeTLr03D5FPib4jh9xbp+h/wDWlQz5MYtfS3e3hzOq+l31fXNVfSvYnS4iz3J2QX3+pji0V31Tn2/9t1zJ3mF7uaM6fmi9mJ4vYKq0l7LLBHXuPCV3njUmaNNZv3qsBelqlx97avZ1wJ2l/rS//f1/b9mUPxaeoqAT53pdAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 81.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACVElEQVR42n1U2W7bQAzMWxLLjm3d933Yku+kSYEGKNA+9f8/aMpZax0bCfIwIJfLpYaX7tZtha5bwU9qWF6CuRVgunC/xZPpf4mlE+GuSFL06y32L7+Q1z2KZoO8GZBVa6VHaSNSzurubJ8tvS8+5J0DPs5dzMwAYVojTCpBCS/M4Aq8KBc9hx+XSnpRISjlLocd0KeA7WdwghwLO1S4m49UaTSDCjM7xWQZYWrGmFoJDDM5SyvGZO5h8mRjOndgjNAlIGsV8EnYmW6CpFzDL7ZI2hPi+ggv7dU5pJ5vEJZ7ZO1hZPkB1l2nvbAlZUO+6PgpUgkYZzWa9Q6F1IupJ3mDvFohyipkZYduOCIpOvFdXSSDPs6sc0DW0MtWiKtBUs6kwyHuDVM5GFLbe2OpwPPD1LzRNZi2JzW+1NCNawyHN/z++w9v73+wOb7h+PqOtj8I2z0akUW7Ud3V3S9FpiLpQ4ZsqCmpq4BktHRicewR561Kg4/SEYE4s2l0no/QbGhnQ9goMlVjE8scFlUHR0aAneIlU2FqGvoB63Qzg6LzrLusAu66CofdAe3mGXW3VazCrFFsA5nLSCRTuu7mV7gEfJjZWMrYcEsSpiuS6VMy/bwelJ2BbZkGDcv7kJ8Gm5Q5/ZqJTk9/mftN0I+PTDe+gf4HqIB8TCbs7mpzwnr7rPRh/wMr0WnrqYukbXv6qTAcXgVyFl+ik3tHSF0CclT63YvqaiQ1JDi8ZM1dJiLu+whf6uur3a/UmcHG1fNhSS24NkzRuNrTydW+Xts/29zL2PwH8LSikEjxBPcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -56,7 +743,7 @@
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 128.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAaABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAEDBQL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB1u+ZLwYkbiKF6v/EABoQAAIDAQEAAAAAAAAAAAAAAAEDAhAREgD/2gAIAQEAAQUC7wiZNZp5ymIn2Usj5IMVX//EABURAQEAAAAAAAAAAAAAAAAAABAR/9oACAEDAQE/ASn/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAgEBPwEh/8QAIhAAAAQEBwAAAAAAAAAAAAAAAAECMRARIaESICJBgZHh/9oACAEBAAY/AvRRN4PcVVLmByT0w1Ixme4SSnyf/8QAGxABAAIDAQEAAAAAAAAAAAAAAQARECExQXH/2gAIAQEAAT8hbvNPshdPgwl0vcbNmBTdGy0dJJ65Hrsm5QeZ/9oADAMBAAIAAwAAABDDCXD/xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/EA//xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAgEBPxAg/8QAHxABAAICAgIDAAAAAAAAAAAAAQARITFBUWGhEHGB/9oACAEBAAE/EDoiUKEMeOIiRq02qfgQpSAHHqWZGehnrZBvXuP1UxqBWnJSPMSXQgUfVLep24AXWcF+DH5BigF2huVe4AaA+p//2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 128.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAaABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAEDBQL/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB1u+ZLwYkbiKF6v/EABoQAAIDAQEAAAAAAAAAAAAAAAEDAhAREgD/2gAIAQEAAQUC7wiZNZp5ymIn2Usj5IMVX//EABURAQEAAAAAAAAAAAAAAAAAABAR/9oACAEDAQE/ASn/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAgEBPwEh/8QAIhAAAAQEBwAAAAAAAAAAAAAAAAECMRARIaESICJBgZHh/9oACAEBAAY/AvRRN4PcVVLmByT0w1Ixme4SSnyf/8QAGxAAAgIDAQAAAAAAAAAAAAAAAREAMRAhQYH/2gAIAQEAAT8hLtaPZBWeMKch3GzbgONYWGUWSJ1UPWxG4gOZ/9oADAMBAAIAAwAAABDDCXD/xAAUEQEAAAAAAAAAAAAAAAAAAAAg/9oACAEDAQE/EA//xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAgEBPxAg/8QAHxABAAIDAAIDAQAAAAAAAAAAAQARITFRYaEQQXGB/9oACAEBAAE/EDoiUKEMePqIkatNNT8JClIAcepZkJ4M82Qb17i91AagrTkpOxJdCBR8pb1OuAF1nBfgx/IMUAu0Nyr3ADQH5P/Z&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -98,7 +785,7 @@ Python 코드 예제와 함께 알려주는 책이다.
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 51.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB80lEQVR42oWSy27aUBRF+YkIbAcMNjbGmJcJ+IHfNohEUZuoHUXtpJOoo0gd9BP626vHQKV00g629jlXx+ta+9zOw+svqs/fyfcBZVkRRwkP5YI0cHCcGaPxhPFkxnS2xLBc1P7on+oMzCmL1R2nOqdIY+o8pqkrDlXOsS7IiobmeE/dnJi6CxRtIB8OUW9b6Zf6PbCr9DFtF3+3Z7rc4q4DvFZ+yDpI2ISp9DtUfUyvb5xdaWvdQjWmqEPrL2inq+k47pz5JuLGjVDnMeoyFd+jiCue9IsEbZmjiat+xWCVYsx3aLMA1fKuQOMCVAQ4tD3s+JFNekSf+nSNGT1R96qeeenPZ6aHZjgMR/KXal80oCeMVorE0Gmz6BsSfPbMsn7CyT9ghEesoGZSPGGFB4xthbEMMU2bseVgTVwsxztHZcniLFmaaU/RR9YVKDmEst04rcjKhn1aEGclZXNPklcEcUaYFFI357qsT6RynsjCtmFMuM+J4vwMPgNvBRglJVlWsBUPsoMMpdzJsL+L5KNE+kwuLEmyilCgLfgu2J8vbmd0c4I2MOj0BDge26Thjk+PNf7phcnhizwR75KLBN1mo179vf7kdqkvM50bVSfcrHj9+sLb2w+ev/2kLj9yu4hQVgX23MdbrJnN17je6r8P+zd9HzCdglYzNwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 51.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAB+UlEQVR42mWSy27aUBCG/RIR2AYDNjYYzCUO4PuVS5JGjZJKXUTtpptK7SJSF32HvvXXscOCtItPM3POmf/Y/xzl4ccf9p9/UiQBVVUTRyn31ZIsmDKZzhlZE8aTOe58hWnP0PqjC8x/6hGKYU5ZrjfcH0rKLGFfxBzrWig4HSqK8sDh9IHD8Q53tkTtGdI4ROs1DN7yS8GO2sNyZvi7FHe1ZX4d4Plhix+kbKJc8i36wKLbNElUB2O6ho1mumhD+52o0tEHTGcLFjchV7MIzYtRVxnaImmj2tTLFH1VoEvU/BpjnWEud+heiD5eoIuQbrz9vqKK4MjxcOKP3GQnhq5Px5zTFTpnutZb3a5ZIiA2DUfylVpfMOiKRoMqNiiNF31TjM+fWe2fmBaPmOEJe7dnUj5jh0fMbY25irAsB9ueypBmjKdea5UtsRma5bgMRvZZUHwIZbpxVpPJEJKsJMoqyv0dSV4TxDlBUpAWBwLxtNrfSl4Le7Zh3O6Hgi3CinoWbATyomKb1uzyI2GSswlTGVYkTUlbJ3ImlQua5iDO2AQJcV61Z4byvBofla4IjscOabjj00ONf/vC5PgF1/XOvoxab9T+OV7Q7GsX6+1QrrQBgb/m+9cXXl9/8fTtN3X5SH8Roa4LHM/HW1wzE1xv/f5BG/8/7L+mNzCTZ/l3rQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -140,7 +827,7 @@ Python 코드 예제와 함께 알려주는 책이다.
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACqklEQVR42gGfAmD9ANSxjfPrtea4lNKojNuog9Obf9nRjezseejme+HlTcTDSL+egfLp2vXv4vTt4Prz58zDtm1mVHBoUXRsVQDm2qX025rloVvUyZPv2IvkomDd04nt7X7o54Hm52DW30K2oGTfxLT49enx7OD38ebp4dd2b2BtZk91bVYA+vaW+PG57dGB585969B/2sKF2daJ6+x94eZe3eJS2ONIt7NUu5mE3dzJ9/Po8u7i8+zikIl7Z2BJdm1WAPTyaPPvte7scNzbXdbRk7etmMzFlePkf9rkO9PcPNrhQKq6TFBrR6O0mP737e/r3/v16ce/tGtjUHZuVgDMyIHOyLDDvo24uH62qoqogWmljXivponT2FLS3Dnb4T+HokojWTSMpIf+9uzv7OD48+bY0MZwaFZzbFUAubaHt7OTuLSSrqifoI54sYRqu41ykXVmsK5U5e0+scNGRnFEM2E8vMax+PHn7ure+PPn2dLJb2hWdG1VAMG/e8O/mrWxirOtlLetm5d2XMWOdqJ8ZH+FUJWyYVGBSzhpPmqOZ/v26fz26/Tv5Pfy5trUy3RsXXdvVwDl5k/b3FzW12nd3Jfc2pG0omR4cGRmVUQmNSo3VTg8XzkrUC9relK7taqyr6jc2M779enc1s1+d2t3b1gA7/JX7vQ/6O1T5uxr6ueVb2xNGFlTJi0tOzo4ODk3MDEwIyQjICEfHR0dEBARoJ2W///y3tfOhX91d29YAOvwSOPtP+PoTuTqVNfajXprThUTEBYVFxsaHhcXGhwZHBQSFBIQEw8PDwAAAJ6blP//9N/Z0IZ/dXdwWgDo7lPl7V3l61/l6Hzv8pm5oXEkJh0ZJBsdKiobKScYIxgcJxwXIxkzNjE8OTi0sKj//fHd1s2AenB5cluhRIlanFwCMwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAA7DAAAOwwHHb6hkAAACqklEQVR42gGfAmD9ANSwjPPrteW3k9KojNung9OagNrRjezseejme+HlTcTDSMCegfTq2/Xv4/Tt4Prz58zDt2xmU3BoUnRsVQDn2qb025rloFrUypTv14vkol7e1Ijt7X7p6ILm52HW30O3oGThxLT59urx7eH38ubp4dh1b19tZk91bVYA+/eW+PG57dGB6M9869F/2sKF2dWJ6+x94eZe3eJS2eRIt7NTupiD3NzI9/Po8u7i9O3ikIp7Z2BJdm5WAPTyaPPvtu7tcNzbXdXRk7atmMvElePkf9rkOtPcO9riQKq7TE5pRqKzlv/37e/s4Pv16cjAtWxjUHZuVgDMyIHNyK/Dvo24t362qomogGmljHiuponU2FLT3Tna4T+HokoiWDOLpIb+9+zw7eD48+fZ0cdwaVdzbFUAubaHt7OTuLSSrqefn455sYRqu41yknVnsK1V5O0/sMNHR3FENGE8vcey+fHo7urf+PPn2dLJb2hWdG1WAMG/fMTAm7WwirOtlbetm5d2XMSOdqJ8ZH+FUJWyYlGBSzhpPmuOZ/z26fz26/Tv5Pfy5trUy3RsXXdvVwDk5lDb3F3W1mnd25fc2pG0omR5cWVnVUQnNio4Vjk8XzorUC9se1K8tauzsKjd2M779enc1s1+d2t3b1cA7/NX7vQ/6O1T5uxr6ueVb21NGFlTJi4tOzk4ODg3MDAwIyQiISAfHR0dEBARoJ2W///y3tfOhn91d29YAOvwR+PtPePoTeXqU9fajXprThQSEBUUFxoaHRcWGRsYGxMQExEPEg4NDgAAAJ2ak///9N/Z0IZ/dndwWgDo7lLl7Vzl617l6Hvv8pm5oHEjJB0YIxscKSkaKCYYIRcbJRwXIhgxNC44NjWzr6f//fHd182AenF5cVvNqIk+CzP/pAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -197,7 +884,7 @@ API 핸들러 안에 도메인 지식이 있고 이메일을 보내고 로그를
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 147.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAdCAYAAACqhkzFAAAACXBIWXMAAAsTAAALEwEAmpwYAAAELElEQVR42p1V13LjRhDkk+2TxJxAgmDOWcxBgadk2eXy//9Nu3uApcirq3vww9QOFrsTenpmY63uCOP5GoPJEs3uGOVqm9KBV2ki51VN8uU6ssXAdK0FfqfzPhIZ70qS2RJi6VwZtfYQ9+sjRvONrZLOcI5Ko4daa2AiR3JYbfbR6IxQClqIp4tXIqOxeGRZh1r9KYbTFTqDGep0Esgg11ZvgnKtg9tEDnepAm6TeVuvDRZCgxYqo/TrvXOaXqVlERT9hu2VGJ30rCAo1Zh2FRlLvcHzNRT8ht2T4ZjLXWn5jEIXJcJJa4hp2y45w4q8REcuTUkYpfdlsNocRNI3qdS7lm6DuCllh52cSpcTpX2ZuqUsY5lChRcnLELfCmE6IQj4LSis6kHbdKWpdHVHWXiVtlX+jGE8FSryrEOigy5ozdrFAIkI9MtIXJpf6UYRFoIOgtbIKCGPKRbIiUvnR779SmiwjcFsg/nqgMn91qgjLAXwDWni5Fs8e/X9o4hK55Rvkzl0R/cY0+B0uUd/vKC+ISfX5qRLks/ocDhbo8dzA+6PGIS6SzKarU0EWcxSo/Xt8YSH0xueXj/x+P1PHJ7f8fLxD57f/sbx9IGnl088v/5l+4/UT9x/+/zX/un88fRu5GeVCWrWR7kxht+asDjdMyfFN9HD8U508Uh498/1viimvUSGvZzMFJH0OogHS8QrS3xLlvDbTRK/36av5A9bU/wXitPP/+8yXzxM0OhgssCEw2FMmS52mHNACD8VS7hKBuzz1f7Z/umcVsOW+8JZVIulaFD0EOCb43esDyfsHl6x3D3hfnPEcvuI7cOLXZbRIzHUWfW6iB80w2ZQj1sv27ShZfWoo4fC13qp30ST5pIml7S5ixokNu23sF2TDpOVjSxNmjy95aLJUogGhdggI7fJwtlY+P0lZjDNKnu8MJqtyLG58Uyc0kzsk2MSYSRnciTRSCsHGnFNS12V9iqNcGKr1LLeHW+wOLxjsthbIWbESxNcxiQTFYr79d4CfneF6mCLoMe1t0G1v0Wp1rPihlUmmPlKD/nqkEO0hiIjzkfpuvRddEW/Gb4xel/szamHQ5e6YDGDAnS1fyLjP1jhF4tO1NG6Jk0WrLTRabnDYvNg3SKx94ffYoPYocJGBoscnmO0iZsGqiJSIdwrp8jUp+7lK0QZyIAbc3fMUoFFxPYwY0TimLgoEffUsxbN07tFqSjsjFb2sPU4+3v3+GpNYMSWQRVF4cuQBoAuqSNkwF3QZTmRA+naC4fCB/bUH6jrzQkNMtQ256CMKhJXXX3P1wdb5UDdM4taUdgJX0Umimk4CI5YIprIeb/DjqkSh/xPp7TwURUTmk7E3EHl/qmbDMMM39i8T5LW+0gV60hGr+DPJPGLf+7ZiNU6UzSHq/DxZiX1KP1vKVbxH+QLHiRVQhSmAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 147.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAdCAYAAACqhkzFAAAACXBIWXMAAAsTAAALEwEAmpwYAAAED0lEQVR42p1V2XLbSAzUUw4fuklKIkXdt6iboiXZshUfcVJb+/9/00GDHEZytvYhD6jBXBig0cBkOv0JposQo2CNdn+Kmt8V6aHitVGu+CpWrYmSU1edoy3zguUiW6xcSK5URSZfrqHRHWMZHjBZbHVcbg/ojRbwWgM0OiMVPsQH/fYQrd4E1XoHtwXnQmg0YyzzUHc4w3geirE5mvIIDXLsDAI1eJUt4yZv4zpn/WHs0qB46TUHaZgVryMedOG4bdVpzHFbsteAVZXwTehcqzaSPV+Nph4yLLfR000KceJIY1URzhkmR/M4vb30snJpkOK3R4oTLzFc4tYRKBQ70fmon2D60aCGTGNF25PDgWJGQ6rL6LWGYqAfZ128c2XNrrXkfF3vUCc0JcdX42rwNlH4csHykBc68AJpUXTii3ydF24KduoJ5T+TYns91DsTDc12myCNjJiQPvLt/yRji8uj+RaLcI9gdSfUmSuWWQGY9CBVKF9vSxfzc93M05C50J8shdgRZqsdhtMVpssIE+FksIrQHy8w3+yVowPZG882WgSsLgrPUQhPJg7NQnR4wuHpBcfnd9yfvmP/+IrT2z94fPkp6294+PYuez90nTrXn9//jffk/OHpFTXJg2RZwC25qLWEEp1As6qcbPZRF6qQHnXJPrNMupCLTCDXTO17cpZrMW2KDnKVHm7ra9x4K3zJVfHpaw6frwv4dJVXoX4+N2vmHOXLTfE3D7NidBSsEAguU5GZJGchTSIQHBeCHeez9Q4jwW6ze9Q9YsxGYrAlzqSaGiQ9uBgdnrHdn3D38IzN3VG6zj3WMnJOfS5GiRnPMnRCwgpi+JbUtNYy6y9XdrVur88oYujAUMzcdJqPtKGeVsps1EEUbjEINlq7puOYhspmwNfZka6Ty+dGUzEGC5JlRy5NpGsPp4uYg4IjMSFm5BlDZL+kYbvWkHDbSWeX1sasi05HtGPT6lXWQn+6xXr/quAzEcSL5CWJKYEmao/mYAW3v4E/ilAfbES2qlcbA01ukuUKrLoA648lzLgPWknj5HgeuiOe6B+T/DflarzOOYskzXK4O+J4esPd/Tf1jh5xDIUmq+ghpRP1w+ObCjO/SmR7OKkDapD1bP4UjuZnowesTzNynXLutbY52dP2JpKGzKZwkDrlS1EirFnWLoWekaPk4Xb/pGeps6bJU0aUEptpp9s0YpoBQw3lIhvCTi5wjXAYQ7uHF31Q9WOsM/MphgyX//E6wYuZXYb3WmbEig+wagwDdE0e1B4q3y6NEYZM3JEdlN0usmVfvC3/0dY5MgpmkXNTFWafc1aTYliUD8Zy5R9uDJF3mmA7i3Gt6ngu5oe82E9G821kGv0Z2uON/lzMVvyj/aWIjV8dNx5o1NT3EQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -238,7 +925,7 @@ API 핸들러 안에 도메인 지식이 있고 이메일을 보내고 로그를
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 74.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAENklEQVR42h2U6VPTVxSGf1/ttHVKxc7UYmt1tFKBpAkCUTESUIIRJZAJAVm0uEDdAIOsCZA4ggRQlEU0FAUqsgnVYhpApIiyRIxgyxZRRuu/8fQ3/XBn7nnPzHPfOe+ZKyzNTfFm8QXu6VGcjl5GnjxicmoUt/s54xMjTLmeivdxFubdeBZneTLsoK+vg1JLIQmJcfxqv0bemeO02K+zODeL4Fl4gWdpmuUlN3fb7MjlEsy5Z/B4XjPz2sXM7BQr7xeZcI3R+6Ab1/QYY88e/w/8Oe0w3Z3NtNrMPO7vEh8VgR/fz7Gy/EqEvqS2poyLKRG0Xcpm5cMSHz4s8u9HD10P7lNWbCTxQBhXa68wMNiP3qAlrzCTrKxf8PZew5Hkw8y6JxCSUxPRiU2t7hCyQAkntbtR7gjkZusdRqdcFBQXodyrJk6zl5iInZzLMVJxyUR++kE6K/MZezRAe10VbVeLWZ6fRvh8jRervFaz1mcdGzZtxF8qYZu/Lxu2+aMIVyOX+iH9ScI3vgF4f7eZ5CMpmNPjuXI2nrbyEt5OvGPu6RIPenpZfvMPQqAihP1796EIlrPFdzPHNMHUZSVxOi2OJF0sRn0UqQYj4REGNBoN1ZaL3Kq20FRlptaYSHNFA+P9HlyPF2isr0OIi1LRZcmhMjOV0xl6Eg4oMWUkEhMdgVZ/GUVYLtGxVnIzrIREJGCzlDHQ1cTI7UpailKoyz/NcNNtXj2aocbWgNBgOsq1LLFxVkvs/lD2hIdRUJRLlOjGL+QUW0KsBO02EqvLRr47hoiwUJJSUmguv8Bg7QXRzDEqzyTT1uTEYm1EOCEWaq0aQ3wkmvDtyGQBmEwF2GxWNm7dxZGMemIOXyYy5ijnMrNJStARqYkiMyOV3lIDtpw0TuZdp/TWIOnnzQiqGDW7ovYQolYRrAwiOEiKOlJFUpKe80d1NDVcwV5v49Sp4xj0sbSY4lFu34pEJqXn5iWaOp1Y7U7OV3RgLhdnGH1QhSxMgSJyF9LQIAKVCuJ00dRWlVJpyaWsJI80MRipTM667zdTlh5NrNJfDCiSzoeDVN1zMfTkLxpuNVNudyCkJ6jw8fsByQ4pqkPh7BBDyjtmoL/WQnWlle722xQbT/CplzebtkkoN6Zgr7HQ0dZIQ2sfPUNuFmbG8Pw9KdZ/IJSVFPDlurV8sno1q77w4jPvr9iwfr14fEg2HOJ+91367t0hVB6AxO9H2ltvMPXMIQJvYGtsxzk6yauJIUacv1NYaEIYHHrO/mg9Mt8tpMftJNMQytc+36JTyVHt3E7F5XKuiQGZtYEM1Bh5+WKYydGHolZCTn4xDke/6G6Cvs5WinKzEfo7uxlvr2KxI5u3HZk4bWlIA/ypOrGP6nM6uu61cLe5jnpxTZ457Lybf8prEfqbqFVcLGT4zx5WxH9gzj3G2/mX/Ac4puL5GkqjRAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 74.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAENElEQVR42iWT608TBhTF+20xWzQjOhIjbjqDi+hKKYhFUYQiUnlYoNIiUDQgigaxApUK5dEqjxYrw4IgVBBUniJjipXHQGRKQaWKYxTq27/jty77du6XX8659x7B8qID9/JL5l9NMWK/z5MndmbnnnrmZzybmfhfO2dwLTlxrywwMWFncLAHg7GYlNQk2mz16M5m09F6DdfiGwRu10sP8BXvV5x03bERvDOA8qI83O63vF6Y4/WbWT59djEzN83AUD8vXkwz/dc45RXFZGam0td7kw6TnrEHvSz9B/z6eZEP75yseFxa6yoxpkfScVnDx8/LfPni4uvXFfqGBqgqKyQ1NoI661VGxh6SrEqgqFjD+fNn8PZexzF1GgvzDgRp6hSOKBNJUBxGHCTipHwf4Xt20tzRzuSMg4ulJYRFyUg6dAC5dDd52kJMlaXocg7TW1vE1AM7d60WOuvKcC++RLB6rRervl+Nt896Nm35GWGAPzuEfmzeLiREGo1YtJ0AsT8btglZ+5Mv6Rlq9CeV1J1VcaemgveODyxOufi9f4B37/5GECiRIDsQhWRXIL7bfMmK2UXD+TRysxSkKxIpTJaRoSogIlJFbGwsFsNlWiwGbLWlWPNTaDNd5/mwm7lxF82NDQgUMin9Ri1XNBnknlaSEhuGPuco8thI5MkmQsKLiEu8xIUcI5LIo5gNVYz0tjLZXktHiZoG3RnGbW04h19TZ76OoEl/nHqNmsa8BJJi9hImDediiZbomBh2SM6wVWIkeF8BiUkaAvfJiQzfS7paTVuVllGrlj5DFrW5ady2Pfa8UjOC7Nx0DiZEo1Ie5JA0CLFYiF6vw2w2smVbKMdyGpGn1hAlP05enoa0FAVRsmjOncrgviEFc2EW2bprVNwY5VR+GQKpBxYq248kOoJdYcGeXYqQRUtJS00m//gRWhuv0mI1cfr0CZRHErhVomR/sB8BQWLu3ajE1mvnUoudQnMPpdWNCOIPSxGHSwiJCkUUupOgsBCSFPE0WCowGbRUVejIVMbgHxDIhs2+VOXEowgXERcno2doBEv3LGMTkzTZ2qlueYTglCocnx2/4L9HhFQeyW7PkXQnVAw3GLBcMdLX1U5ZQTbfev3AFj9/qvPVtP5moLuzmeudg9wbm2fJOY377SxNnQ8RVJbr8Fq/jlWr1/DNGi++W+vN5o0b2bTRh3SVnIH+uwx23yI0UIhwux9dnU3MTg/Tc7sJ841uHk85cM6MMWkforhYj2B07DmH4pIR+20lR7GHc6q9rPf5EUVEIBGexphrqqk3GSlLCGK0voBXL/7EMfUH9eZyCnSlDD96yMpbB4M9nRRf0CAY7uvneZeF5Z58PvZqGKnNROT/K5aTB7map/BE7uBuWwON1Vqe2W/yYekpCx7o7TYrNcaLjD/q59PyPP94Yr9fmudfEZrjQuGsVS0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -317,7 +1004,7 @@ onepredict에 &lt;a href=&quot;https://blog.onepredict.ai/&quot;&gt;지원&lt;/a
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAABYlAAAWJQFJUiTwAAABVElEQVR42oWS646CQAyFeed9q30P9++SEAEDyEVXuYjc5Cos+zkj7C/jSWjaoWd62o4yz3Pf91EUXa/XeAHhj0AYhtjz+Xy5XE6nE2HTNHmec9i2rXK7j3Xfw8yLIk3TfEFRFI1AXdfkdV13q2vC+zgOw8DhOI7Kx9f3p+kkgW/v97vdjiL8qKqKjPkdlKwfyq5L4liWRR6ay7KUv39f40GWPTuO47qubdumaRqGgWNZFh0mSYLgl5X5aEnX9e12u9lsNE3DEqqqynXwkbPODxwOB1pD5pNMe0EQcMQ8fd9HBUkQ8DkktBcwFBTJuTC8BxlhloDneY4AedKBzyF1mMVqAbtAkSS3ewF0ko1UfLQcj0cc2m4FGA3VOgHCf9kQuFU+DywhLeCzMyrEYhe8BS7CZlmGnabpSZapgGowWRXC5MLkVl5Om7cin1QhHtm65Ld7/gNqBKCYOBOUNAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAABYlAAAWJQFJUiTwAAABTElEQVR42o2S2W6DQAxF+eV+Vj8kfW2kiAgRJixq2JeELUxCSk9mgLe0vRIje7DH19c2pmmSUiZJUpZlugA3DMPT6aSNOI6LosDA7fv+crlgD8NgtPexk7IsC67IPy/A7RW6rrsqtG2LO47j7XbjEsN4+/h8t0QW+AchLMuKoogfTdMQMf0F4yzvzSCzNNVloQftuq7XiO8XeCbrnoUQrus6jkPx/X5/UIBFlmX09rIyH/2QYJrmZrPZ7Xac2NvtlueQqqoqdPpaEAQBauV5PifTHlfU4db3/ePxiM6Q9zyPG2cB7Gzb1ozQBfGeyRDTPIkmgjhsocBb1M8VkGM9mQUCzcmuAslQgCo2BiRhQdv0RQzSrAYnms209Rro9SAaF27YzIwKqZoFzfNLD4Xz8XjMyXp7CNJbVSuQqUf1m9rsCo8RTSfU/8+Q9Ys/osugybx6uf4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -356,7 +1043,7 @@ onepredict에 &lt;a href=&quot;https://blog.onepredict.ai/&quot;&gt;지원&lt;/a
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 75.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFA//EABYBAQEBAAAAAAAAAAAAAAAAAAIAAf/aAAwDAQACEAMQAAABn0EwNsxLP//EABoQAAMAAwEAAAAAAAAAAAAAAAABAgMSIiP/2gAIAQEAAQUCJnhzRsoJyWz2Z//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABwQAAICAgMAAAAAAAAAAAAAAAABAhEhMTJhkf/aAAgBAQAGPwIi7Zhrw2VB2l0cj//EABsQAAICAwEAAAAAAAAAAAAAAAABESExUWFB/9oACAEBAAE/IZaUWIcRbWydhdHuXqhlW9qAtaqwf//aAAwDAQACAAMAAAAQMy//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREh/9oACAEDAQE/EGlKYf/EABYRAQEBAAAAAAAAAAAAAAAAAAEQMf/aAAgBAgEBPxAXJ//EABwQAQADAAIDAAAAAAAAAAAAAAEAETEhoUGR0f/aAAgBAQABPxBCCReAuEgZWnsIcDxr1FiHHBGvVbUACDQgu4QUO1inyf/Z&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 75.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAQFA//EABUBAQEAAAAAAAAAAAAAAAAAAAIA/9oADAMBAAIQAxAAAAGfQTA2zEj/AP/EABoQAAMAAwEAAAAAAAAAAAAAAAABAgMSIiP/2gAIAQEAAQUCJnhzRsoJyWz2Z//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABwQAAICAgMAAAAAAAAAAAAAAAABAhEhMTJhkf/aAAgBAQAGPwIjlmGvDZUHaXRyP//EABsQAAICAwEAAAAAAAAAAAAAAAABESExUWFB/9oACAEBAAE/IZaUWIboW1snYXR7l6oZVvaC1qrB/9oADAMBAAIAAwAAABAzH//EABcRAAMBAAAAAAAAAAAAAAAAAAABESH/2gAIAQMBAT8QaUph/8QAFREBAQAAAAAAAAAAAAAAAAAAARD/2gAIAQIBAT8QFn//xAAcEAEBAQEAAgMAAAAAAAAAAAABEQAxIUGRodH/2gAIAQEAAT8QQgkXwFxJGVj7iHgetcsQ94Iz4nZgAgwQH7xBQ6oj83//2Q==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -396,7 +1083,7 @@ onepredict에 &lt;a href=&quot;https://blog.onepredict.ai/&quot;&gt;지원&lt;/a
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAADFklEQVR42nVT+U8aURDmX+z/0aS1TTVWrVc82qTRtEWh3tjaosVgLNIWORdE8AQpLDfuciw3soDKcvSD1wIx6fwwmX1vvplvvnkrav6zRqMRDodjsRjP81GWLZVK0WiUYdhqtVqpVDiOS6fT5XKZZBKIqNljRqPRZDIlk0m9Xs+y7MVly/x+fzAYdDqdXq+Xpun/gtHT4/EgAEAQBGBOTk6y2azP50PPXC6HhIfgRtvIN0jCA4kTAPL5Qm/2AxP1ztyo1zFeVRDIJylEKvY26ILv7u48bbPZbHa7fWNDhplxAe9wOKBTPB53uVyFQgF1b25u4Gu12l9wvV7XaDSYChNCaovFAhjUQoyGGBgA5OBEp9PtKnbVanVH8xZtlI9EIshGScQoVCwWe7UgPhQKGQwGbARcumBoq1Qq0T+fz4M5QaIbPPKwHgK+vb0Fu0QigU5E9hY4lUpRJtPZ2RnAuOiV9/7+npAkh1g1wzCYHyW6q+r0gTYdwh3rEDk9PcVc0BglumD4miDgeZrNZiiP1N7dCO3lQUitVkt64MG0wCSjxPM6rQbagqe9bXinFEXZ7FaNfh8hdIJaZIuBQADNO52bayuSrc01wgIX+CWsVqteR31VSEfmHlHGY6v1KJPJIAG6YG1dtQMB/+Rov+anmjAMh0PBgD+TSWdS6YvLUwN1wDIsurnd7nK5xHGJbDbTBduOre/n32CFiKH2xtaXbYUywXEtIWp1odp6T9X2a0eQzeYIhRa4WEgeqreXxdMGrapcrrDR2MD4lHRVHGe9TIROsN7YtTsScIT9TibkyiSCbJi+PKNyuVRrZj70rUiLuYt3Qctb2iL+bV5UyEZWJC9kS/3S+SdbHwevTJJDtVy1t63clV+ZpGWflPcuBk9W+VJFVOO+N+NrsqXJ0YmJ2dnx6enRweGhqbHHArOep5fSrgXfuSLP18DYH4r+2l+uRpab8U9FesHjMIli5ys+7diPzYEdSZ9c8vzzh2frc09Vq33X5pmQcSZqfX2uemWQD1E7Q0eKl1cHwwHduE87ETZOmPdm/gDm0SGD/QRWpwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAADCUlEQVR42nVT+VNSURjlf+zfaGpaHE0bNRxNf2iyKRRUtMQyXGhIDVN2BAySAGMR3ns8eCyPTWRV9g5cA3KmD+bOXb7znfudc5+g/TdarRbLsrFYrFgsRqPRcrmMkeO4Wq1WqVR4nk+n09gkmQQiaA+EwWAwmUypVEqn0wHmdDpdLhdFUQzDuN3ui278FwxOr9eLSTAYrNfrgNlstmw2GwgEwJnL5ZBwF4xFs9kkW9VqFSOQWJZKJQAGs1vd6JEJemfNboABTZJNlCBJ2LkDuwXf3Nz4u2Hrhky2kUymcJBMJtEnxng87vF4rq6uIBsZG43GLRhsarUaTdIMgzyLxQIA1ILsIETD+XweOVAeKioUCpVK1dO8c23YQExCSSAhT6FQGGyVBKrr9Xo4Ao4+GLRKpRL8kMdutxMk2DAiD/aQKtfX1zRNJxIJlg0T2TtgGAt7z87OAMYVBjkhPrkkKYdC4XAYnaNE3+ceD/GZKI8uYGL33yIigQA9QuNIJPLPI8ExaM1ms8/nJ7b3+Il5uKBWqyUcxH8BySgVSxr1cSaTwT2JZ+Sp2mzWY92e0WjCEmpBTiTj5YG890jaH1aXNjfek24hDD6I01OrXnfyWbE08eaeyXBqtVpQGgnghJF9tSkqMDUxfPRdRR5miGEoKpjJpPH75fppOFFxkShNUz6fr1wu8XwC5vfBth/Wd/NzsBBzNhyWbcp3FEqeTxIharV677Vjks1ekit0wIUcrzncli5M6zUH+BI4LjoinJZIRfGIPxzyYoyxHpZyMUF3hPGkExQX8rkdply2U1pQZLaLfhHvfEtbXvnNIu+JeFc2LpUMrS8PiecffJKMnBsX1Sr5vnLri0J+bpSUA+LSxSJtXy2WKoJGYr8dX1tfnpoQTs3OCmdeTj4bG5t+cb8eXsv5ltO/FwOO3ctCrdFsX9Dc0d5KlVlpxTby/gWv2yiIOqQBzeShbHhH8lgufvpR9GTt9cOD1UesaYY2zHCWOcfBuE4+atwaNe+Mnn97TmmFAY0wZBCav879AdGqIb9A9S0fAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -440,7 +1127,7 @@ onepredict에 &lt;a href=&quot;https://blog.onepredict.ai/&quot;&gt;지원&lt;/a
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 80.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAQABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAACBv/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAF+Rnl6GNUf/8QAHBAAAgICAwAAAAAAAAAAAAAAAQIDEQQSExQj/9oACAEBAAEFAnGxRakW6Mw7c8nI+KPD/8QAFREBAQAAAAAAAAAAAAAAAAAAEEH/2gAIAQMBAT8Bh//EABYRAAMAAAAAAAAAAAAAAAAAABARIf/aAAgBAgEBPwGsf//EABsQAAIDAAMAAAAAAAAAAAAAAAABAhESITFx/9oACAEBAAY/AhOkmcj1eaoUYX6R32f/xAAaEAEAAwEBAQAAAAAAAAAAAAABABEhMVFx/9oACAEBAAE/IaErh3MgobwNbPqwuJSGDkWj6i9jvrP/2gAMAwEAAgADAAAAEGsP/8QAFREBAQAAAAAAAAAAAAAAAAAAARD/2gAIAQMBAT8QAj//xAAXEQEBAQEAAAAAAAAAAAAAAAABABFx/9oACAECAQE/EF4Wl//EABwQAQACAwADAAAAAAAAAAAAAAERIQAxQVGhwf/aAAgBAQABPxB4MgFEz6SJzI3oNHFWAesG6k9V8zchlGBLmDizk3mKogmOeKMiiBBsS3ef/9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 80.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAQABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAABBv/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAF+CPL0Mao//8QAHBAAAgICAwAAAAAAAAAAAAAAAQIDEQQSExQj/9oACAEBAAEFAnGxRakW6Mw7c8nI+KPD/8QAFREBAQAAAAAAAAAAAAAAAAAAEEH/2gAIAQMBAT8Bh//EABYRAAMAAAAAAAAAAAAAAAAAABARIf/aAAgBAgEBPwGsf//EABsQAAIDAAMAAAAAAAAAAAAAAAABAhESITFx/9oACAEBAAY/AhOkmcj1eaoUYX6R32f/xAAbEAEAAwEAAwAAAAAAAAAAAAABACExEWFxkf/aAAgBAQABPyFBOYbVfYKF8CFz2sLScQwais8ouxvrP//aAAwDAQACAAMAAAAQKw//xAAVEQEBAAAAAAAAAAAAAAAAAAABEP/aAAgBAwEBPxACP//EABcRAQEBAQAAAAAAAAAAAAAAAAEAEXH/2gAIAQIBAT8QXhaX/8QAHBABAAIDAAMAAAAAAAAAAAAAAREhADFBUaHB/9oACAEBAAE/EIx0AomfSCcyF6DTirAPWDdSeq+ZuQyjAlzBxZybzFWIJjnijIogQbEt3n//2Q==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -494,7 +1181,7 @@ C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAUABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQL/xAAYAQEAAwEAAAAAAAAAAAAAAAAEAAECA//aAAwDAQACEAMQAAABxepIuuwuatUOqmEF/8QAGhAAAgIDAAAAAAAAAAAAAAAAAQIQEQADEv/aAAgBAQABBQKWQrNnnYorP//EABYRAQEBAAAAAAAAAAAAAAAAAAEQIv/aAAgBAwEBPwGJhn//xAAXEQADAQAAAAAAAAAAAAAAAAACEBEx/9oACAECAQE/AbUOr//EABkQAAEFAAAAAAAAAAAAAAAAABAAERJBUf/aAAgBAQAGPwI6Y0nH/8QAGRABAAMBAQAAAAAAAAAAAAAAAQAQESGh/9oACAEBAAE/IZzKM3xYQ3y6EOyY1//aAAwDAQACAAMAAAAQrDC//8QAGBEAAgMAAAAAAAAAAAAAAAAAARAxQbH/2gAIAQMBAT8QQIbOr//EABYRAQEBAAAAAAAAAAAAAAAAAAEQEf/aAAgBAgEBPxAA0jcz/8QAGxAAAgMBAQEAAAAAAAAAAAAAAREAMUEQIVH/2gAIAQEAAT8QgBJRGwhaIkijvAj+cAX0lKJnuAco8//Z&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAUABQDASIAAhEBAxEB/8QAGAABAAMBAAAAAAAAAAAAAAAAAAMEBQL/xAAYAQEAAwEAAAAAAAAAAAAAAAAEAAECA//aAAwDAQACEAMQAAABxepIuuwuatUOqmEF/8QAGhAAAgIDAAAAAAAAAAAAAAAAAQIQEQADEv/aAAgBAQABBQKWQrNnnYorP//EABYRAQEBAAAAAAAAAAAAAAAAAAEQIv/aAAgBAwEBPwGJhn//xAAWEQEBAQAAAAAAAAAAAAAAAAAQMQL/2gAIAQIBAT8Bpmn/xAAZEAABBQAAAAAAAAAAAAAAAAAQABESQVH/2gAIAQEABj8COmNJx//EABkQAQEAAwEAAAAAAAAAAAAAAAERABAhof/aAAgBAQABPyHOTRl8bCN8tmHZI6//2gAMAwEAAgADAAAAEKw4v//EABgRAAIDAAAAAAAAAAAAAAAAAAEQMUGx/9oACAEDAQE/EECGzq//xAAWEQEBAQAAAAAAAAAAAAAAAAABEBH/2gAIAQIBAT8QEGkbmf/EABoQAQADAQEBAAAAAAAAAAAAAAEAETFBECH/2gAIAQEAAT8QgKmJ2JXSUk0veCX4AfpGmLKwS8x8/9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -543,7 +1230,7 @@ C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 41.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAIABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUD/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAABysBEB//EABcQAAMBAAAAAAAAAAAAAAAAAAECBAD/2gAIAQEAAQUCmnXFVKkyHf/EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABwQAAICAgMAAAAAAAAAAAAAAAECACIDETFBYf/aAAgBAQAGPwINl74WWUGbuvgn/8QAGBAAAwEBAAAAAAAAAAAAAAAAAAERMYH/2gAIAQEAAT8hk27iSTLE0NarwP/aAAwDAQACAAMAAAAQ88//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAbEAEBAAIDAQAAAAAAAAAAAAABEQAxIWFxof/aAAgBAQABPxCdCVZslqeaMlqanIQ+ZzcGyoet5//Z&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 41.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAIABQDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAUD/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEAMQAAABysBEB//EABcQAAMBAAAAAAAAAAAAAAAAAAECBAD/2gAIAQEAAQUCmnXMqlSZDv/EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABwQAAEDBQAAAAAAAAAAAAAAAAEAAiIDETFBYf/aAAgBAQAGPwIOq7wFJoKvNvAv/8QAGBAAAwEBAAAAAAAAAAAAAAAAAAERMYH/2gAIAQEAAT8hk27yCTLE0NarwP/aAAwDAQACAAMAAAAQ88//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/ED//xAAbEAEBAAIDAQAAAAAAAAAAAAABEQAxIWGhsf/aAAgBAQABPxCcCVdslqfDI6GpyEPM5uDZUPW8/9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -603,7 +1290,7 @@ C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 59.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAMBAgT/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAFL8lRpAf/EABoQAAIDAQEAAAAAAAAAAAAAAAECABEhEhP/2gAIAQEAAQUCWDWaul2WfTCf/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAwEBPwE//8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwE//8QAGRAAAwADAAAAAAAAAAAAAAAAAAERAhAh/9oACAEBAAY/AiTSLR3FPp//xAAcEAEAAgMAAwAAAAAAAAAAAAABABEhMVFhgZH/2gAIAQEAAT8he79QjI6spZkAmPM1FfsANl32U2h1c//aAAwDAQACAAMAAAAQUy//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAWEQEBAQAAAAAAAAAAAAAAAAABABH/2gAIAQIBAT8QXWL/xAAcEAEAAwACAwAAAAAAAAAAAAABABEhMUFRYYH/2gAIAQEAAT8QOkVcTzcHpVhYPjGBi1dL9wqMCbS6g/rMpxUECC1cPGM//9k=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 59.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBP/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAAY3yIoIP/8QAGhAAAgMBAQAAAAAAAAAAAAAAAhEAASESE//aAAgBAQABBQIZSsiXQ7Hfpj//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAECAQE/AT//xAAZEAADAAMAAAAAAAAAAAAAAAAAARECECH/2gAIAQEABj8CJNItHcU+n//EABsQAQACAwEBAAAAAAAAAAAAAAEAESExUYGR/9oACAEBAAE/IWZvyFSOrKWZAJiaiv2AGzfZTdDq5//aAAwDAQACAAMAAAAQYy//xAAUEQEAAAAAAAAAAAAAAAAAAAAQ/9oACAEDAQE/ED//xAAWEQEBAQAAAAAAAAAAAAAAAAABABH/2gAIAQIBAT8QXWL/xAAcEAEAAwEAAwEAAAAAAAAAAAABABEhMUFRYYH/2gAIAQEAAT8QpIq4ntwWlWFg/GMDFq7V/YVGBNpeIP7xlOKmkQauPWM//9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -645,7 +1332,7 @@ C++의 연장선에 있길 원했던(그리고 대체재가 되는 데 성공한
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 125.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAZABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAIBAwQF/8QAFwEBAQEBAAAAAAAAAAAAAAAAAAECA//aAAwDAQACEAMQAAAB2UvRz3oGJcMdFaQsD//EABoQAAMBAQEBAAAAAAAAAAAAAAABAhIREEH/2gAIAQEAAQUCIrXlUsw+MuK1ymSnk+n/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwEh/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAHBAAAgICAwAAAAAAAAAAAAAAAAERIQIQEiBx/9oACAEBAAY/Ah6gtRpvjKLxv0vp/8QAHBABAAMAAgMAAAAAAAAAAAAAAQARITFBEFFx/9oACAEBAAE/ISqlewncfrAIO8MTjDmx6gdqcbqVWz0ICLl+RP/aAAwDAQACAAMAAAAQ9zCx/8QAGREAAgMBAAAAAAAAAAAAAAAAAAEQETFB/9oACAEDAQE/EGuFQw//xAAXEQADAQAAAAAAAAAAAAAAAAAAARFB/9oACAECAQE/EE9LSiR//8QAHBABAAMBAQADAAAAAAAAAAAAAQARITFBUWGh/9oACAEBAAE/EKt27a3cSwAgHKvyAHAvtMCEsoHQexws9V8ro59wnFVXkUBwBoPj8impAEdO2wpqTaMj7PU5n//Z&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 125.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAZABQDASIAAhEBAxEB/8QAGQAAAgMBAAAAAAAAAAAAAAAAAAIBAwQF/8QAFwEBAQEBAAAAAAAAAAAAAAAAAAECA//aAAwDAQACEAMQAAAB2UvRz3oGJcMdFaQsD//EABoQAAMBAQEBAAAAAAAAAAAAAAABAhIREEH/2gAIAQEAAQUCIrXlUsw+MuK1ymSnk+n/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwEh/8QAFBEBAAAAAAAAAAAAAAAAAAAAIP/aAAgBAgEBPwEf/8QAHBAAAgICAwAAAAAAAAAAAAAAAAERIQIQEiBx/9oACAEBAAY/Ah6gtRpvjKLxv0vp/8QAHBABAAMAAgMAAAAAAAAAAAAAAQARIRBBMVFx/9oACAEBAAE/ISqlewncfrAIO+GJfQc2PUDsDjdSq2ehARm+RP/aAAwDAQACAAMAAAAQ9zCx/8QAGREAAgMBAAAAAAAAAAAAAAAAAAEQETFB/9oACAEDAQE/EGuFQw//xAAXEQADAQAAAAAAAAAAAAAAAAAAARFB/9oACAECAQE/EE9LSiR//8QAHBABAQADAQADAAAAAAAAAAAAAREAITFBUZGh/9oACAEBAAE/EJe3dW3EoAQDqXzBHQXscCEsgOwe46UtV6nR+8JxJPMUJ1A0Hx+YpogCOO64UuJuGsfc9Zzn/9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -717,7 +1404,7 @@ Uncle Bob은 클린 아키텍처에서 Application Layer에 명확히 Feature(Us
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAgX/xAAWAQEBAQAAAAAAAAAAAAAAAAADAQT/2gAMAwEAAhADEAAAAeluNmOIJhT/AP/EABgQAQEBAQEAAAAAAAAAAAAAAAECEQAS/9oACAEBAAEFAgyMzrmfQ6NPNK//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREi/9oACAEDAQE/AU8lP//EABgRAAMBAQAAAAAAAAAAAAAAAAABESIx/9oACAECAQE/AZmMXD//xAAaEAABBQEAAAAAAAAAAAAAAAAAAQIRICEx/9oACAEBAAY/AsIcdWn/xAAcEAEAAgEFAAAAAAAAAAAAAAABABEQITFhcaH/2gAIAQEAAT8hHRbypuHlg14Eet7wL4s//9oADAMBAAIAAwAAABAPP//EABcRAAMBAAAAAAAAAAAAAAAAAAABQWH/2gAIAQMBAT8QVAsn/8QAFxEBAQEBAAAAAAAAAAAAAAAAAREAIf/aAAgBAgEBPxAAujdcXf/EAB0QAQADAAMAAwAAAAAAAAAAAAEAESExQWFRkbH/2gAIAQEAAT8QovCpppp96lE2rNFvqCiH0/sKPmY+SIFUuna4yMBL6DP/2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAMABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAMEAgX/xAAWAQEBAQAAAAAAAAAAAAAAAAADAQT/2gAMAwEAAhADEAAAAeluNmOIJhT/AP/EABgQAQEBAQEAAAAAAAAAAAAAAAECEQAS/9oACAEBAAEFAgyMzrmfQ6NPNK//xAAXEQADAQAAAAAAAAAAAAAAAAAAAREi/9oACAEDAQE/AU8lP//EABgRAAMBAQAAAAAAAAAAAAAAAAABESIx/9oACAECAQE/AZmMXD//xAAaEAABBQEAAAAAAAAAAAAAAAAAAQIRICEx/9oACAEBAAY/AsIcdWn/xAAcEAEAAgEFAAAAAAAAAAAAAAABABEQITFhcaH/2gAIAQEAAT8hHRbypuHlg14Eet7wL4s//9oADAMBAAIAAwAAABAPP//EABYRAQEBAAAAAAAAAAAAAAAAAAABQf/aAAgBAwEBPxCWEf/EABcRAQEBAQAAAAAAAAAAAAAAAAERACH/2gAIAQIBAT8QALo3XF3/xAAdEAEAAwACAwEAAAAAAAAAAAABABEhMWFBUZGx/9oACAEBAAE/EKLwqaaae/Eom1ZosFEPj+ws+Zj2RAql07XGRkJewZ//2Q==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -808,7 +1495,7 @@ Martin Fowler가 프레임워크가 IoC를 말하는 걸 “내 자동차엔 바
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAALABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAECAwX/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/9oADAMBAAIQAxAAAAHPdJpKIg//xAAaEAEAAQUAAAAAAAAAAAAAAAABAAIQERMh/9oACAEBAAEFAqDmvEYrFbf/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwGH/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAECEv/aAAgBAgEBPwGbNP/EABcQAAMBAAAAAAAAAAAAAAAAAAARIDH/2gAIAQEABj8CRs//xAAaEAEBAAMBAQAAAAAAAAAAAAABABEhQTFR/9oACAEBAAE/Icj6S6JS9ahYBsY3yV+3/9oADAMBAAIAAwAAABAvH//EABcRAQEBAQAAAAAAAAAAAAAAAAEAESH/2gAIAQMBAT8Q4XIL/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAEhEUH/2gAIAQIBAT8Qot4Oqf/EABsQAQACAgMAAAAAAAAAAAAAAAEAETFBIWGR/9oACAEBAAE/ECSsQCF8zbIPXsNhClZCAtAmoBR4kOgIK0z/2Q==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAALABQDASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAECAwX/xAAXAQADAQAAAAAAAAAAAAAAAAAAAQID/9oADAMBAAIQAxAAAAHPdJpKIg//xAAaEAEAAQUAAAAAAAAAAAAAAAABAAIQERMh/9oACAEBAAEFAqDmvEYrFbf/xAAVEQEBAAAAAAAAAAAAAAAAAAAQEf/aAAgBAwEBPwGH/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAECEv/aAAgBAgEBPwGbNP/EABcQAAMBAAAAAAAAAAAAAAAAAAARIDH/2gAIAQEABj8CRs//xAAaEAEAAgMBAAAAAAAAAAAAAAABABEhMUFR/9oACAEBAAE/IbH0k6JSbYgqplYzyK+z/9oADAMBAAIAAwAAABAvH//EABcRAQEBAQAAAAAAAAAAAAAAAAEAESH/2gAIAQMBAT8Q4XIL/8QAGBEAAwEBAAAAAAAAAAAAAAAAAAEhEUH/2gAIAQIBAT8Qot4Oj//EABsQAQACAgMAAAAAAAAAAAAAAAEAETFBIWGR/9oACAEBAAE/ECSsQCF8wyyD17DYQpWQgJYE1AKO6kOgIK0z/9k=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1249,7 +1936,7 @@ Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 8.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeUlEQVR42g2L4Q6CIBgAff8Ha7lqoEEiChRYw1JX0TAT/WK73Y/bLskri9kVl7dj3fLGzWH130DVQOqWygcRdyK7i3UA4KdF2JHKjptXvJh+JnuqUWEOJx0pm/cvLM5PO2rS/LzNVPQGiUr3AOtnnJlxaaYwtzEibv9u22oeVA/qFAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 8.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAeklEQVR42g3I0Q6CIAAAQP//vyprFmFAIQgKzIlZm9GklCS3e7rkwiykzQrxjhk3h2X8BFI9cdkR2RNxx7JX1sUY/TcI69dkZkDcUj0kGVanq85wfSQ1Na8p/Nw4HZDe59UOijSXG1AW6hHj8vbzTbsUynPRbgEHtP0DejVqNVH48BcAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1341,7 +2028,7 @@ Swagger로 표현된 API 모델을 이용해 &lt;strong&gt;TypeScript 파일을 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 47.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAAByElEQVR42n2QS0sbYRSG3QvVhSGKRk2NFUUqxngpmgaFuNCYTCq6cFG68be0qAnqQouFiP4DwU03gqKmBofEuWRu34wzMZNExBqrk0XIzHg0l2UPZ3H4OM/3vu+pS/IyxSkodSsoOUHOsWI2idKsqLLXmfw/zTAM0zS3f/4a83hn55dmfPOuEffXb8vmW9Vx15njaDyRlBhJJbnU7yP89IKI0+iKVf7mnw1Dh6WV1XCjxdbj9k8MDHW12n1zXyowqJ3FiASFWEmlhZvTGIUT/BUjUcJNDQ6FNy3NnT1uzDM43G5z+LHFGpyN4jTJKayUARgnBYJVGFGlUfrhsQqHNpqsHb0Tc8MfnZYWuz+wUIGRksMJATCAwfZJlMZJBCliCf7u/tE0XzOvhNY7Wh3jnsCY61N723sMq8JwJ9CBTiKV4pXzSypOiyQnJxj5/uHJfDtYWbnvM+Z1jfbbPwRrtsVUjpMyvJyF8Ei5hZlBafgRXvJPhbLtMGRusfd6glNDo202RyBYhTVNe9a0QqFQLBZ13YCGqg2lUgmWvv9Yq2+wOpyTzu6+dw1W77SvApv/LV1/VY7+iW1sbu1Hdvcjezs7kYODwzL8AqUSjOxAJDR2AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 47.199999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAABx0lEQVR42mO4duvBlZsP7zx6efvhi9sPXty4+/zanSc37j69cf/Zh09f//379////+kzZlvau3oHR3n5BJuY2cYlpP4HA4ab958dPH7hwrV71+89vXzz0c59Z4+cvHT+6p2LNx6++/Dl37+/QEVd3X0CorLqtn42+sbK0oo+vkFQzUDbjp66dOHKnRv3nl29/fjIqStnL926eP3elduP4Zp7+yaJSiho2AbYG5nKy6r4BYTBNT8/fvba5ZsPb9x7CtR89vKdSzceXr/79OqdJ+8/wjT3ThQRl9e08TXVMxaVVPTzD4VqvvPwxZlLt4HagDYDnX3o+FWg/ovX7p2+eOv124///4P83NU7QV5axcre38LEUk5GKSAAphkYTkB7gOjanadXbj08dubKuat3L998cOH6g7fvP/8HBxjEZi27AFcTcx1FtUC4s+8+ennr/jOg44GmAMMcGH7X7z4BOufWgxcfPn+DOLsP6GdJRU37QCdjcxlZFf9AmOavX79+AeJv337++vX37z8gAgI448+fP0BF7R09XHziyoaOhqqavPxiLm4+UM3/8YK/f0E2nzx5avKUGUsWLFyyYPGcOQs2b94GkQUAttyNFPVxnmkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1555,7 +2242,7 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 43.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB2UlEQVR42mOITcxOySxNzS5PTC+Kjk+PSciMS8n1DYpes27T////+ybNSEoryilpzClpyiqsS0rPT8kqSs0ti4xPX7l6A4OKtp6+mY2OoZWiqq6CiraKpqGqgZWQhMLkqTOAmhOS0hSUFPSMzVU0jWQU1KRkleRVtOQ0DQRFJVvaOhkUVLVMbOwsrJ30TaxUtfSV1bXVtfREpRSmzZgN1JySkiOnpGHnYGvt4GFgZqeha6qkoa+mZSiloNndP4VBRl5FWVPb0NLGwtZFXdtAQUVTVVNXSEwGYnNSep66dZKlT757WJFXdLW1b4GRW66pZ76OQ/rUeesZpOVVlNS0gXoUVbUgSFVTj19EcsKkqUDNiUmZErKqKpoGimo6QKSkrqukrqeqZSgmrdTe1csgraCqrK6jpKqNVXNMfLKYlDzQLzBZoB2aKho6IpKybR3dDMBgAGpWVNMC2g9Balr6AqJSEydDNCeJSSmAFMCMBiIVDV0RSbm2jh4GSVklBWUNeWUNOSV1CALq5xEQ6584Gag5Ki5RVFJeSU1HQUVLXlkTgoBcITHZ1vZuhgMHD508dfrU6TNAEoKA7CPHjj958hSo+dLlK0AFZ86eA6LTZ87C0YmTpx49fgwAMwK3FRqOTREAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 43.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB1ElEQVR42mOIS8pJzSpLzalIyiiOSciITcxKSM3zD45eu37z////+yfPSE4vyS1tAqLsovrkjILU7OK0vPKohIyVazYwqOjoG5jZ6hhaK6rqKajqqGgZqhpaC0kqTJ46E6g5MSlNUVlRz8RcRctIVkFNWk5ZQVVbXstQUFSqpa2TQUFV08TGztzaSd/YUlVTX0lNW01TT1RSYdqM2UDNKSk5ckoadg621vbuBqZ26rqmShr6alqGUgqa3f1TGGTkVZQ1tQ0tbSxsndW1DRRUNFU19YTEpCdPnQHUnJSep26dZOmT7x5W5BVdbe1XaOSea+pZoOOQPnXeegZpeRUlVW2gHkVVLQgCauYXkZwwaSrY2ZkSsqoqmgaKqjqKajpK6npApKplKCat1N7VyyCrqKasrgN0LRypaekLiEpNnAzSHJuQLC6joKIBV6AFRKqauqJScu2dPQwyCqpAUbi1aDbHxCeJSSkATUdWoKKhKyIp19bRwyAhoyinpC6rCERqEASU5uYX7ZswGag5KjZRREIWKCKvrAFUBkFArqCodGt7F8OBg4dOnjp96vRZIAlBp06fOXLs+JMnT4GaL12+AlRw5uy5M2fPnz5zFo5OnDz16PETAMistz+kC/IJAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1589,7 +2276,7 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 10.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAYUlEQVR42h2MWw6EMAzEuBJQaFLyaqCw0t7/Poz4GcmWxlPZLNtJ1a3lz27lbBRDB/Dvj1AfcjmnUjdOoHA/KLzlvOq0FFWKuhs+eZxcg3azL3HJwDp3FGGQEA6hgASuRV/X+ByDzJv/qQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 10.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAXUlEQVR42hWMWw6AIAzAPJOgbIM9BU28/4Gcn23SbvUQpwuaCsUjN2MQ2OKV+OozwNeYiiHggpE40DtYmr3wVqoweDulg0ef1AxPVYr+L2aOLEuKNBkw2kBLmVgqf9oJHJgaZziiAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1622,7 +2309,7 @@ API Response Data에 대한 검증을 진행한다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 61.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAAsTAAALEwEAmpwYAAABZ0lEQVR42o1SXW+DMAzs8wrlGxIMDSGBESBQ6NoyUfVh//9HzbSbVvWhnRRZVpKzz3deOUFiumQ7KipkIvqk6CmvfZBOmBp2ZDrkyVkh2LAiP2GgSlbtM/VRjhfenJxw+xps+4Cf7BAimXuEB1CGaWnYoWGFz5FXcACmTUyXQlvwbijGmddHwqpYaJrVMW8pb0BoklWY4A2WtnHSK6krbYe8bcKIl3w85LsjFDsqOo/m+Lxx6cPBNn+dNwGkPrTA+lJ99vN5uBzbUw+57UTGS9qGHwsPRsYPujnrae5Oo2jPovF8WP9H7fWi9pYPuuhmoadU9jiY9TvYa6scmmx1I7s5LQeUB9m89OlHbQS7cUKkjFKFOgcgLRdubi3xlljh2gowf+i8+Gz5cdwUoAvaSKoEFDVSYGqftxPS4e2Uvg9YdDHpHuxe1xA9YGMtZs12bdYPXO9lP1eHL4xoL2GKZCpiFa7dPfgb69dIOI1halwAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 61.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAIAAADtbgqsAAAACXBIWXMAAAsTAAALEwEAmpwYAAABeElEQVR42o2SaU+EMBCG/WoWlpteQLe0RdhSWMA9lNUP/v8f5SweWY1Rk8lkms6bOZ65CZLMDXExNFgqJrtM92SzjZkK0tzxkRvgX+wGxI6H4oyzpuL1xJv7anwW5hikxd9iP2aQ5KcUqzLCIskqlN85fup46e/KRZww18deSLJWi27Q4yzMgfAaRiBiS0tDhGHSYt5QYWCiNK/8JHeXppa2A3y7TlNRiXEvdgemd0R1EZXwvQ7JlVHwLthn5XXCipi1jPdV89if5+H50B57Jv0AOe9JaLHr4EPsxFRGbOLlwZqzPc3dcZLtkzRRzFb/2fbqsu28HKzuZmVPuephMA8Q/hNVQLLcGtmd82qg0ka0XDiRr9nkJ1QeCmmGlUJZjYo6psoNKaBaeRdgb9iWZwLxt8oXzl5EaauZ1cRI0kimt0U1wsFI+6D6c2kfinpKmPZhlmtxuJwhMODjVs6W79pNP4huUv3c7F/AA2eAjDcN4jWc3fXCXwH6EUhGcmCHMwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1658,7 +2345,7 @@ schema정보가 잘못 되었는지 확인할 수 있다.&lt;/p&gt;
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 32.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAsElEQVR42pWQ6wrCMAyFq+7S+3Xt1s3pVHz/V/SM7sdAEQYfITQ5J2mItN2l4aBqxX/Q03JtwqBckjYy6YjxPVeuYfpcs0PAi4Q0+TQJE6i0h2DKkXl5x/GODHquPGArbkNuSSntEToQ7XtMdl32cVQ24gkfa4VBbJiiwiLWVH6vfaooYdJqlwpQwhKCfXe5ZTnqHpQIrpVvrzw/h+sD9NMS883FERvBTq2OHlv8FH8A6NUTCSGEwYsAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 32.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAIAAACHqfpvAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAs0lEQVR42pWQiQrCMBBEo/bInWbTpG1qref//6IjCoV6gPAIA3tkZ5h27a6SoKjVb9BTS+tCb3zSTeTaMxc6aXwlzLYUf4FdLKSR0qhs4Krh+oXQi/6GMJ5Nx1vMM5RyQRqCeKD9SqC0Av8xSx2l3LQDxQwnyhIswBuA4MrhLbl+P3tTcIYDjI/A+oRJrMQA4lm8leKZ1gqUGLrzfB0Ol2E6g35/SnlGCgjSUgI4r5bu4/Ad2mETCKhxH3MAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -1936,7 +2623,7 @@ top-level에서 &lt;code class=&quot;language-text&quot;&gt;await&lt;/code&gt;�
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAADh0lEQVR42m2U7W8UVRTG5y/ggxFJNFBLdcGiRSh0I2Whsi3dZXdnX0zsFw0hGDWa8OJHxS+iaGst3XaDNSQVazCslSYq0E1sSCgw7c5O96XtUggqQWOEgnRnp92X6cw8nju7bTfRm8mdezPnd59z7jlnOCwPQ6dJ11Tjn+vGr+168qAe80PyI3UQv3VgToCuLpuVBldJQpnC70eR3It4MyZdmOQhuiA6MP4yxu1IH0J2qpLnVjYPIotC64X2F754p/bEGxtDRzbFv7Eh4TFEty7yWtSjCXY96sDs8DLClV7GwyuItSxcdYQ/qo/1N/7xs30kaP0l2IC4x5jwYNqLGz7cCJi+tICMTd5ULt5H/FXmnsTjlj8nuv+62EzWxpQXklu54rjca/3hky2Dx7dIZ3apQisSbSjcX3L77pcYa4LkNSjCCU/ocG3bzjWJb21IemhLBx0/8Gxb4xOhI7Xtb1pG+3YiYdfvnDLhRQXJ15lszIOYm6Q+fK3GufmxkR4r0j5V2EcuhD/e+op1df8HdZjxFQUXYk6GLCoc5BSirSWS7gZJPjFgO/N+3fyok2S1qAtT3khXQ8C6mtymtU42ZCy2IpviMHuJpYGiJVlTGSmejAzJrY+7dApEcqtR163BpvzYPlobzIZnyOwlDveGWBpLMH0bc2qCk1nQEWkfJs1TSC3FFksCPEPuDZFypKxMFglvfnCb0mdZvO6c+b5p7PSOmXO7i1FWLeRFmVxRjnBQpsu3RXCcL/60I9vx1MNz20PvPR98d+Pnb22g+4tRtZAL4hLMjB1Q0hy0HFIH2Eb0IOkrnG+Y++zJwlAD0gGDue1Ln7UJwa0YtRuVJCFazszzn/0QdiMRUIdtcvfT9KiRXdrlPfnz2xe+3lQ8bSkE12X7LEs+e1lREFIuEvURJvdrI41yd3Wmqyrbsz576hlaZDrXZkM18wN1hR9f0q+2sETEeJYkSrI6V4JL/TSR+66erOVgtdxdJXdV0SLTtS539kWk/Ih7McEzTdHJnoxkNpW+0lULF97OdDwuB2tKnjO4c20+XI+4DyLPQh3fw/hH1yq6yvwDsO6Qvsp8ukrutZThnvWZk9X58GZIe1mQVIU3jyF357/9bLCpICsDzYwn8mSV3Llm7sQqdcSP28dwtw/Z6XKA+J8/CeN15e/c8CG5d4Mcem4+HMhfazdyD0qfy7NhoGL8C/dIajUiznyOAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsTAAALEwEAmpwYAAADjklEQVR42mWU729TVRjH71/AC5NBolGYg4FMwDm2KUthY7Vb1/a2hRfjBWpEY9T4A3xnFn0hBBnMsbIhU4P4C7O5wAt+jCYOkwFb23vv+ouViRgJEAypwHpvR3+t93x9zr1rR+LJyck57fN5nu95zvNcAeXBdFr0Yl6/f0X/84Ae2aXLXihexN7EX914OAE9XzYzh1DaGD+lp/H3HkRtCFsRdyAuQnZAakewBcFWJD6EdnXRuAQbh38vzE/azh1c9+V7a/e/tab/o5rwDxZEXExyMknUQ6IesLJQG5IXyohgymD3xyHbHl22D39eJx1vun2mdczX+JuvAWEXm3Jh2o2EB9e24aqbzPBg3NRvRM7dQ7gTkh2KiOveTMh595wV1zyMTBVnerz9Yn/jyL7akb21yvebCxNtiHRyZEH2rWMINENxM8mBKdfR3TU7LMuiP1sQFel497x17xurOpuWDuxe2/129fhgEyJb9ZtfGfC8huhOnhXZBdlJoT7dWWXf8MTYkUaSWpjswIxnaF/t9oaK413raZ+fdEC2I/oq5tMCtBikNpOk3FA0ytOJT9alL7VT2GKIcu7299Zvf6mClCMm6mRDxoRoMQHJUQSt/LYU1pykNu5mslMPOnS6iOIshBzXR5qzgQ7a8wBkTEhyVMC90/wZTZj+C9j1QAeRFIQnOca9GEc3U0reOdxCIEX28wKQRZDLiDs7sjF9rLo40T7za3Pw200zQ1vyhnJGa1kaGROS9Au8qsxsERwW82c3aYeeejBUP/Dx87731/S8s/qz11bKVC3ES2XYxZH0tIBiBrFd/MCz5cmdqp/tfjJ3ugGJbWzag7gncdIS8L2IS63scZKQYsZ45zvfYXILIt6C36L2raBZ8G8u/r41e6ph7kRN/ptVOd8z2mB16cJuXhSELBRJ4SHirxfHmtS+SrV3uXrkWe3oylTv8lTP09pA1dxP63NnXtYv26AYt5Vs/JELsyZsdIU2lfmljqxVX6V6eIV6mLsgPnNyA2IeygW9ORQPL2GaKdnsDaHcopnz76YOVai+KlM5eSFf2eE6hIkR+VUpw8RTY5cQA9aLtOSVwdQXS9T+6gWYR67MDr8AxYZAC6gZ/+hC5qb53Xisnxk/sLyW/vEVzvcZsnuWze5fUrjoxY0u3Poa6USJYf/7khi8rv2TGf1A7V+tDjw3N+zNXjnAHiUXAZLKFkka/wHMumoyYIs5pAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2014,7 +2701,7 @@ db&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAClUlEQVR42k2TW2iPcRjHXzcu5mZckBIpizlcKMoIFxQXW4i0YiEjx9KWTHJBOVwwSiinbYpyw3LKYXKIcjFJZGxOw+YwG/v/t9/p/f3ej+f/7q+89e25eL/v5/s8z+/3RrXTB/FufzG0VGDqinEVQ3BHxqAy69FPZuN2FGAvTsT01WNOLUftKaa/toTs8Tn0H5qB3j0FtWsyatt4+jYVEZ2ZM5iHW4r4dn8t6v1WzM0STPM0tG/AJtcwmSqU343jDeruDrKNc8neryD7eAN9N8rpu1SKOjYLWzOBeONYokvzC7g1r4DXZUPR5aOwB2agfq1B9WzEhavEyT2se4jtb0J1HJKAJtEDdO9l9PezqNa9mOtlxIen4gQa3Skt5OWy4WRWjsatHo7ZPhrVtopszxK0qcVyV8a9KAE1xLwi9yQEQmJJEi/1D7arAX27FHNyJtHTskK6l43ArR2JurAC97GJOH6P7t6CaV2AfbEQl70giD/EvpMQFElIBCYKQSr4pBPdug19YzHRp8pxchhl6OvL8faTpJOagm/HfF2PeTYd9WMdnnaBZUUmfZ8kYQCaq/KNzTSiH5UT/do5i9i9EH2QRDF6l46SMwV6UMlxMk7A/ryMZ0Q+D/qnAW/sXmKeVxL9XlRIXFeJD73/JecUY+LL2PiKwI7i/E3xGFHPf558h+nY7dhXAtQ1k3Cbh+Ga9w2MG3KL1qnJerk2cn1C+CIfdKTdBQlKUpGveSA/ZOfVRK6lEvOzWhZfL+ZMmprrVqbHqWtYfToN8qEj7cKHLqmficMb8bs8OAfsxbbVCDDIWDTgkkYxtYi5Nz29OPmKebsU92QmrqtOLvoJ6fakrOEcuv+g/ElVsoYHAjPp7j3fsW+r+QsnDvBq5VKVaQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAA9hAAAPYQGoP6dpAAAClUlEQVR42mWSa2hPYRzHjzdezAukSEKSXN9Imkt4wQvFXHJ9Yctl1twi1yEvpJQmlFxC25TkzYimZqutISmiRmO2TGxuY/tv5/8/57mc53z8zn//opzOt9PpfM/3+Xyf3+Odmz2I9tNT4V0hqmIKpnAI5vx4Ar+E8OkCzOE89O1pqEwV6to6gpNTyZyfg39pIZnyfMITMwiOTSfYN5n0zkl4NxYNpmn3JL41bCVo342qmYt6MQsVVWHiB6jUfgJ7HEMLQd0R/HuL8BsL8Z+Ukn64kfSd5QQX56HLJmN3TMC7sySPR4vzeLdiOOGGMejT+QTdmwl6SjH2PtbVY1QDJlNH+KUcnapH9zUSpqpRX28Qtp4UiALs2ZmYsil4dcuG8nbdSPqLxmG2jEQfHEvQVoTfs5pQlQtZLcq/JQscxfIGYrnjCOdCYmfk2YP+KdtRuxx1eS7e84Jh/F47CrN9NMHtTdiOeqxpJ/y9B/VhKbp5KUYCHSms7cRFvgRFOVkRRK4L1bqXsGYVXkfxRMLKAnlZT6Q+klyxUETRJ3RXKeqVbPyPEiI+C00/LhYyMSSUWQll4jd991CPN+L9KpuHVa+wuh35TmwGqohHqHoI4sv0mxIZ0k0JU7mg+B+5rDcyzejX2/B6Vw7DVmzD2V4JyhkSOY2y1TKYuxJ2AeNqhVBJvd7/A5NGsTR6W4wXHp2O2TUC8/JUdqVkbwZqgXYPssfHuc/yQ9fAMGIrirLf/9JKIN/RHw7gmZZidPchTDqp5GcNkeuTurIvQQ06vD5QyXVKaBL8S/RFjtN78dpcMNmh6bYyPG2q0bEcYu5nTS5OCaXDxsnk1mCezcd0VwrpFdFVUQVhcIag/yAmapIwlSP8Jv4D/AEQE/AEYmB2ygAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2227,7 +2914,7 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 50.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACqUlEQVR42j2S+0tUQRzF79zH3rvuurvu+tjKLM3c9a5Zaw9StCeEKCZImYGalD8Vxhpm74dQkQWV2INMqYigUgp/iaKoMHpQ9qAHhZgpFUH1Q//Bp3EX+uHMfL/MmTNnzoyiaSqarqFKCFVFTPaGjqoqrFxUTEtdE5HpNrpmYFiG5OoIXfJ0kYDk/YdQUBSHHAwJ2QhFkUIiXoczs3h24zbjQx+5FDtH0D0V4RDoLinokoLJcnZLE25ZJ0mYWvwgxd6wnlBTLfa6KgLRfFJmTUfxOJkfmUtXSyenYieoLluL0/TIDfImaV7EFD8iIwWRnozwWIhUuZbmQ/jdKFd+jdL86TU9f8bZN/KWQx9fUHPzOrEdRxi+eo/Olg6qomson1cdd66H8hB2PiLfRg3NRs1IRVimjEo6TE9B2fn+GeFHD2n/+pmOsQ/UfHhH398fDN4ZYvjaA85s7aIyWk/BtAhawIertgHPllY8W9tIbtmGVVaK6nQk4oqEUXYPD7HwyWMOfxvl2Kc3lL96ycCfL7Q9f05vdz93jw5Saq9CtQTmghL87QcJnu4j49RZAsdPkrS6WuaZJB9DCi5bitL29D7ZA9fY/XOMXeMjdP6a4MLvCQ58H6Gr9xaxmlb8gVSsJIMpDZvIOHQM7+YY/p178XV0YFVVSkF3XFCsKEOZWbECc+kCghvryNzfTsXhPczr6aH23BmuHj3P5T395GRF0eW38BYUkLykJJ6lFpmBVbcaoziKcFoJh/PtyVmJN3GSpWJ6PWTmhpmVFebA9l1c7L5MU+NmGpvrKS0rQdUEmsPCSPPjKAqhzUhHGFrC4bSA1BEC1WEQDAYJZedi59oUhecSzsohJ8+msGg59pzFRAqLyc0rwHS60R0+TDOAyxfEcLlQtIQpYar8A/MtVe3a3OqOAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 50.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAACoklEQVR42jWS20tUURTGzz6XOWccL+NoM1raWJrjzBk0mwoU7UYUJhldpJsS6lORiqKh3chKyCJSu2FplAg+aERvXSCiC9hNiBIzEjMsiOihv+DXdgYfvv2ttffa3/5YeymqprIAoYooVF2TrLB5bREN+2qwM0PomoFhGWi6jtBlrS5ikHUL94RQUBRTLg4JmQhFQZUH83Eww8/b0Uf8eDXJYFMf6QmLEQ6B7pKCLimYIDlePhwv4zgJU8aGihKuqSKvdj/2gR2kRmySc/woSS5W2yvpqe/iSuNlKkoqcZqJUWeq141I9yDSJLxyL9FCpEqe3/fEowz+/kbd5Dh9f2Y4NTXOuU9j7Lw/TOOxTt4NPaGrvoPthXvYWlARda4HchGhICIYRA2sQPWlIiwToUmH3mSU9s9jBF88p+37FGdnJtg98YmBfz95+OgF74efcb2hh/LCKsJLwmieZFyV1SQebSaxoYWE+mas0hJUpyPWLjsP5cT7l6x5/YrOuWkufvlI2fgH7v+dofXNGP3XRnl84SEloS2opsBcXYzn2BnSrg7g675JyqVu4ip2yH7Gyc+QghvWo7S8fkrWyDDtv6Zply67fs9y+88sp+e+0tv/gKZdzXhSFmHFGaRX1+HrvEjSkUY8bSdwd3RgbS+XgvFRQbGpFCWrbCPmugi+mr1knGpl2/njFNzqo/LGdYYu9HHv5AjZ/kIMOR5Jtk1CaXG0l5rtx9pXgVG0EuG0Yg4joXlWokm0yKlhud1krgiSkxXkdGsbd3rvcqj6MNW1BykpLZLzKtAMC8PrwREJoPm9cly0mMOMlHkdOcgOgzSfj9xl2YRygqwK5BNYupzsXJuCyCbs/CLC+cXk5IYxnS50IwnTTMHlTsNwuVC0mClhqfwHWw9WEpHIyDoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2267,7 +2954,7 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 99.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAACkElEQVR42pWU/UtTYRTH/W/qB6moQH+pICgaVAjLxab5loy5+iE30zW1matlL7P6oVWSGTiTICWDyBBShiws38a8c9u97WZoKUbDapt3273frndvbrvL7cK9D8/znPO555zvc54i5P1w8S8LcsSKDdIbm3NcmlXRjhiWFZzYaFR4t54fE3ZQ93qT+wUBU7GlognQy3A1doETsU0HCg5cmvObode41qzHkHUQsx/twtpvF4W5U0pEQpvb/HJEKIDiBiw/DN2/jrfmJtxRV2Hiw7iwTioN8BktWbAsYNC/hvBmIAYLR4RxxTOL+f5O+N1jCNHfQcq08FQ0IxwM5RYlUdilsRFQzwd4WKz4bCQKv8MDm0aDxSuX4T1UDc8xJQIrq6KCpCKM/yUcCIJ+NAiivhVkazeoKj28xVJQpZUgS8+BPqDAsulpzFMElkMU4C/5Fb7uPixZBvHlRg+IvTLQh+t4aAWI0xfBbPwRTVcUmEwjbhvl54TKCGdxGVz7yrGg4OvHMKKC5DyHHC8vF2XBMmFhvj46ibndJ0HsOYNvhscpGIf8gNu7RDgmozZMSerhKpFiUdkBNqNEeQGTXRFk0HJ7AMa7z9Cr04F4+Sqjf/IEsvHobNNuSFQPUKd/goPSNnyad6ftFwycdnghb3yIplsvcKLWjOH3n5NiFQRMpPyLPyLnO/uh5tOu1FlQ096HSCQiZMwVUsNElZjVNZiURrQrWtDJC3Lk+CVYh8fzPIcZMJ/BBEeZHE6NHs7qBjjO1sIukeGdvAHr9qmdL4dMINnUhtmSo5i7oMWMoQvTLVfhNJnh5MEzu/bztzaV1dP/TXlLmJ+2SdCGm1hUa0GU18BZo8KCWoPlnj6+9wNZ9+E/74W4aL3S29MAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 99.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAACkklEQVR42pWU/UtTURjH9+dE0AtBKET9ZGAghdSGytQyXVpR+TKbOZjeSmyUg0A0Kg2cJaFY/VCGiKiNinRubndz3ttsGaIZpdZ0u9u9387u7qpd79p24N7Dec45n/M8z/c5R4WMmxD/CzyYZ1ZssAvSWEhapUqLIRtiH8/z4KNR0bYy8RZsx8P4PLFnBfzrm0gXu6B/Cd66dggKa1Uyd/5sSoTyYmgYrY3XMGjtx4zNJto2PSzsBTpEtkNJByl6KIYgLeBJN9hB4eWdBpirtRgfGxPtzDkT/FTnDtgO4Nb6KrhQMA7jOLFf9tnh7KOw7htF6NMKGE0dfFo9OMk7RVESiQ2MPgfba0U0FJGgEfyYncfklVp4GxuwcKgUvqM6BJdXpWiEFDmUTokEt7DYPQC6ygi22QK2vBnM3lNgc7VgckqxeKAYS20P4jtl6qYWhbRfbAB+Sy8CXQP4ePM+6H0aLB6pAEPAnuMXEd74qRiuIlCI8knwKBnTOgquPYXw7FfDXUzyFw4rCpKyDmM5FUgR8+G4MGsjb+DYVQCahP/Z1P1PiSEzYFIJxcpkZBLvj1XCk3MS3qoW8LIUZQRM5Ce4HcZVcz9u3O5Bj8EA+umg/P5kBuQl76ZmfCiouYtKQzdyCo344JhPms8aOD3HoKi2E/W3niC/ogNDr6fjYmULTIT8nZTIGcqKGvNjaA1dKDM+IspHMiwbhVeG+7qGNt11GEsaQZE7fDjvMvqGx9PclBQwv6kNzhNFcNU2Ya6sGk51OWz5arwqqsaa7V36x0EOZPVGzObmwXFJDztlhr2pBe52C9wlZ2HffRCbDLvjkf1vyDFhvk1MiZ56L9SD1pTDdboG9Pk6fLnXA47cfbmXvwGuE7h3br4XRgAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2300,7 +2987,7 @@ cv&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 68%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABJ0AAASdAHeZh94AAADxElEQVR42k2S20/TZxzG+2/sahfLki3Z4i6WbHNesGzhYobDlEJBheDkIAXKWSed52hmoi5DtnUO51ZaKD1gpZTS9veDUikURA4FHaAMRGRSToUJCLSfvWY3u/jked9v8jzJ831fRXJCIikpSlKVqaSlppGmUgpVkq5SoVJloEo/TOaRLLKzs/n6aC45OQXk5ReSn1eIukCDWl2ORlNJRbkWTVEligb7AJa2h1hcozQ5R7njGRf8ic31CF+HTKizDpcriF2ewi49ps03g6trjjb/M7yBF7gDYXx9K/SFNukMzKNoskhYmv1YbDJmWye3btu4UfsHekM7IfkH5u9dxG5x4WyWkZo9dNpa8Nm8eOz3aLvbQ2tLH662ATrdIdrv9KJoaTRib7RibXSgragkfu8ekuPe5WROOk9lLQFzDVaDE6/Zjr/Rwqx0lYkWIz6jm6DdR8Aq0WOWeeC4R5dJQvGktZBptxan7hqquPe5cvwDBg2JeGr2s+DJ5H79daTbemR9I7LByFSHCetVLdfKs/jxVCX9xnpm3T/z0KwnaLCheGGtJtKuZlk6QsPpj+n7PY5VOYHnbfGEpWMM/XqZod9qGbhZS8h0i/CgxIi5lJXuKkzVSQwbrhIJ3GDaVMcjfT2KvxvOMW84T9hexkZ3DjOOL1nrTmBOPsJibyV/Sd8x4/yeZ02XmXTWMNdrYHPyNqvBC8x16NgY72HKWseKYN6iQ7FqryRi/5Z1u5ZXzjKigVwIqVjwZvDMncNCVxWrjjKQytgOnGey/TrPg0a2n/jYHDSz1a3jZesl6LrEmuc0ih05D/xqMSgi1qlhW84XxkOsGfawbIwj7DjESkMiY7UHMZ9TYrpewE8nMxnWlwpPMdEODbHucug9ScQr/uH2/eMwUkh0WAQKZayAnZ4s1m++xYbuDSK6N9nQv4Ol6hOKEz+iSrWX4qQPaT79GfQXshssEYjAIREYrBKBY/kwpSY2XUzsqQZmi4iO57Le8B4R49u87NrP1kAaiz4l9WfiuXh0H2czP6Xp3OfEJvKFr5ToTAW8OEXk8QkUW9O5RMPH2V1Ss7v8GlF5XgQ+SOKfsRR2wrm8WvqFnbkrrA8cYLb/BKPeCwRNSUSXhG+xmJ1FUXtVvPyMRuxwU9Sk/H+U/MfaMWLhDIieFfceiNXCVg5sXBbnesE3Yv4aLbGYVugZ1teqUYwGDzAxksHD4cOEhtIZuZ/GYK+SAU8SPdYvCHhK8LuL8XsT6JJS8Rjjaanbh9SajNdxgHZHsuArOtpTcN1N5V/+ukbSAyVK/gAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 68%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABJ0AAASdAHeZh94AAADyUlEQVR42iWQ60+TZxjG339jn5Ys+7AsO31YsgNfSIwxMXK0QBFhulkOBQqVwlQawWxmZAsji8I0MN1sKQVaaKG00MPbA9DaCXJmwhxyHNMCHUXlJP3tXfxw5Zfrue/7ynPfQuqpJGSnZWTIMsjMzESeKSMrQ4ZcnkWWPFtiDrln8zh37hxfnldw4UIR+QXFFOQXoywqQ6m8iEqloeJiNaoSDUKbZRSTY1bSNB2OGazueSyuOcwDj/CJIpPeFhyO+1jFv7B4HmP3L9MfWMM+uIor+BRn8Bm+36OEp3bxBdcROkwiJssQpm6fxAB3frPQ2KRHZ3AxJd5gffg6VvMAdosXsduNr8uGv9uDyxrE0RvG3vuAfscYftcMTksYoddowGrsoqu9D62mihMJH5GW+C6XFWdYEbWETDcwt9pxd1oZMppZ8dQz12vAZ3AStvoJmj1Sj8hD2xCBdg/CQl8JS04t9ts/kp34Pt8XfciYPhn3jZM8c+Uyom/A86sOr86I2GpgwduOuV5LQ0UejVc0PDDoWHHdYrZTR7i1C+GZuZrYQDFRTy7Gmk8ZuZdIzJfEuuMEEY+CiZY6xu828rD5JlMdd9gYF5nqVBMNVmK8ksykoZ7t4E2W2lv4Q6dHeNpWy3rrNSKWi+wGFSzbTrIznMTfYi4bIQ1PPHUs2xtYbf+Oub6fWA3peTF/l2joGmveW7ycC/Gkq4Vodwv/mG4hbPdoiPVoed5Tzb5DTTyYD1PZRFxy1pxfEfFr2Lapwa1mb6iWR456VoZ17P8psjdmZH/4Z17Yr0PgOjH3VYRDbwEMFksPpcT95Rx4CzkI5hDTf8BWWyIRWw5RQzLTjafpuJaBsUFJ06U8Ju6VSzMqjrxlxIcr4P4ltt2VCAcjRTBZwtGEFCiRGSWHoS/YaX6Ll7ffYPv2m7y89w6dlZ9RmvQJVfIESlM+pvtqIoyU8CpcLkkKHJcCw1VS4EwhLBQTX1QRXy6DlVKO5vPZaXuPbcPbvAicYm80i82ADP3V43xzPoGavM/pqD0G84XSnJqjpUp4eoXY468RdhcVHEUKOdxQ8mqrmMOtQvbXFcQepvJ8JoPDSD57m80crP3A87F01kYvMSt+S7gjhVeb0jYbKg42pLX/VbO1WCbdcFe6H9KX4xWvSflrxS4Qj5yBo1rJh6R6E+wpYLdO8q2Svyzxf1UTj2sl1rATq0aYDqczP3mG2YmzTE1kMzmSxVg4g1F3CiHzMYIuNYPOUgbdpwh4MnEajtP7SwKevjTctnT6bakM2NLwDsjo78nkP55CRqs/Y1kXAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2347,7 +3034,7 @@ Language…]]></description><link>http://onepredict.github.io/hello-world/</link
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 140.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAIAAADuuAg3AAAACXBIWXMAAAsTAAALEwEAmpwYAAACiklEQVR42q1Ua0/bMBTt//++b4ihibFJ20DlIUArMEBrK9ryaFlpCzRtQ57Nw3k4tWPHnRND17JOFLSryLrX9vH1ObnXOdu2RwhFrzQO4cAc98ZvMg7MRRC+EQzhfDAbj1FMCU1IktCEsVeBOeCkpeYv+kunncq9Lo5bODNjToi6pn/94Az96HXXxjFpdOTvpWah3LxqywjHi4I5x6Nqe3mz+LVwvn54sbTx80e1/TKYZdLIhvNhp7x1Ug8jRCk9PGutH56DAGYb/g0Wuja72nK+WG50p3ViC2ZuSfrKZvG41hGTpuOrQxAT+iI4HW0Qft6vfNqvdPq6aoIvhdrabiWA6Fn+OYKJ5DeStrZ39n6zuLJV+rh71rhTBHK6XlIwhEIJliSJoJ2kBzAbBLd9o93TLRCkM4zxastWE3EDOAF7I7xaun930DrtaN+q0rVsrZa6N5pX61s79Yfty8FeQ9447+1dy+U7nZftDBhicmt4Ry3tl+JcDuy6bB801aZiN2Sr0jV5nV0OrKuB1dYBXxLiwQlnQdWBON2qOIWmkr/olW6Nk7Z2Z7jbdbkqmfmaNK3rDGc+IkJlJ1BcaIdIA5EKoAYgiJA09HUA+1aQCD0mnP9nP7M/Nn4cs3uKcKGuWjSz5wecKhdwhEmECYoJ9zGh6SRNnQjHONvAZ/jzkoUE0yQMw5xuObLtK66vur4BwtR3/N4QSKaruoEbjiQTDCxPB6HhQdUJeKg6Pt/mAO/p2k98BDE2njBkf3eUWJrhzOb13QucH//zVEsjkjLHlPMk3MfkUYhnObL/PPvo0yThVeFFKEQx/wDkPgZZOOfRBwAQfvzEYkwJf7IJiXnimD59PMRTxtcBAL8BB2NJ1rjhg90AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 140.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAIAAADuuAg3AAAACXBIWXMAAAsTAAALEwEAmpwYAAACeElEQVR42qVUaU/bQBDN///ab63aSohSCbUICgUkjgooV0I4cjQnCY7jI4mvtb2213ukYxto0gYR6Gq1Go/m7cx7ntmcaZphFAUvXAABYA6s8asWAHMBxq8EYzwbLMbjKGaUccYFbPEiMOXioK6uXUnvDpv5Wz27bu7MYmzh6HbolvuW4YYvK5vErNLq75xWd8+qpaYckXhesBDix0Xj/erx8k7x697l25Wf+4X682CRSiPr1sLG2fphCYeEMb6fr8MVjoczOk+CM12rHfXD2vF5uTOp0/OCZeBaV/v47eSg2MqcI9vTRohS9mzZyWkh//N2YWm70JR0deQs71x82jz3cPhX/hmCZfh6V1vaykPxUMLi5nmlrUyK8geMcaaE4IJnlXMusvzt3qAh6SbywQGopNXuw5IA/AhGAVk4bb/Zqx01tC8X3UrfWDy9remoKBnfS/316952SV4p3m2V5ZOWxjifAmNCmzraq6kVxbqSzJueuVtVfilWWTbynWFZTpzXvVFdc25kM07Fw4+cMzIWJhBaVW1Arl5KJ63BQUNrD+yNG7nQGa4Vu5O/bYoznBFlsukpNjb9SHMC1cGag50g6g5d3cF3hpeyvg/GT/X2K+c5uXiiq8SEIeacqnkzI9cLKYsZCwkNCI1iCmKSdIMTVAhInNoc7DBmQQSflDDu+35ON6ye4SqWq9qgii+brmKiu5HTGdqq5dl+CIZkIN32BsgHT2foqJYLYZaD/uH8xAxNx4hZg/HfagvgljBnDMhHQC89KZs5ktOPPvQtdAW0uh/FsJ2AoJCAB+wZjz5CiEGSh0VjeK8phzc7SZbuh894YgEEgL8BY1lJ8KqPUocAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2406,7 +3093,7 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACmklEQVR42i2P6VMSAQDFV4QkQA0RZLlvlEMOXV11gQUBOV1A10EOgwUhUgdMTF1FIqdTc0xKsen44FQzHTrVTB/726KZPr/3+817wIRJVCGCu5WFjEefhsEIDFZSViIxXliCPzzFz0h/ay9cihpSXuHDRdV6DllJWeMRSzZiN4FswCjh7gYhImwSy2X4jP551VVftW2t+8ki8mobfV3zNw9iE2YRZhM1YuIcZsjOyFOBwaBeIGHcACYEN/Pa7rCJLWHfuJdBTg7wcgZ+RGJ37yNE1lxeHo/jkEbFN6o5jQUFETMsTvWaJYyghj4qZAFBGYvg9TqlbBzlr8WUgzr+Unz8kJxFomKzh7eR4HkhjljIMevBJuk+3PM9KI5Aet7xlm01NQKwmZ04uysz1tesil4UuZCuj0jAa4SDAQAiBSsd5mEOvkI+MGaRNmszR5uOanY04lZfnuCb+UmAS6euoZxGTh5CBQt20GEG0/PW3WowZVf6beJSXIBP9zNYLMMQePksEPeraTTAAQnP6t6dAgzU7ZolVFqelWA2STaqJ/NQyKfNY8Y/Jc9Vxfe4NtfYxJAxBR4wXp9iEVQGtBdxGUfrkyu4FgjJ+5kM2l5m+IJEPh5hp/vemE32uxr5VvQkXcr3h/h+xedzDpWz9p9vMy3SBWluJb3q1v70RnIIoFMpbRkKib4eh67OE+dPoncCw5+Wp2E9z6jnXreSmM/YLojBnquL221+u+BwI+rSvKWWswCdlI52FrDLv7/EfrxJXTaTXqswCEsNhgGdinNW9wUcyh4WncXq2inCEbe2i0EHKB19NErJrfwPB1HV5+PZL6fzv94R6TmzfUrqmpKDPCZZmrzYcRacskxIF0I13d309kcq9R/jlTD/Apr/s76//bAIAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 55.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACm0lEQVR42i2OWVNSAQBGLyjKJgYM+3pjU1YhEJAdZLssFxhQUAi4IobLiAmpiGI6bUNUSiE2WQ9O40yLTjnTY78tHnr+zjnzAWY1p1qEGpupvFeeMzHjJlY1q0MWjOW86cvLZK8R7B9EHsWUWR/nJCOuLlnWsrp0TFuM2zVsCqDk05qQHglreKAg5Ve06+7Whu3JVrBRtr7fcX44CHZPEuYpLmzjHid4CKws+sEcNBFSsPj4EcDMxpZkxIiGLCBjtgu2tydzmwXT8324UrMWC5rqsnE+ZZCKmUoJ9XhehCSUacu4hocLSXF6LhEICYkIfdwtIKeczI24aELOfJg2thtRa5yn8dIfL9B8eiqPQ51SsLr7s+1m4GhFp1fQ3+zY13MPAAphKEkeLRgoZ3Vup0zTyynIgmkDcRAAgAsScxE67GTdBxnTOkH3MNCuObaLhrhXcvVurl6aARi44XUH9QgBoy5O2sF2atm5pK5Zg3IOUdDGW81wUh4aYYyokrOuXkEZSIIdQTkM7F7Lt7tsAo7s0rxDUI3yYRsficv3lgzhgKwEq/5WvLfVwLNm4mkdthlFcyHVzSkccwqBwSMa/vXWzFpKBoRBKgGPaRbU/Yb1awc+O/QlrOCfWuzHinfRLfrcTh1WAwHX5GbR/vtTod/wTEvvZf2Si5Zne3ESwA6jBzGngfu9E77pZc5fxCuQ+nrZY1Yw1Ara7XkW9qsGAI9Nur3I310W98oOr026mtIelLTAEBo12CA7+PMU/vUxe9Vd9Go5kImvUDDkYmqvFQjaRaQxLIE42lgxx7yyEdwogEZRMOjVWfF/OeQUX3ei386Sd5dILjFltwjdFpBFJ+xXZvq7rrJLmA/JIy4ZiYTD4zGYYTQKBfgFxH+b67PZiRMGxQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2437,7 +3124,7 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
     &gt;
       &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 68.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAABzUlEQVR42qVTTW+bQBDln/dWqaeeeunP6LVSe6pkE8mXNLbCpzFgG2Mw4Bazy8LrzJKNnCpRWmWkxw6zM29mdnYtkAjRoesurGIcRwzD8ARs+1dYgoi+f/2C+Y9vCAIfs9kM87mNxWKBmxsbtm2j7xVeE6WmxFbb/sKH9+/w+dNHpGmKKE7heCHCKNZ6WZ4eK7/G3zYjFn9c18N6vdYGblH2/dQuO+P/xFJK4Xw+o6pq1HWt9dPppGF0XpumIZ9K/7PONvZnFGWJtm0nwp6qcV0X9/cOomhDiKjaCGEYwvd9XflqtdLY7Xb6f7PZIMsyHcfgmPbyQCiEgOd5iONYBzBJEAQ66Pb2J5bLFQI/oP0EvTkKA+qOO2SdV03IB8pZmcRxHJ2RyTirScSVJzSwu7vlQ4WxPvfJ34NPsXGSTIRd18GlwIQMXIWU/eNdNFmvp8p2o3PFZsrGbo2kXKj/Xkrt8FaxFCVvupEwaFQXBaFevizXd+5ZwoH2y3ZA+Vvp9UirHN5QoaRWD4ccGYFfxbEokG73SAjb/QFZXiA/ltgfjsiLkva22GU5qrp5npBbEDQISe+VwXonpB4Ov5gJk53fNBfANtb5JV2DCf8AU6Y1RfJXfNAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 68.80000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAAAsTAAALEwEAmpwYAAABz0lEQVR42qVTy67aMBDl27vqopuuuulfdFupXVWCVGJx3wl5hzxJIARCEts5nTEEsahU0WvpMJMZ+8yxZ5iBVt/36LqOXYzjqKGUuuKeNeuJ6Of3b5j/+gHHtTGfL7BYGFgulzCM31gYBqSU/ySSUmkhs/Z4wKePH/D1y2fE8Rp+uIZlu3D9UPtltb1PIf+YpgXPdXVAqRFCSH1VrkiPcB8hX6dpGuzqGjWB/e12q3E4nH2O7fd77HY7/c0+x+rLmbKq0LbtmVAIoRWapokgCOD7DB8uKbYdBx75L6+vGkmawvM82hciy3JYqxVWBD/w0Z5Ol6ZQhzkRhiHiJIFtO0TkavKHh0c8P7/AIeIwisDFp6eYJoBvOFlNyEmthoje3kyYlkUVA1Liw7JWCKgQ+xERPj49wSWFnOdb6f1k+WwYRmdCnj8+yAdY5TAMVwWsaJrL8dIwpeR1Xm/z07zORnJO7RFi6PWG966ZpNL7biQoNGTrk0Ivx/8npFugOkqUhKqV2JAd1DsU8pvlxQZZXqCiGduUFdZJhihOEac5sqJEQbE032i7jmMkWUFz2/ydkB+0HwSEVPofwn7XD9QcgUEwpI7zt87fxBQ34wa8/gDUgDWpVX7SxAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
@@ -2469,7 +3156,7 @@ Language”&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; 
   &gt;
     &lt;span
     class=&quot;gatsby-resp-image-background-image&quot;
-    style=&quot;padding-bottom: 66.39999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB5klEQVR42oWRx27jQAyGOaqjMqNitci9yJYsySUqlm2kOAGSg7EB9rT3xb7/M+wI9sI5rYEPBMnBT3JI4EVD4G1d8Qn1mv3hsagWcZZm62ieACjAa/8Dy06d/XyqftnW4Hw+H49Py3RV102+2gLgO2KBt9a736fjH4OEYUcc9AdJupaxBiAAr98Rc7zOIV0STVHUiE5V3Samx0sUCdodJQOwBeEU7C4YAQgUkMJAvHYRI0H/xjX8JpYNoAEoHVCcdk5OvYEY+B8ycG1d4NWbXpJJ1/cCzwt9LwwCw7Qno17g+73woRcG8TKP5stFnLIV9gaTyTSmhssatqWZWNXNfDmZTfrLxSiOhrbtNMViPhvWdVXV5dfXj7Levb2/Pz+/1Lv9x+fH6+n0WNasqIQN8IL+Yb9frzYFO3FZJkn29vpSlRVr1TSHbnckYxMrJi/osmrp1NWIQwxPJQ4nEuAkKmq2TF1MXJm4uHUchTK/w5IcpiDqIBEQ6fXnF0BqJwfqwiKFOIPxHKoGtgVMY8i3KN9AvkGbR1TUKNugbYGcEGETVAsxTK/dNFh++3w4trbcofEcjSM0i1GUoOEMggFitaIEmH+xvTH0p5CuwQoATL9ty+JRBA+D6ybR9SotF/+SvF0RA6f+BTjjOT5vLYXbAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+    style=&quot;padding-bottom: 66.39999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAIAAAAmMtkJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB6ElEQVR42oVRyXKbQBDtYRHDMixiNUJowUiAQMhiMYqcKEqVLk5clUt+IJX//4bMWI6dkz31qutNT79epoEXDYGzVOwR3RsOn/ZNt87KTbVLVwWADLz6HrDkdMXPh/bX2Iofvz8ejw/FZtv3Q7W9A8DofbHAW/X97/Pxj0HCG1ucTuN8U0tYBRCA1z6ozPEah9SRYIqCSoiuEFu3fGGkI+EjJQVgC8IExhMwAhB0QDLFa7c0xT+8Xf8TSyboASg2KA7rk1MAKcxy6jNkBpZReiG88qYfSST03cBzQ98Lg8Aw7eU8Cnw/mgRRGGRFla6LdV7SL4zi5TLJdNOjBVl2KlY0syqWt8u4WM2zdDYeO8N+vUpmfUdP+/T0o2n78/n88PlL1w+Xy+V0OtN1ZnklYgO8YHo8HOpt3VBf2+V5+e3riRIaOgyHaLKQsIllkxc0STY13VWIQwxX0WxOJMCPdFG1JcPDuisRh1pMHJlx6nQ5SQeRzkaAhiLMJr8CRqxz0F1YbSArYbGC7h52LSRrqHaorKHcod2ea3pEyV2DnBBhEykWA51cMgAsH9HnwxE1HWp7WKQwTyHJIM0hTiCI0ZXPbl9stIBpApsarADA9FlZGkc1NzH7SV5hK+GeF3bl1+W9OhnH1P4F8s85CqnbBPUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
   &gt;&lt;/span&gt;
   &lt;img
         class=&quot;gatsby-resp-image-image&quot;
