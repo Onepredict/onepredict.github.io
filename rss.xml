@@ -1,4 +1,881 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 15 Nov 2023 08:35:11 GMT</lastBuildDate><item><title><![CDATA[신입 개발자의 인덱스 장애 회고담]]></title><description><![CDATA[들어가며 Index란? Index를 사용하는 이유 Index…]]></description><link>http://onepredict.github.io/failure-retrospective/</link><guid isPermaLink="false">http://onepredict.github.io/failure-retrospective/</guid><pubDate>Wed, 15 Nov 2023 00:00:00 GMT</pubDate><content:encoded>&lt;div class=&quot;table-of-contents&quot;&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 22 Nov 2023 13:05:50 GMT</lastBuildDate><item><title><![CDATA[SQL VS ORM]]></title><description><![CDATA[Intro ORM vs SQL OLTP와 OLAP 수정 API DB 구조 정리 성능 저하 원인 비고 마치며 Intro…]]></description><link>http://onepredict.github.io/sql-orm/</link><guid isPermaLink="false">http://onepredict.github.io/sql-orm/</guid><pubDate>Wed, 22 Nov 2023 00:00:00 GMT</pubDate><content:encoded>&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#intro&quot;&gt;Intro&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#orm-vs-sql&quot;&gt;ORM vs SQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#oltp%EC%99%80-olap&quot;&gt;OLTP와 OLAP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%88%98%EC%A0%95-api&quot;&gt;수정 API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#db-%EA%B5%AC%EC%A1%B0&quot;&gt;DB 구조&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%A0%95%EB%A6%AC&quot;&gt;정리&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%B1%EB%8A%A5-%EC%A0%80%ED%95%98-%EC%9B%90%EC%9D%B8&quot;&gt;성능 저하 원인&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%B9%84%EA%B3%A0&quot;&gt;비고&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%A7%88%EC%B9%98%EB%A9%B0&quot;&gt;마치며&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;intro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#intro&quot; aria-label=&quot;intro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Intro&lt;/h2&gt;
+&lt;p&gt;대규모 반도체 공장에서 여러 설비 데이터를 가공하고 운영하다 보면, 데이터베이스에 쌓인 여러 데이터를 활용해서 원하는 형태로 데이터를 가져올 수 있어야 하는 역량이 중요합니다.
+뿐만 아니라 부하가 큰 트랜잭션 쿼리를 날리다 보니 DA&lt;sup id=&quot;fnref-주1&quot;&gt;&lt;a href=&quot;#fn-주1&quot; class=&quot;footnote-ref&quot;&gt;주1&lt;/a&gt;&lt;/sup&gt; 를 통해서 쿼리를 튜닝하는 일도 빈번한데요, API 성능개선을 하면서 Raw SQL과 ORM으로 DB에서 원하는 정보의 데이터를 가져오는 성능을 비교해 보려 합니다.&lt;/p&gt;
+&lt;h2 id=&quot;orm-vs-sql&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#orm-vs-sql&quot; aria-label=&quot;orm vs sql permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;ORM vs SQL&lt;/h2&gt;
+&lt;p&gt;언제부터인가 ORM이 트렌드가 되고, 누구나 다 SQL보다는 ORM으로 DB 트랜잭션을 처리하기를 원하지만, 개인적으로 어떤 장점이 있기에 ORM을 사용하고 싶은가? 라는 질문에는 여러 개발자, 친구, 선배에게 물어봐도 그럴듯한 답변을 듣지 못하고 혼자서 많이 고민해 왔습니다.&lt;/p&gt;
+&lt;p&gt;그나마 &quot;DB 의 종류에 구애받지 않기에&quot;, &quot;개발 생산성을 높일 수 있어서&quot;라는 답변을 들었지만, 개인적으로 저를 설득할 만한 대답이 되지 않았습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;개발 생산성을 높일 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;규모가 작은 초기 시스템에서는 ERD을 작성할 필요가 없기에 개발 생산성을 높일 수 있다는 점에 공감하지만, 규모가 커진 상태에서는 개발 생산성 효과가 오히려 떨어지는 것이 아닌가 하는 의문이 있습니다.
+수십 ~ 수백 개의 테이블로 구성된 DB 구조를 ERD가 아닌 수천 줄짜리 코드를 보고 테이블 관계를 이해할 수 있나?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;가독성을 높일 수 있다&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;프로그래밍 언어로 만든 함수는 &apos;논리&apos;가 생명이지만, DB를 다루는 SQL은 &apos;데이터 정합성&apos;이 생명입니다.
+똑같은 SQL도 개발 DB, 운영 DB 그리고 시간에 따라 데이터가 다르게 조회됩니다. 아래 본문처럼, ORM은 SQL 블록 단위로 코드를 작성한 구조가 얼핏 보면 가독성이 좋아 보일 수 있으나, 블록 단위 데이터를 까볼 수는 없습니다.
+반대로 Raw SQL은 거대한 SQL 구조에서 내부 블록 단위로 쿼리를 실행해 데이터를 확인해 볼 수 있고, 어떻게 수정해야 할 지 바로 확인이 가능합니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;성능에 대한 저하&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;기본적으로 ORM 으로 데이터를 처리하는 게 SQL을 활용하는 것보다, 성능이 월등히 떨어집니다. (ORM 내부적으로 SQL로 변환하는 과정을 거치며, 조인이 많아질수록 성능을 기하급수적으로 감소합니다.)
+또한 튜닝이 필요한 시점에서는 결국 다시 SQL로 작성해야 하는 단점이 있습니다.&lt;/p&gt;
+&lt;p&gt;하지만 최근 지하철을 타며 회사를 출근하다가 문득 이 논쟁에 대한 정답을 찾았습니다. 그것은 바로 OLTP 와 OLAP 서비스에 따라 다르다는 것!&lt;/p&gt;
+&lt;h2 id=&quot;oltp와-olap&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#oltp%EC%99%80-olap&quot; aria-label=&quot;oltp와 olap permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;OLTP와 OLAP&lt;/h2&gt;
+&lt;p&gt;이 용어는 주로 Database에 대해서 공부해본 사람이라면 한 번쯤은 들어 봤을 것으로 보입니다.&lt;/p&gt;
+&lt;p&gt;OLTP (Online Transaction Processing)은 현재의 데이터 처리가 얼마나 정확하고, 무결한지가 중요합니다. 그렇기 때문에 주로 데이터의 저장, 삭제, 수정 등의 실질적인 데이터를 수정하는 작업을 의미하고, 단순 CRUD가 많은 서비스에서 주로 사용됩니다. 예시로 도메인 주도 설계에서, 여러 도메인을 정의하고 해당 도메인간의 연관관계 이벤트가 많이 발생하는 서비스라면 OLTP 에 가깝다고 표현할 수 있을 것 같습니다.&lt;/p&gt;
+&lt;p&gt;OLAP ( Online Analytical Processing)는 이미 지정된 데이터를 바탕으로 어떤 정보를 제공하는지가 중요합니다. 따라서 OLAP는 데이터가 무결하고 정확하다는 전제를 바탕으로 고객 또는 사용자가 원하는 정보를 어떤식으로 표현하고 제공하는지를 의미합니다. 예시로 설비의 여러 생산성 지표나 모니터링 같은 데이터를 추출하거나, 회사의 년간 각 부서별 임금 상승률 같은 분석용 데이터를 주로 보여주는 서비스라면 OLAP에 가깝다고 표현할 수 있습니다.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;구분&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;OLTP&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;OLAP&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;속도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;수 초 이내&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;수 초 이상 수 분 이내&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;관리단위&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;테이블&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;분석된 정보&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;최적화 방법&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;트랜잭션 효율화, 무결성의 극대화&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;조회속도, 정보의 가치, 편의성&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;데이터 특성&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;트랜잭션 중심&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;정보 중심&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;예시&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;회원정보 수정&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1년 간의 주문 이기 트렌드&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;상품 주문&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;한달간의 방문율 수익, 제품&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;댓글 남기기 및 수정&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;10년간 A 회사의 직원별 매출 상승률&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;정리를 하자면 단순한 데이터의 조회 및 저장이 주로 발생하는, 가볍지만 트래픽이 많은 서비스의 경우에는 ORM이 트랜드가 되고, 데이터를 가공하고 분석하는, 무겁지만 트래픽 건수가 상대적으로 적은 서비스에서는
+SQL이 많이 쓰이는 것으로 보입니다.&lt;/p&gt;
+&lt;h2 id=&quot;수정-api&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%88%98%EC%A0%95-api&quot; aria-label=&quot;수정 api permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;수정 API&lt;/h2&gt;
+&lt;blockquote&gt; companies/{company_id}/enterprise-dga-grade-status&lt;/blockquote&gt;
+변압기의 DGA 가스를 측정해서, AI 알고리즘을 돌린 후, 최신 진단한 상태값과 바로 직전 진단한 DGA 의 상태값을 보내 설비 별 상태값의 추이를 보여주도록 하는 API 입니다.
+&lt;p&gt;&lt;figure class=&quot;gatsby-resp-image-figure&quot; style=&quot;&quot;&gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/675b89e49698ef9396013915fa786354/264eb/dga_dashboard.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 52.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAAAsTAAALEwEAmpwYAAACSUlEQVR42oWTTUhUURTHZ10Lg6AWSUQQ7YIWEUmU2QdSoKlEYWUSZQgtJIJokYgVbUywD+hzRiNEUbIkVASZwQrMTVJEiyGwNkVTzPuYefPuve/cf+fd53y06sCfc+7l3d89H+/GgmQKlBgEDT0DDQ6VFa4fPUawuAhjWqNslfG/Fgu6e6D31ELX1kHvDbUvUt0B6B07Qffug/jDQj4Pz/OQy7kIiECkQUqxJwRBwPdFl8Toxk3oQ/XQLcegjzZDN7VEPtT+g6CncQN0shay2SzLAQkXWuXNfggicwGtAHuv80HOprERuqEB+vAR6GaGtbdDnzrJ7UhEBzmb0DK/PkAsx4Glceh0OmoAw0oZBn13QE2toNMXQG0dHJ8AtZ4DdXSBOi8jGB4zwLBttmdjeKGfy7bh/M6gMDULksp0VBczFPNxiOcXIUYusa7ATz2EmOZ4qgv+xHnIzxMRkM31LQzPz8HLKfyxHbyYcaGEyd/01ADl5BnI21WQ/VUQA9Xw33VCTm+AfLUGYjwG+fGqAVIQlbz0RWJkWmB0RuBTOtoLYaWS5UQ75K3VkH3rGLgFfpKBL9dDjq+FGF0FuXQtAioBnyetyYNte8jaOZ6uj3zeNwOpALZBDmyEGtwN+aSGS+6AfL0JanYX+62cYY8BKlGA6zhwHBc5N/Q8dcuGZVmQUpSBYuw45N3NkIkaiAfbUZg7CzFZDZms5z5uY2DvyiRV6VDoiyquSz+2yqShlt9G+v4eyvoKlVmA+vkG6kcKgfvtv6+j8qX8BU5d/A5pbKxkAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;서브스테이션 2.0 대시보드&quot;
+        title=&quot;서브스테이션 2.0 대시보드&quot;
+        src=&quot;/static/675b89e49698ef9396013915fa786354/0b533/dga_dashboard.png&quot;
+        srcset=&quot;/static/675b89e49698ef9396013915fa786354/fac75/dga_dashboard.png 125w,
+/static/675b89e49698ef9396013915fa786354/63868/dga_dashboard.png 250w,
+/static/675b89e49698ef9396013915fa786354/0b533/dga_dashboard.png 500w,
+/static/675b89e49698ef9396013915fa786354/1d69c/dga_dashboard.png 750w,
+/static/675b89e49698ef9396013915fa786354/264eb/dga_dashboard.png 867w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+    &lt;figcaption class=&quot;gatsby-resp-image-figcaption&quot;&gt;서브스테이션 2.0 대시보드&lt;/figcaption&gt;
+  &lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;db-구조&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#db-%EA%B5%AC%EC%A1%B0&quot; aria-label=&quot;db 구조 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;DB 구조&lt;/h2&gt;
+&lt;p&gt;해당 시스템에서는 PostgresSQL DB를 사용했으며, 설비를 지칭하는 Asset 테이블과 DGA(유증류 가스)를 측정한 DataMtrBody 그리고 설비와, DGA 정보를 이용해 AI 알고리즘 결과를 저장한 AiMtrBodyDga 테이블을 이용하여 데이터를 가져옵니다. 구체적인 테이블 칼럼 설명은 보안상 생략합니다.&lt;/p&gt;
+&lt;center&gt;  &lt;h3&gt;Before (ORM)&lt;/h3&gt; &lt;/center&gt;
+&lt;center&gt; 해당 방식은 SqlAlchemy의 ORM을 활용해서 데이터를 가져오는 형태의 데이터 입니다.&lt;/center&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# time 측정 &lt;/span&gt;
+        start &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        math&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;factorial&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;100000&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;# asset 별 모든 측정일과 이전 측정일 추출&lt;/span&gt;
+        asset_info &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            session&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;query&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;asset_id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_name&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;asset_name&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;acquisition_date&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;lead&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;over&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    partition_by&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_name&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                    order_by&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;desc&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;prev_acquisition_date&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;select_from&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;Asset&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;join&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_id &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;company_id &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; company_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_type &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;MTR&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;serial_no&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;in_&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;available_licenses&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;order_by&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_name&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;desc&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;subquery&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;# dataMtrBodyDga 테이블 기준 asset 별 최신 측정일과 바로 이전 측정일 추출&lt;/span&gt;
+        asset_acquisition_info &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            session&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;query&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                asset_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                asset_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_name&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;asset_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;acquisition_date&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+                        &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                            func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;asset_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;prev_acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                            func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;asset_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                        &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                            func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;asset_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;prev_acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                            func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;asset_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;prev_acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;prev_acquisition_date&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;select_from&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;asset_info&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;group_by&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;asset_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; asset_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_name&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;subquery&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;# asset 측정일 기준별 진단 결과 건수 추출&lt;/span&gt;
+        diag_info &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            session&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;query&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_id&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;asset_id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;acquisition_date&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                AiMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;ai_diagnosis_result&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;select_from&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;# LEFT OUTER JOIN 의 기준 테이블을 설정하기 위해 사용&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;outerjoin&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;Asset&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_id &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;outerjoin&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                AiMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                DataMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; AiMtrBodyDga&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;data_mtr_body_dga_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;filter&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;company_id &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; company_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_type &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;MTR&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                Asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;serial_no&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;in_&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;available_licenses&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;subquery&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# asset 별 최신 측정일 기준 상태 건수&lt;/span&gt;
+        query1 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            session&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;query&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;total_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;NORMAL&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;normal_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;CAUTION&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;caution_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;WARNING&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;warning_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;CRITICAL&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;critical_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;FAULT&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;fault_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;select_from&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;asset_acquisition_info&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;# LEFT OUTER JOIN 의 기준 테이블을 설정하기 위해 사용&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;join&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                diag_info&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                and_&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    asset_acquisition_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_id &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                    asset_acquisition_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date
+                    &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;first&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;token comment&quot;&gt;# asset 별 이전 측정일 기준 상태 건수&lt;/span&gt;
+        query2 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            session&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;query&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;total_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;NORMAL&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;normal_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;CAUTION&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;caution_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;WARNING&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;warning_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;CRITICAL&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;critical_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                func&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;count&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ai_diagnosis_result &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;FAULT&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;label&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;fault_cnt&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;select_from&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;asset_acquisition_info&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;# LEFT OUTER JOIN 의 기준 테이블을 설정하기 위해 사용&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;join&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                diag_info&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                and_&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+                    asset_acquisition_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_id &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                    asset_acquisition_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;prev_acquisition_date
+                    &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; diag_info&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;c&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;acquisition_date&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;first&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        end &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;****************************************************&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-interpolation&quot;&gt;&lt;span class=&quot;token string&quot;&gt;f&quot;&lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;end &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt; start&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token format-spec&quot;&gt;.5f&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt; sec&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;****************************************************&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;center&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;1회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;2회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;3회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;1차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;6.62579초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;6.28475초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;6.25671초&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;2차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;5.42588초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;5.30851초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;4.69481초&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;3차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;4.86993초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;4.90473초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;4.73450초&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/center&gt;
+&lt;center&gt;  &lt;h3&gt;After (SQL)&lt;/h3&gt; &lt;/center&gt;
+&lt;center&gt; 해당 방식은 SqlAlchemy 의 Core를 활용해서 Raw SQL 형태로 데이터를 가져오는 데이터 입니다.
+기존 &apos;IN&apos; 절로 처리한 부분을 &apos;ANY&apos;로 사용한 이유는, PostgreSQL에서 varchar 타입의 칼럼의 경우, SqlALchemy는 Record 타입으로 인지하고 값을 비교하여 에러가 납니다.
+해당 에러에 대해서 아래와 같이 변환하여 사용합니다.
+&lt;/center&gt;
+&lt;p&gt;&lt;em&gt;ANY (select unnest(:available_licenses))&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;python&quot;&gt;&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# time 측정 &lt;/span&gt;
+        start &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        math&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;factorial&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;100000&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        sql_statement &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; text&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;token triple-quoted-string string&quot;&gt;&quot;&quot;&quot;
+                     WITH asset_info AS (  
+                        SELECT a.asset_id, a.asset_name  
+                            ,MAX(a.acquisition_date) AS acquisition_date  
+                            ,CASE WHEN MAX(a.prev_acquisition_date) IS NULL THEN MAX(a.acquisition_date)  
+                                   WHEN MAX(a.prev_acquisition_date) IS NOT NULL THEN MAX(a.prev_acquisition_date)  
+                                   END AS prev_acquisition_date  
+                        FROM ( 
+                               SELECT a.id AS asset_id  
+                                      ,a.asset_name AS asset_name  
+                                      ,dmbd.acquisition_date  
+                                      ,LEAD(dmbd.acquisition_date,1) 
+                                          OVER (PARTITION BY a.id, a.asset_name ORDER BY dmbd.acquisition_date DESC ) 
+                                          AS prev_acquisition_date  
+                              FROM substation.asset a INNER JOIN substation.data_mtr_body_dga dmbd  
+                              ON a.id = dmbd.asset_id  
+                              WHERE a.asset_type = &apos;MTR&apos; 
+                              AND a.company_id = :company_id  
+                              AND a.serial_no = ANY (SELECT UNNEST(:available_licenses))
+                              ORDER BY a.id, a.asset_name, dmbd.acquisition_date DESC  
+                           ) a  
+                       GROUP BY a.asset_id, a.asset_name   
+                     ), diag_info AS (  
+                           SELECT dmbd.asset_id, dmbd.acquisition_date , ambd.ai_diagnosis_result 
+                           FROM substation.data_mtr_body_dga dmbd LEFT OUTER JOIN substation.asset a 
+                           ON dmbd.asset_id = a.id LEFT OUTER JOIN substation.ai_mtr_body_dga ambd  
+                           ON dmbd.id = ambd.data_mtr_body_dga_id 
+                           WHERE a.company_id = :company_id  
+                           AND a.serial_no = ANY (SELECT UNNEST(:available_licenses))
+                           AND a.asset_type = &apos;MTR&apos; 
+                           ) 
+                     SELECT COUNT(*) AS TOTAL_CNT  
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 0 THEN &apos;NORMAL&apos; END ) AS NORMAL 
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 1 THEN &apos;CAUTION&apos; END ) AS CAUTION 
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 2 THEN &apos;WARNING&apos; END ) AS WARNING 
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 3 THEN &apos;CRITICAL&apos; END ) AS CRITICAL 
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 4 THEN &apos;FAULT&apos; END ) AS FAULT 
+                     FROM asset_info a LEFT OUTER JOIN diag_info b 
+                     ON a.asset_id = b.asset_id 
+                     WHERE a.acquisition_date = b.acquisition_date 
+                     UNION ALL  
+                     SELECT COUNT(*) AS TOTAL_CNT  
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 0 THEN &apos;NORMAL&apos; END ) AS NORMAL 
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 1 THEN &apos;CAUTION&apos; END ) AS CAUTION 
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 2 THEN &apos;WARNING&apos; END ) AS WARNING 
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 3 THEN &apos;CRITICAL&apos; END ) AS CRITICAL 
+                           ,COUNT(CASE WHEN b.ai_diagnosis_result = 4 THEN &apos;FAULT&apos; END ) AS FAULT 
+                     FROM asset_info a LEFT OUTER JOIN diag_info b 
+                     ON a.asset_id = b.asset_id  
+                     WHERE a.prev_acquisition_date = b.acquisition_date  
+                &quot;&quot;&quot;&lt;/span&gt;
+                    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; session&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;execute&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;sql_statement&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;available_licenses&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; available_licenses&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;company_id&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; company_id
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        end &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; time&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;time&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;****************************************************&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-interpolation&quot;&gt;&lt;span class=&quot;token string&quot;&gt;f&quot;&lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;end &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt; start&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;token format-spec&quot;&gt;.5f&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt; sec&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;****************************************************&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;center&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;1회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;2회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;3회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;1차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;4.37999초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;4.64817초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;4.29508초&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;2차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.76666초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.64863초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.58068초&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;3차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.61587초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.56709초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.59817초&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/center&gt;
+&lt;h2 id=&quot;정리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A0%95%EB%A6%AC&quot; aria-label=&quot;정리 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;정리&lt;/h2&gt;
+&lt;p&gt;SQL의 처리 과정이나 로직에 대해서는 따로 설명하지는 않지만, DB 캐시에 의한 성능 효과를 고려해서 1 try 기준의 평균값으로 시간을 측정했을 때 Before (ORM) &lt;em&gt;6.38908&lt;/em&gt;,  After(SQL) &lt;em&gt;4.44108&lt;/em&gt; 아래와 같이 구해집니다.&lt;/p&gt;
+&lt;h4 style=&quot;color:#003163&quot;&gt;(4.44108 / 6.38908 ) x 100 = 69.51 %&lt;/h4&gt;
+&lt;span style=&quot;color:#003163&quot;&gt;&lt;b&gt;소요 시간을 기존 대비 30.48%가량 줄일 수 있었습니다.&lt;/b&gt;&lt;/span&gt; &lt;br&gt;&lt;br&gt;
+&lt;p&gt;다만 흥미로운 부분으로 DB 캐시 효과를 고려한 3try 기준의 평균값으로 측정하면 아래와 같이 구해집니다. Before (ORM) 4.83638, After (SQL)  1.59371&lt;/p&gt;
+&lt;h4 style=&quot;color:#003163&quot;&gt;(1.59371 / 4.83638 ) x 100 = 32.95 %&lt;/h4&gt;
+&lt;span style=&quot;color:#003163&quot;&gt;&lt;b&gt;소요 시간을 기존 대비 67%가량 줄일 수 있었습니다.&lt;/b&gt;&lt;/span&gt;&lt;br&gt;&lt;br&gt;
+&lt;p&gt;이 수치는 개발 환경에서 진행된 테스트로, 테이블에 적재된 데이터 용량과 DB 부하 상태에 따라서 수치에 영향을 받을 수 있으며, 그럴 경우 성능은 더 차이가 날 것으로 보입니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DB 조인이 더 많아지는 경우에도 마찬가지입니다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;성능-저하-원인&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%84%B1%EB%8A%A5-%EC%A0%80%ED%95%98-%EC%9B%90%EC%9D%B8&quot; aria-label=&quot;성능 저하 원인 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;성능 저하 원인&lt;/h2&gt;
+&lt;p&gt;그렇다면 &lt;em&gt;&apos;ORM 이 변경한 쿼리 구조가 성능이 나쁜 건지&apos; 혹은 &apos;ORM 이 SQL로 변경하는 과정에서 오랜 걸린 건지?&lt;/em&gt; 에 대한 궁금중이 생길 수 있을 것 같은데요. ORM 이 변경한 쿼리로 직접 실행했을 때의 결과는 아래와 같았습니다.&lt;/p&gt;
+&lt;center&gt;  &lt;h3&gt;ORM 으로 변환된 SQL&lt;/h3&gt; &lt;/center&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    math&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;factorial&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;100000&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;session&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; DatabaseFactory&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;create_session&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    try:
+        company_name &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;token keyword&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;query&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;Company&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;company_name&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;filter&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;Company&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;id &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; company_id&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;company_name
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        available_licenses &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; LicenseUtils&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;license_check_all&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;company_name&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;company_name&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        query_1 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&quot;
+                     SELECT count(anon_1.ai_diagnosis_result) AS total_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 0) THEN &apos;NORMAL&apos; END) AS normal_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 1) THEN &apos;CAUTION&apos; END) AS caution_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 2) THEN &apos;WARNING&apos; END) AS warning_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 3) THEN &apos;CRITICAL&apos; END) AS critical_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 4) THEN &apos;FAULT&apos; END) AS fault_cnt 
+            FROM (
+                    SELECT anon_3.asset_id AS asset_id
+                            , anon_3.asset_name AS asset_name
+                            , MAX(anon_3.acquisition_date) AS acquisition_date
+                            , CASE WHEN (MAX(anon_3.prev_acquisition_date) IS NULL) THEN MAX(anon_3.acquisition_date) 
+                                    WHEN (MAX(anon_3.prev_acquisition_date) IS NOT NULL) THEN MAX(anon_3.prev_acquisition_date) 
+                            END AS prev_acquisition_date 
+            FROM (
+                    SELECT substation.asset.id AS asset_id
+                        , substation.asset.asset_name AS asset_name
+                        , substation.data_mtr_body_dga.acquisition_date AS acquisition_date
+                        , LEAD(substation.data_mtr_body_dga.acquisition_date, 1) 
+                            OVER (PARTITION BY substation.asset.id, substation.asset.asset_name 
+                                    ORDER BY substation.data_mtr_body_dga.acquisition_date DESC
+                            ) AS prev_acquisition_date 
+                    FROM substation.asset JOIN substation.data_mtr_body_dga 
+                    ON substation.data_mtr_body_dga.asset_id = substation.asset.id 
+                    WHERE substation.asset.company_id = :company_id  
+                    AND substation.asset.asset_type = &apos;MTR&apos;
+                    AND substation.asset.serial_no = ANY (SELECT UNNEST(:available_licenses))
+                    ORDER BY substation.asset.id, substation.asset.asset_name, substation.data_mtr_body_dga.acquisition_date DESC
+                    ) AS anon_3 
+            GROUP BY anon_3.asset_id, anon_3.asset_name) AS anon_2 JOIN 
+                (
+                    SELECT substation.data_mtr_body_dga.asset_id AS asset_id
+                        , substation.data_mtr_body_dga.acquisition_date AS acquisition_date
+                        , substation.ai_mtr_body_dga.ai_diagnosis_result AS ai_diagnosis_result 
+                    FROM substation.data_mtr_body_dga LEFT OUTER JOIN substation.asset 
+                    ON substation.data_mtr_body_dga.asset_id = substation.asset.id 
+                    LEFT OUTER JOIN substation.ai_mtr_body_dga 
+                    ON substation.data_mtr_body_dga.id = substation.ai_mtr_body_dga.data_mtr_body_dga_id 
+                    WHERE substation.asset.company_id = :company_id  
+                    AND substation.asset.asset_type = &apos;MTR&apos;
+                    AND substation.asset.serial_no = ANY (SELECT UNNEST(:available_licenses))
+                ) AS anon_1 
+            ON anon_2.asset_id = anon_1.asset_id 
+            AND anon_1.acquisition_date = anon_2.acquisition_date 
+            LIMIT 1
+                &quot;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        sql_result1 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            query_1&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            {
+                &lt;span class=&quot;token string&quot;&gt;&quot;available_licenses&quot;&lt;/span&gt;: available_licenses&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token string&quot;&gt;&quot;company_id&quot;&lt;/span&gt;: company_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            }&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        query_2 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;token string&quot;&gt;&quot;&quot;&quot;
+                     SELECT count(anon_1.ai_diagnosis_result) AS total_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 0) THEN &apos;NORMAL&apos; END) AS normal_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 1) THEN &apos;CAUTION&apos; END) AS caution_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 2) THEN &apos;WARNING&apos; END) AS warning_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 3) THEN &apos;CRITICAL&apos; END) AS critical_cnt
+                    , count(CASE WHEN (anon_1.ai_diagnosis_result = 4) THEN &apos;FAULT&apos; END) AS fault_cnt 
+            FROM (
+                    SELECT anon_3.asset_id AS asset_id
+                            , anon_3.asset_name AS asset_name
+                            , MAX(anon_3.acquisition_date) AS acquisition_date
+                            , CASE WHEN (MAX(anon_3.prev_acquisition_date) IS NULL) THEN MAX(anon_3.acquisition_date) 
+                                    WHEN (MAX(anon_3.prev_acquisition_date) IS NOT NULL) THEN MAX(anon_3.prev_acquisition_date) 
+                            END AS prev_acquisition_date 
+            FROM (
+                    SELECT substation.asset.id AS asset_id
+                        , substation.asset.asset_name AS asset_name
+                        , substation.data_mtr_body_dga.acquisition_date AS acquisition_date
+                        , LEAD(substation.data_mtr_body_dga.acquisition_date, 1) 
+                            OVER (PARTITION BY substation.asset.id, substation.asset.asset_name 
+                                    ORDER BY substation.data_mtr_body_dga.acquisition_date DESC
+                            ) AS prev_acquisition_date 
+                    FROM substation.asset JOIN substation.data_mtr_body_dga 
+                    ON substation.data_mtr_body_dga.asset_id = substation.asset.id 
+                    WHERE substation.asset.company_id = :company_id  
+                    AND substation.asset.asset_type = &apos;MTR&apos;
+                    AND substation.asset.serial_no = ANY (SELECT UNNEST(:available_licenses))
+                    ORDER BY substation.asset.id, substation.asset.asset_name, substation.data_mtr_body_dga.acquisition_date DESC
+                    ) AS anon_3 
+            GROUP BY anon_3.asset_id, anon_3.asset_name) AS anon_2 JOIN 
+                (
+                    SELECT substation.data_mtr_body_dga.asset_id AS asset_id
+                        , substation.data_mtr_body_dga.acquisition_date AS acquisition_date
+                        , substation.ai_mtr_body_dga.ai_diagnosis_result AS ai_diagnosis_result 
+                    FROM substation.data_mtr_body_dga LEFT OUTER JOIN substation.asset 
+                    ON substation.data_mtr_body_dga.asset_id = substation.asset.id 
+                    LEFT OUTER JOIN substation.ai_mtr_body_dga 
+                    ON substation.data_mtr_body_dga.id = substation.ai_mtr_body_dga.data_mtr_body_dga_id 
+                    WHERE substation.asset.company_id = :company_id  
+                    AND substation.asset.asset_type = &apos;MTR&apos;
+                    AND substation.asset.serial_no = ANY (SELECT UNNEST(:available_licenses))
+                ) AS anon_1 
+            ON anon_2.asset_id = anon_1.asset_id 
+            AND anon_1.acquisition_date = anon_2.prev_acquisition_date 
+            LIMIT 1
+                &quot;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        sql_result2 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+            query_2&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            {
+                &lt;span class=&quot;token string&quot;&gt;&quot;available_licenses&quot;&lt;/span&gt;: available_licenses&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;token string&quot;&gt;&quot;company_id&quot;&lt;/span&gt;: company_id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+            }&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        results1 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;rowproxy&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_mapping &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; rowproxy &lt;span class=&quot;token operator&quot;&gt;in&lt;/span&gt; sql_result1&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+        results2 &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;rowproxy&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;_mapping &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; rowproxy &lt;span class=&quot;token operator&quot;&gt;in&lt;/span&gt; sql_result2&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;****************************************************&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;f&lt;span class=&quot;token string&quot;&gt;&quot;{end - start:.5f} sec&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;****************************************************&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+        responses &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; {&lt;span class=&quot;token string&quot;&gt;&quot;current&quot;&lt;/span&gt;: results1&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;prev&quot;&lt;/span&gt;: results2&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;center&gt;  &lt;b&gt;결과 ORM 이 가공한 Raw SQL 로 실행 시&lt;/b&gt;&lt;/center&gt; &lt;br/&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;1회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;2회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;3회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;1차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;4.68825초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;4.95818초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;4.51720초&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;2차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.86746초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.88096초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.97292초&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;3차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.83698초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.87081 초&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.87755초&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;center&gt; &lt;b&gt;결과 ORM으로 실행한 시&lt;/b&gt; &lt;/center&gt; &lt;br/&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;1회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;2회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;3회 시도 (DB 캐시 제거)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;1차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;6.62579초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;6.28475초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:blue&quot;&gt;6.25671초&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;2차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:orange&quot;&gt;5.42588초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:orange&quot;&gt;5.30851초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:orange&quot;&gt;4.69481 초&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;3차 시도&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:orange&quot;&gt;4.86993초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:orange&quot;&gt;4.90473초&lt;/span&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;span style=&quot;color:orange&quot;&gt;4.734509초&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;DB 캐싱에 의한 성능향상을 고려해서 1try 의 경우에 한해서, 비교해 보면 ORM 으로 조회했을 때와 Raw SQL 로 조회 했을때를 비교해보면 아래와 같습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ORM -&gt; SQL 로 변경하는데 소요되는 시간 약 1.67 초 정도 소요&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;직접 짠 Raw SQL 구조 대비 약 0.28 초 정도 성능 저하&lt;/p&gt;
+&lt;p&gt;직접 짠 SQL 은 UNION ALL 을 사용한 반면에, ORM 에서는 쿼리 2번을 조회 하도록 했습니다. 다만 실제 비교 수치에서 유의미한 차이는 없었고, ORM 에서는 가독성을 향상 시킬 수 있어서(코드 감소) UNION ALL 대신 2개로 분할 해서 사용했었습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ORM 으로 실행한 코드는 DB 캐싱에 의한 이득에 있어서, Raw SQL 보다 매우 비효율적인 모습을 보였습니다. 해당 원인으로 추정해보기에는, &lt;em&gt;IN 절을 사용하는 것에 있는것으로 판단&lt;/em&gt;됩니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;사실 SQL 튜닝 관점에서도 수많은 데이터를 IN 절을 통해서 받도록 하는 것은 좋지 못한 행동이지만, ORM 이 수많은 파라미터를 IN 절로 받도록 변환하는 과정에서 엄청 긴 SQL 을 만들게 되고, SQL 로 가공하는 시간과 더불어 캐싱효과를 제대로 누리지 못하게 한 것으로 보입니다.&lt;/p&gt;
+&lt;center&gt;  &lt;h3&gt;ORM 이 가공한 SQL 로그&lt;/h3&gt; &lt;/center&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;AND&lt;/span&gt; substation&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;asset&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;serial_no &lt;span class=&quot;token operator&quot;&gt;IN&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_1&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_2&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_3&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_4&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_5&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_6&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_7&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_8&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_9&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_10&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_11&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_12&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_13&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_14&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_15&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_16&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_17&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_18&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_19&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_20&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_21&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_22&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_23&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_24&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_25&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_26&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_27&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_28&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_29&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_30&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_31&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_32&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_33&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_34&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_35&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_36&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_37&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_38&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_39&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_40&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_41&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_42&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_43&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_44&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_45&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_46&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_47&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_48&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_49&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_50&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_51&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_52&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_53&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_54&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_55&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_56&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_57&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_58&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_59&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_60&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_61&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_62&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_63&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_64&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_65&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_66&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_67&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_68&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_69&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_70&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_71&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_72&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_73&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_74&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_75&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_76&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_77&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_78&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_79&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_80&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_81&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_82&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_83&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_84&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_85&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_86&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_87&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_88&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_89&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_90&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_91&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_92&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_93&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_94&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_95&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_96&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_97&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_98&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_99&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_100&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_101&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_102&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_103&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_104&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_105&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_106&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_107&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_108&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_109&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_110&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_111&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_112&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_113&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_114&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_115&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_116&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_117&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_118&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_119&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_120&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_121&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_122&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_123&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_124&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_125&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_126&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_127&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_128&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_129&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_130&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_131&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_132&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_133&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_134&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_135&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_136&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_137&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_138&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_139&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_140&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_141&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_142&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_143&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_144&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_145&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_146&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_147&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_148&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_149&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_150&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_151&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_152&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_153&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_154&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_155&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_156&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_157&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_158&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;serial_no_1_159&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s
+			&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+			&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;		&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;center&gt;  &lt;h3&gt;Raw SQL 로 실행한 로그&lt;/h3&gt; &lt;/center&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;sql&quot;&gt;&lt;pre class=&quot;language-sql&quot;&gt;&lt;code class=&quot;language-sql&quot;&gt;&lt;span class=&quot;token operator&quot;&gt;AND&lt;/span&gt; a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;serial_no &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;ANY&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;SELECT&lt;/span&gt; UNNEST&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;available_licenses&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;s&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;비고&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B9%84%EA%B3%A0&quot; aria-label=&quot;비고 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;비고&lt;/h2&gt;
+&lt;p&gt;ORM 에서 성능 관련 얘기를 할 때는 보통 기본적으로 N+1 이슈에 대해서 많이 다루는데요, 이번 글에서는 ORM 의 구조적인 형태로 발생하는 트랜잭션 비효율을 다루기보다는 동일한 형태의 테이블 조인으로 데이터를 조회했을 때,
+발생하는 성능 이슈에 대해서 비교해 보는 글을 적어봤습니다.&lt;/p&gt;
+&lt;p&gt;또한 해당 글은 Backend 서버와 Database 서버 간 로컬 망에서 랜선 연결을 통해 측정한 데이터이며, DB 데이터 모수도 그저 5,500여 건의 데이터를 가지고 측정한 데이터이기에, 실 운영환경에서는 좀 더 극적인 효과를 기대할 수 있을 것으로 기대합니다.&lt;/p&gt;
+&lt;h2 id=&quot;마치며&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%A7%88%EC%B9%98%EB%A9%B0&quot; aria-label=&quot;마치며 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;마치며&lt;/h2&gt;
+&lt;p&gt;ORM 진영과 SQL 진영의 열띤 토론에 참여했었던 1인으로서, 개인적으로 2년 넘게 고민해 온 주제였습니다. 이 글의 내용만 본다면 SQL 진영의 승리처럼 보일 수 있지만, 이글을 작성하고 준비하면서 새로운 인사이트를 얻게 되었습니다.
+바로 ORM 만이 가지고 있는 &apos;특별한 장점&apos;이 있다는 점과 DB 연산 비용 못지않게 중요한 요소가 바로 &apos;네트워크 비용&apos;이라는 점입니다. MSA 정말 좋은 건가?&lt;/p&gt;
+&lt;p&gt;또한 이런 결괏값은 어디까지나 OLAP 시스템 관점에서 작성한 글로, 복잡하지 않은 쿼리를 가진 OLTP 시스템이라면 ORM 도 충분히 사용하기 좋은 매력적인 도구라고 생각됩니다,
+ORM 이 가지고 있는 장점과, 성능 개선 포인트가 궁금하시다면 다음 편을 참고해 주세요.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.owl-dev.me/blog/68&quot;&gt;https://www.owl-dev.me/blog/68&lt;/a&gt; &lt;sup id=&quot;fnref-주2&quot;&gt;&lt;a href=&quot;#fn-주2&quot; class=&quot;footnote-ref&quot;&gt;주2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&quot;fn-주1&quot;&gt;DA 와 DBA 란?  &lt;a href=&quot;https://dataonair.or.kr/db-tech-reference/d-story/data-story/?mod=document&amp;#x26;uid=63217&quot;&gt;블로그&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC1&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&quot;fn-주2&quot;&gt;&lt;a href=&quot;https://www.owl-dev.me/&quot;&gt;부엉이 블로그&lt;/a&gt;&lt;a href=&quot;#fnref-%EC%A3%BC2&quot; class=&quot;footnote-backref&quot;&gt;↩&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;</content:encoded></item><item><title><![CDATA[신입 개발자의 인덱스 장애 회고담]]></title><description><![CDATA[들어가며 Index란? Index를 사용하는 이유 Index…]]></description><link>http://onepredict.github.io/failure-retrospective/</link><guid isPermaLink="false">http://onepredict.github.io/failure-retrospective/</guid><pubDate>Wed, 15 Nov 2023 00:00:00 GMT</pubDate><content:encoded>&lt;div class=&quot;table-of-contents&quot;&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&quot;#%EB%93%A4%EC%96%B4%EA%B0%80%EB%A9%B0&quot;&gt;들어가며&lt;/a&gt;&lt;/p&gt;
