@@ -1,8 +1,373 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 18 Jan 2024 01:36:43 GMT</lastBuildDate><item><title><![CDATA[사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2]]></title><description><![CDATA[글 목록 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2 Intro. Playwright…]]></description><link>http://onepredict.github.io/playwright-e2e-part2/</link><guid isPermaLink="false">http://onepredict.github.io/playwright-e2e-part2/</guid><pubDate>Tue, 16 Jan 2024 15:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 31 Jan 2024 05:26:00 GMT</lastBuildDate><item><title><![CDATA[사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 3]]></title><description><![CDATA[글 목록 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2 사용자 동작을 중심으로 Playwright로 E2E…]]></description><link>http://onepredict.github.io/playwright-e2e-part3/</link><guid isPermaLink="false">http://onepredict.github.io/playwright-e2e-part3/</guid><pubDate>Wed, 24 Jan 2024 15:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;글 목록&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/playwright-e2e-part1/&quot;&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/playwright-e2e-part2/&quot;&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 3&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#intro&quot;&gt;Intro.&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EC%9A%94%EC%86%8C-%EB%A0%8C%EB%8D%94%EB%A7%81&quot;&gt;요소 렌더링&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%A1%B0%EA%B1%B4%EB%B6%80-%EB%A0%8C%EB%8D%94%EB%A7%81&quot;&gt;조건부 렌더링&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#auto-waiting&quot;&gt;Auto-waiting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#waitfor--%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;waitFor-*()&lt;/code&gt; 사용하기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%A0%8C%EB%8D%94%EB%A7%81-%EA%B7%9C%EC%B9%99&quot;&gt;렌더링 규칙&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EC%9A%94%EC%86%8C%EC%9D%98-%EC%B6%94%EA%B0%80%EC%A0%81%EC%9D%B8-%EA%B8%B0%EB%8A%A5%EB%93%A4&quot;&gt;요소의 추가적인 기능들&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#hover-drag-%EA%B8%B0%EB%8A%A5&quot;&gt;Hover, Drag 기능&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#screenshot-%EA%B8%B0%EB%8A%A5&quot;&gt;Screenshot 기능&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%83%88%EB%A1%9C%EC%9A%B4-%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80-%EC%B0%BD-%EC%97%B4%EA%B8%B0&quot;&gt;새로운 브라우저 창 열기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EA%B7%B8-%EC%99%B8&quot;&gt;그 외&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#ui-%EB%AA%A8%EB%93%9C-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0&quot;&gt;UI 모드 활용하기&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#locator-%EA%B8%B0%EB%8A%A5&quot;&gt;Locator 기능&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#source-%EA%B8%B0%EB%8A%A5&quot;&gt;Source 기능&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#errors-%EA%B8%B0%EB%8A%A5&quot;&gt;Errors 기능&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#actions-%EA%B8%B0%EB%8A%A5&quot;&gt;Actions 기능&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EA%B8%B0%ED%83%80&quot;&gt;기타&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#pagewaitfortimeout&quot;&gt;page.waitForTimeout()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#scrollintoviewifneeded&quot;&gt;scrollIntoViewIfNeeded()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#json-%ED%8C%8C%EC%9D%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0&quot;&gt;JSON 파일 사용하기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0&quot;&gt;환경 변수 사용하기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A4%91%EB%B3%B5-%EC%BD%94%EB%93%9C-%EC%A4%84%EC%9D%B4%EA%B8%B0&quot;&gt;반복문을 사용하여 중복 코드 줄이기&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%ED%9A%8C%EA%B3%A0&quot;&gt;회고&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%ED%95%99%EC%8A%B5%EA%B3%BC-%EC%A7%80%EC%86%8D%EC%A0%81%EC%9D%B8-%ED%94%BC%EB%93%9C%EB%B0%B1&quot;&gt;학습과 지속적인 피드백&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%A0%84%EB%9E%B5%EA%B3%BC-%EA%B3%A0%EB%AF%BC&quot;&gt;테스트 코드 작성 전략과 고민&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%A0%84%EC%97%AD-%EC%84%A4%EC%A0%95%EA%B3%BC-%EC%95%88%EC%A0%95%EC%84%B1-%EC%9E%AC%EC%82%AC%EC%9A%A9%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-%EB%85%B8%EB%A0%A5&quot;&gt;전역 설정과 안정성, 재사용성을 위한 노력&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%A7%81%EA%B4%80%EC%84%B1-%ED%96%A5%EC%83%81&quot;&gt;테스트 직관성 향상&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EA%B2%B0%EB%A1%A0&quot;&gt;결론&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;intro&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#intro&quot; aria-label=&quot;intro permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Intro.&lt;/h2&gt;
+&lt;p&gt;이번 Part 3에서는 Playwright에서 찾은 요소를 어떻게 활용하는지에 대한 경험과 생각을 공유하고자 합니다.&lt;/p&gt;
+&lt;h2 id=&quot;요소-렌더링&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9A%94%EC%86%8C-%EB%A0%8C%EB%8D%94%EB%A7%81&quot; aria-label=&quot;요소 렌더링 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;요소 렌더링&lt;/h2&gt;
+&lt;h3 id=&quot;조건부-렌더링&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A1%B0%EA%B1%B4%EB%B6%80-%EB%A0%8C%EB%8D%94%EB%A7%81&quot; aria-label=&quot;조건부 렌더링 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;조건부 렌더링&lt;/h3&gt;
+&lt;p&gt;Locators를 사용하여 찾은 요소들은 조건부 렌더링을 통해 화면에 보일 수 있습니다.
+요소의 조건부 상태 값은 크게 2가지로 나눌 수 있습니다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;visible / hidden&lt;/li&gt;
+&lt;li&gt;attached / detached&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;간단히 설명하자면 visible / hidden은 요소를 단순히 가리고 보여주는 것이고, attached / detached는 요소를 붙였다가 떼는 것입니다.
+요소의 상태(state) 값에 대한 자세한 내용은 &lt;a href=&quot;https://playwright.dev/docs/api/class-locator#locator-wait-for-option-state&quot;&gt;여기&lt;/a&gt;에서 확인할 수 있습니다.&lt;/p&gt;
+&lt;h3 id=&quot;auto-waiting&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#auto-waiting&quot; aria-label=&quot;auto waiting permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Auto-waiting&lt;/h3&gt;
+&lt;p&gt;Playwright는 동작을 수행하기 전에 요소에 대한 다양한 실행 가능성을 검사하고 예상대로 동작하는지 확인합니다.
+예를 들어, 다음과 같은 코드가 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;await page.locator(&apos;.chart-wrapper&apos;).click();&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이 코드는 &lt;code class=&quot;language-text&quot;&gt;locator()&lt;/code&gt;를 사용하여 페이지 내 &lt;code class=&quot;language-text&quot;&gt;chart-wrapper&lt;/code&gt; 클래스명을 가진 요소를 선택하고, 클릭 동작을 실행합니다.&lt;/p&gt;
+&lt;p&gt;만일 클릭 동작이 수행되지 않는 경우, Playwright worker의 실행 포인터가 해당 코드 위치에서 계속 대기하게 됩니다.
+그리고 특정 시간이 지나고 Timeout Error가 발생하고 테스트가 실패합니다.&lt;/p&gt;
+&lt;p&gt;이렇게 한 줄의 코드로 이렇게 많은 동작을 수행할 수 있는 이슈는 코드에 숨겨진 내용들이 있기 때문입니다.
+이 부분을 자세히 살펴보겠습니다.&lt;/p&gt;
+&lt;p&gt;위에서 작성한 코드에는 다음과 같은 내용이 보장되어 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;1. 요소가 DOM에 붙어 있다.
+2. 요소가 visible하다.
+3. 요소가 stable하다.(애니메이션 종료)
+4. 요소가 다른 요소에 가려지지 않는 것처럼 이벤트를 수신한다.
+5. 요소가 enable되어 있다.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;사용자 이벤트마다 보장되는 실행 가능한 동작들이 다릅니다.
+자세한 내용은 &lt;a href=&quot;https://playwright.dev/docs/actionability&quot;&gt;여기&lt;/a&gt;에서 확인할 수 있습니다.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;force 옵션에 대해서&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;사용자 동작을 코드로 작성했을 때, 실행 가능성 검사를 수행하고 예상대로 동작하는 것은 편리합니다.
+그러나 사용자 동작이 강제적으로 실행되어야 하는 예외 상항이 발생할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;예를 들어 disabled 된 인풋 박스에 값을 채워 넣어야 하는 경우가 있습니다.
+&lt;code class=&quot;language-text&quot;&gt;force&lt;/code&gt; 옵션을 사용하여 어플리케이션에서 불가능한 동작을 강제로 수행할 수 있게 되며,
+특수한 테스트 시나리오에서 활용될 수 있습니다.&lt;/p&gt;
+&lt;p&gt;또한 UI 모드에서 Locator를 이용하여 찾은 요소를 확인하는 데에도 유용하게 사용될 수 있습니다.
+따라서 &lt;code class=&quot;language-text&quot;&gt;force&lt;/code&gt; 옵션은 예상치 못한 동작이 필요한 경우나 특별한 테스트 상황에서 활용할 수 있습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;waitfor--사용하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#waitfor--%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0&quot; aria-label=&quot;waitfor  사용하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;waitFor-*()&lt;/code&gt; 사용하기&lt;/h3&gt;
+&lt;p&gt;어플리케이션에서는 사용자 동작 외에도 브라우저에 렌더링되는 요소가 보장되었는지 확인해야 합니다.
+실제 사용자의 행동과 Playwight 코드를 통한 에뮬레이터 동작이 동일하게 작동하더라도,
+테스트 실행 결과가 다를 수 있습니다.&lt;/p&gt;
+&lt;p&gt;이러한 차이는 디바이스를 컨트롤하는 시간, 미세한 딜레이, 눈속임 기법 등의 영향으로 인해 발생할 수 있습니다.
+수동으로 어플리케이션을 테스트할 때는 사용자 경험을 터득하고 무의식적으로 문제점을 놓치거나 특정 부분에 매몰될 수 있습니다.&lt;/p&gt;
+&lt;p&gt;예를 들어 탭을 선택하여 하위 탭 컨텐츠가 변경되는 경우,
+복잡한 돔 구조와 네트워크 딜레이 등으로 인해 렌더링 시간이 달라져 테스트가 간헐적으로 실패할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;따라서 테스트 코드를 작성할 때는 동적인 요소와 관련된 부분에 특별한 주의가 필요하며,
+렌더링되지 않은 요소를 동작시키려고 하는 경우가 없도록 주의해야 합니다.&lt;/p&gt;
+&lt;p&gt;Playwright에서는 이러한 동기화 이슈를 해결하기 위해 요소의 변경이 완료된 상태를 보장하는 &lt;code class=&quot;language-text&quot;&gt;waitFor-*()&lt;/code&gt; API를 제공합니다.
+이 API는 요소의 attached, detached, visible, hidden 상태가 될 때까지 대기하는 기능을 제공하여
+사용자가 원하는 타이밍과 테스트 코드의 타이밍의 괴리를 최소화할 수 있습니다.&lt;/p&gt;
+&lt;h3 id=&quot;렌더링-규칙&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%A0%8C%EB%8D%94%EB%A7%81-%EA%B7%9C%EC%B9%99&quot; aria-label=&quot;렌더링 규칙 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;렌더링 규칙&lt;/h3&gt;
+&lt;p&gt;어플리케이션의 렌더링 최적화를 위해 다양한 방법들이 존재합니다.
+Suspense를 이용한 Skeleton UI 방식, 로딩 마스크, CSS animation, 다양한 컴포넌트 에러 바운더리 규칙 등이 이에 속합니다.&lt;/p&gt;
+&lt;p&gt;어플리케이션의 메뉴와 영역을 분리하고, 컴포넌트 요소 및 렌더링 규칙을 명확하게 정의하면 E2E 테스트 작성이 간편해집니다.
+정해진 규칙에 따라 손쉽게 테스트 코드를 작성할 수 있으며, 테스트 코드 유지보수 비용도 절감됩니다.
+또한, 이러한 디테일은 테스트의 품질과 안정성을 높일 수 있다고 생각합니다.&lt;/p&gt;
+&lt;p&gt;요소의 렌더링 성공 여부에 따라 테스트를 건너뛸 것인지 실패할 것인지를 정의하는 것이 중요합니다.
+테스트 코드를 작성할 때 이러한 기준을 명확히 정의하면 효과적으로 테스트를 수행할 수 있습니다.&lt;/p&gt;
+&lt;h2 id=&quot;요소의-추가적인-기능들&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%9A%94%EC%86%8C%EC%9D%98-%EC%B6%94%EA%B0%80%EC%A0%81%EC%9D%B8-%EA%B8%B0%EB%8A%A5%EB%93%A4&quot; aria-label=&quot;요소의 추가적인 기능들 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;요소의 추가적인 기능들&lt;/h2&gt;
+&lt;h3 id=&quot;hover-drag-기능&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#hover-drag-%EA%B8%B0%EB%8A%A5&quot; aria-label=&quot;hover drag 기능 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Hover, Drag 기능&lt;/h3&gt;
+&lt;p&gt;Playwright의 특징 중 하나인 hover, drag 기능을 통해 툴팁 컴포넌트, 슬라이더 컴포넌트 등을 테스트할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;// 모든 라벨에 hover하면 툴팁이 나타난다.
+const labelCount = await labelText.count();
+for (let i = 0; i &amp;lt; labelCount; ++i) {
+  const selectedLabel = labelText.nth(i);
+  await selectedLabel.hover();
+
+  await tooltipPopper.waitFor({ state: &apos;attached&apos; });
+  await expect(tooltipPopper).toBeVisible();
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;// 슬라이더의 마크를 처음부터 가운데까지 드래그한다.
+await slider
+  .first()
+  .dragTo(slider.nth(Math.ceil(markCount / 2)), {
+    force: true,
+  });&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;screenshot-기능&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#screenshot-%EA%B8%B0%EB%8A%A5&quot; aria-label=&quot;screenshot 기능 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Screenshot 기능&lt;/h3&gt;
+&lt;p&gt;Screenshot 기능을 사용하면 전체 페이지나 특정 요소의 스크린샷을 캡처하여 파일로 저장할 수 있습니다.
+Locators를 통해 Playwright 에뮬레이터 상의 요소를 찾더라도 실제로 렌더링되었는지 확인하는 데 screenshot 기능은 유용합니다.&lt;/p&gt;
+&lt;p&gt;하지만 개인적으로 screenshot을 선호하지 않습니다.
+이는 테스트 커버리지를 100%로 올리기 위한 치트 방식으로 보입니다.
+저장된 이미지는 노력도 적고 신뢰도가 낮은 테스트라고 여겨지며, 적용은 쉽지만 효과가 제한적인 낮은 비용의 테스트라고 생각합니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;test(`테스트 명`, async ({ page }, testInfo) =&gt; {
+  // ...
+  const screenshotPath = testInfo.outputPath(&apos;screenshot.png&apos;);
+  await page.screenshot({ path: screenshotPath });
+});&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;새로운-브라우저-창-열기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%83%88%EB%A1%9C%EC%9A%B4-%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80-%EC%B0%BD-%EC%97%B4%EA%B8%B0&quot; aria-label=&quot;새로운 브라우저 창 열기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;새로운 브라우저 창 열기&lt;/h3&gt;
+&lt;p&gt;클릭 시 새로운 브라우저 창을 여는 동작에 대해 테스트할 수 있습니다.
+Promise 객체를 활용하여 사용자 동작과의 싱크를 맞출 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;test(`테스트 명`, async ({ context }) =&gt; {
+  const titleBox = page.locator(&apos;.title-box&apos;);
+  
+  const pagePromise = context.waitForEvent(&apos;page&apos;);
+  await titleBox.click();
+  const newPage = await pagePromise;
+  
+  await newPage.waitForURL(/* regex */);
+  
+  await expect(newPage).toHaveURL(/* regex */);
+  await newPage.close();
+})&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;그-외&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B7%B8-%EC%99%B8&quot; aria-label=&quot;그 외 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;그 외&lt;/h3&gt;
+&lt;p&gt;download, page.keyboard, page.mouse, evaluate 등의 기능을 유용하게 사용하여 테스트를 진행하였습니다.&lt;/p&gt;
+&lt;h2 id=&quot;ui-모드-활용하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ui-%EB%AA%A8%EB%93%9C-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0&quot; aria-label=&quot;ui 모드 활용하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;UI 모드 활용하기&lt;/h2&gt;
+&lt;p&gt;테스트를 실행하는 방법의 하나는 터미널에서 커맨드 라인을 통해 실행하는 것입니다.
+그러나 새로운 사용자나 테스터의 입장에서 가시성이 뛰어난 것은 UI 모드를 사용하는 것입니다.
+UI 모드를 활용하면 테스트 각 단계를 시각적으로 확인하고 진행할 수 있어,
+테스트를 더욱 쉽게 탐색하고 실행하며 디버깅할 수 있습니다.&lt;/p&gt;
+&lt;p&gt;개인적으로 Playwright UI 모드를 사용하는 것을 추천해 드립니다.
+UI 모드를 사용하면 테스트 실행 중에 페이지에서 어떤 일이 벌어지고 있는지 실시간으로 확인이 가능합니다.
+텍스트 기반 테스트 외에 시각적 피드백을 통해 테스트 코드의 동작을 확인할 수 있으며 디버깅이 쉬워집니다.
+이를 통해 쉽고 즐거운 테스트 경험을 할 수 있습니다.&lt;/p&gt;
+&lt;h3 id=&quot;locator-기능&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#locator-%EA%B8%B0%EB%8A%A5&quot; aria-label=&quot;locator 기능 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Locator 기능&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/278d53ccda41b126fd70708184144394/3c051/img.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 61.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAAsTAAALEwEAmpwYAAACP0lEQVR42pWTa08TQRiF+ydEobvb7v067HIJUSgtpUC9IJQfoMYoICBFAxT0A20hAgpEBP7v8czUIDHGxA9PJnNm9ux535nJhWGINE3h2hZM04TnebAdB2HgI+KanDuWDVti93BuceC5LgLuMblukZxLIYoixF4BgaPDorGm5XsfBjEM24fpBSiSguuj4ARKk9hhDC9K4HE0ikUYuoacTCCEQBJYCB2N6Vxo/feRVOZRWe5g8vVnVFfaqK11UHvXxdRym3QU1dUDzKwfct8BgmwMWn4AOVlylqXIIhOJX4Dr+cg/6IOYbuDJ9hUWd39ggSztXaPePEPpbRcLO5dKa7SuuX6FyuoRHDECXRqOjj5EqVRFaWwY4yMJEpHR8B5EtYHZDxeob54yxTHTHKFMs0kme7z1DTMbJ0ovL3epd2Anwz1D3/cRxzEbb8I2DVWyTJjWljDTPEf5TRvT60fkEFUyRePKSlchtekNzle7vw0Nw4Cu68RQFNhcjYaDLHm2eYE5Jpl7f4r5j+cqbYWJZjmvb36lfoLnO9+Z9hhWPASdh6kM76IM+/uQsOSnuzfs3Q0WWld4tn3JRCx97Qsa1OpbZ6qPi1yr8ad2zITawN8N8zzlVJ1yG+MvW2QP4y9amOBYerVPPilt4pZ92FHWK9kJBXzXQRCEt8ieDqZDyHhgw2OPIIZGESQp75y4w6DC/4XsvbwxuTDjZiISgZSIOFE33uKruYvJ5P+Ee1zXQ67oeJDIl+Gqp2Xhzzb8Dz8BkDaSrLbgdgkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Locator 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/278d53ccda41b126fd70708184144394/0b533/img.png&quot;
+        srcset=&quot;/static/278d53ccda41b126fd70708184144394/fac75/img.png 125w,
+/static/278d53ccda41b126fd70708184144394/63868/img.png 250w,
+/static/278d53ccda41b126fd70708184144394/0b533/img.png 500w,
+/static/278d53ccda41b126fd70708184144394/1d69c/img.png 750w,
+/static/278d53ccda41b126fd70708184144394/3c051/img.png 760w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+좌측 하단에 &lt;code class=&quot;language-text&quot;&gt;Pick locator&lt;/code&gt; 아이콘을 클릭하면 DOM 스냅샷 화면이 표시되고,
+해당 화면 위에 원하는 요소에 커서를 가져가면 선택된 요소의 locator가 시각적으로 표시됩니다.
+선택한 요소를 클릭하면 &lt;code class=&quot;language-text&quot;&gt;Locator&lt;/code&gt; 탭에는 해당 요소의 locator 정보가 텍스트로 나타납니다.&lt;/p&gt;
+&lt;p&gt;이 기능은 E2E 테스트를 처음 다루는 사용자에게 유용하며,
+선택된 locator에 시멘틱 정보가 포함되어 있다면 작성된 테스트 코드의 안정성을 더욱 향상될 것입니다.&lt;/p&gt;
+&lt;h3 id=&quot;source-기능&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#source-%EA%B8%B0%EB%8A%A5&quot; aria-label=&quot;source 기능 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Source 기능&lt;/h3&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/ef87d71c7b79fac7adbf6cefb82010ae/3c051/img2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 73.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAAChElEQVR42n1S2W7bMBDUVxSIdfEWSUk+5UN17NhJ07RIUBR96v//yHSXdpAGaPowoLTLHc7Obua9R9t1UNpCKo2m8YgxIsQAznkfUuxfcHy6Bp5OYyystchibNFScaNzWC0SaZ7ncFrSJYOqrlEU1QUlo0R5PatKQNN9oxR914QKWd9GrBYzrGKJqcuhtabiAiqpbSClgm0kmkjFroYhFfwQ32uiROg0tJWQQqKmx7NmvkE/7ND2Aa6bQrqAKqko0ZEVy+US2+0GXx/vsd0MKEkFxxj7/YhvTw/0sEvqEuHN7hnV/geq3RMm4wvKOKAuC+SkkosOtweMuxGBvBSkgguPB4qNIzbrDbVsEhHblAg78m827dGaAkEXyRNWV9cC1nFriloSFxhBVpAF1pDXgtoXNBhJA5XJpkTIXrBPJZtKASFEIpRSJg/Zr8YbLJYtprNAxSpNk3M+GopF+ODeFJZXv7iVV3BiQheGYcD5dML5fKbzjGnfp2Ecj0fyc4vT3Qkvz89YLpaYTCbvCf8mTitBLUSygwfjPU/7otxYnYiVkmkYrJhzrJDzmXPusgbszXU5Odbxggeflpv/FSl7tYcJ2EtJpNroVM+ecz7ruh7OurR3xl03nifaBDp98opzPOE3iHffTMbffC9j6a0ilf2AyWJENdvAzee0sAEhWHiaoKOJirqilgra0QvKK17/iyInUvJQkbrWddDzEflwQL0+wK22WK5mNNkZ2hCp5QaC9q2S+kOUQkEZh0z0a8TVI9ThJz59+Y3q/hf83Xf0tw9odyfE9RF2sUcx/YxJ/zFuCOV0RObJo0DM0jaorE/eaRpC8NRuY2Ake0SrVJX/BbetpMAfRN2xRqemYo0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Source 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/ef87d71c7b79fac7adbf6cefb82010ae/0b533/img2.png&quot;
+        srcset=&quot;/static/ef87d71c7b79fac7adbf6cefb82010ae/fac75/img2.png 125w,
+/static/ef87d71c7b79fac7adbf6cefb82010ae/63868/img2.png 250w,
+/static/ef87d71c7b79fac7adbf6cefb82010ae/0b533/img2.png 500w,
+/static/ef87d71c7b79fac7adbf6cefb82010ae/1d69c/img2.png 750w,
+/static/ef87d71c7b79fac7adbf6cefb82010ae/3c051/img2.png 760w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+Source 기능은 현재 진행 중인 테스트 action에 해당하는 작성된 테스트 소스코드를 매칭시켜 줍니다.&lt;/p&gt;
+&lt;h3 id=&quot;errors-기능&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#errors-%EA%B8%B0%EB%8A%A5&quot; aria-label=&quot;errors 기능 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Errors 기능&lt;/h3&gt;
+&lt;p&gt;테스트가 실패할 때, 해당 탭에 자세한 정보가 표시됩니다.
+타임라인에 오류가 발생한 위치가 시각적으로 표시되며, Source 탭에는 오류가 발생한 소스코드의 위치가 명시됩니다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;expect()&lt;/code&gt; API의 결과가 원하는 결과와 다를 경우,
+테스트 실행 중 에러가 표시되며 Expected(기대 결과), Received(실제 결과), Call log(에러 로그)가 나타납니다.
+이를 통해 어떤 부분에서 테스트가 실패했는지 쉽게 디버깅할 수 있습니다.
+이 정보를 참고하여 Given, When 부분의 테스트 코드를 효율적으로 수정할 수 있습니다.&lt;/p&gt;
+&lt;h3 id=&quot;actions-기능&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#actions-%EA%B8%B0%EB%8A%A5&quot; aria-label=&quot;actions 기능 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Actions 기능&lt;/h3&gt;
+&lt;p&gt;좌측 상단에 위치한 Actions 탭에서는 진행 중인 테스트 action을 순차적으로 볼 수 있습니다.
+&lt;code class=&quot;language-text&quot;&gt;test.step()&lt;/code&gt;을 활용하면 테스트들을 단계적으로 그룹화할 수 있으며,
+UI 모드에서의 테스트 가시성, 직관성을 높일 수 있습니다.&lt;/p&gt;
+&lt;h2 id=&quot;기타&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B8%B0%ED%83%80&quot; aria-label=&quot;기타 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;기타&lt;/h2&gt;
+&lt;h3 id=&quot;pagewaitfortimeout&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#pagewaitfortimeout&quot; aria-label=&quot;pagewaitfortimeout permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;page.waitForTimeout()&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;page.waitForTimeout()&lt;/code&gt; 기능은 공식 문서에서 권장되지는 않지만,
+최후의 수단으로 페이지를 딜레이하여 예상되는 렌더링 결과를 확인하기 위해 사용되었습니다.
+다음과 같은 특수한 경우에 이 기능을 활용하였습니다.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;서드파티 라이브러리의 특수한 동작에 대응하기 위해&lt;/li&gt;
+&lt;li&gt;서드파티 라이브러리의 버그로 인한 사이드 이펙트 커버하기 위해&lt;/li&gt;
+&lt;li&gt;특정 요소의 렌더링 딜레이 시간(debounce 등)을 알 수 없는 경우&lt;/li&gt;
+&lt;li&gt;CSS animation 효과 딜레이 시간을 커버하기 위해&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;scrollintoviewifneeded&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#scrollintoviewifneeded&quot; aria-label=&quot;scrollintoviewifneeded permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;scrollIntoViewIfNeeded()&lt;/h3&gt;
+&lt;p&gt;스크린에 보이지 않는 위치에 있는 요소를 확인하기 위해 스크롤하여 해당 요소를 화면에 노출하는 작업이 필요합니다.
+screenshot() 기능을 사용하여 전체 화면을 캡처할 때 유용합니다.&lt;/p&gt;
+&lt;h3 id=&quot;json-파일-사용하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#json-%ED%8C%8C%EC%9D%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0&quot; aria-label=&quot;json 파일 사용하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;JSON 파일 사용하기&lt;/h3&gt;
+&lt;p&gt;특정 테스트에서는 JSON 파일을 읽어와 이를 활용하는 로직이 필요했습니다.
+이를 위해 &lt;code class=&quot;language-text&quot;&gt;test.beforeEach()&lt;/code&gt; 훅에 해당 파일을 읽어오는 코드를 추가하였습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;test.beforeEach(async ({ page }) =&gt; {
+  try {
+    const readData = fs.readFileSync(
+      &apos;./playwright-storage/data.json&apos;,
+      &apos;utf8&apos;
+    );
+    const parsedData = JSON.parse(readData);
+    const firstId = parsedData?.scenes?.[0]?.id;
+    if (!firstId) {
+      console.log(&apos;첫 번째 id가 존재하지 않습니다.&apos;);
+      throw new Error();
+    }
+  } catch(e) {
+    isExistData = false;
+  }
+});&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이로써 해당 테스트를 실행하기 전에 필요한 데이터를 파일에서 불러와 사용할 수 있게 되었습니다.
+반대로 JSON 파일을 생성하기 위해 &lt;code class=&quot;language-text&quot;&gt;writeFileSync()&lt;/code&gt;를 사용할 수 있습니다.&lt;/p&gt;
+&lt;h3 id=&quot;환경-변수-사용하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0&quot; aria-label=&quot;환경 변수 사용하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;환경 변수 사용하기&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;.env&lt;/code&gt; 파일을 생성하고 환경 변수로 활용할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;import path from &apos;path&apos;;
+import dotenv from &apos;dotenv&apos;;
+
+dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, &apos;..&apos;, &apos;.env&apos;) });
+
+// ...
+const BASE_URL = process.env.VITE_API_BASE_URL;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;환경 변수에 대한 내용은 &lt;a href=&quot;https://playwright.dev/docs/test-parameterize#env-files&quot;&gt;여기&lt;/a&gt;에서 확인할 수 있습니다.&lt;/p&gt;
+&lt;h3 id=&quot;반복문을-사용하여-중복-코드-줄이기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B0%98%EB%B3%B5%EB%AC%B8%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A4%91%EB%B3%B5-%EC%BD%94%EB%93%9C-%EC%A4%84%EC%9D%B4%EA%B8%B0&quot; aria-label=&quot;반복문을 사용하여 중복 코드 줄이기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;반복문을 사용하여 중복 코드 줄이기&lt;/h3&gt;
+&lt;p&gt;요소를 순회하거나 반복적인 패턴을 가진 유사한 테스트를 위해 for문을 사용할 수 있습니다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;html&quot;&gt;&lt;pre class=&quot;language-html&quot;&gt;&lt;code class=&quot;language-html&quot;&gt;// case 1
+for (const row of await page.getByRole(&apos;listitem&apos;).all())
+  console.log(await row.textContent());
+
+// case 2
+const rows = page.getByRole(&apos;listitem&apos;);
+const count = await rows.count();
+for (let i = 0; i &amp;lt; count; ++i)
+  console.log(await rows.nth(i).textContent());
+
+// case 3
+const people = [&apos;Alice&apos;, &apos;Bob&apos;];
+for (const name of people) {
+  test(`testing with ${name}`, async () =&gt; {
+    // ...
+  });
+  // You can also do it with test.describe() or with multiple tests as long the test name is unique.
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;반복 관련 내용은 &lt;a href=&quot;https://playwright.dev/docs/locators#rare-use-cases&quot;&gt;여기&lt;/a&gt;에서 확인할 수 있습니다.&lt;/p&gt;
+&lt;h2 id=&quot;회고&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%9A%8C%EA%B3%A0&quot; aria-label=&quot;회고 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;회고&lt;/h2&gt;
+&lt;p&gt;과거의 테스팅 도구들은 사용하기 어렵고 불편하고 불안정한 경험을 제공하였습니다.
+그러나 Cypress, Playwright와 같은 현대의 테스팅 도구들은 사용자에게 빠른 피드백과 친숙한 환경을 제공하고 있습니다.&lt;/p&gt;
+&lt;p&gt;이러한 도구의 발전은 소프트웨어 측면에서 테스트 환경을 개선하고 사용자들에게 효과적인 테스트 경험을 제공합니다.
+그러나 우리들은 소프트웨어 품질 향상에 기여하기 위해 도구만큼이나 테스팅 규칙, 문화, 전략을 도입하고 발전시켜야 한다고 생각합니다.
+어플리케이션의 품질과 안정성을 위해서는 Unit 테스트뿐만 아니라 E2E 테스트도 적절하게 적용되어야 한다고 생각합니다.&lt;/p&gt;
+&lt;p&gt;제한된 자원 속에서 E2E 테스트를 어떻게 진행하였는지에 대한 고민과 해결책의 요약정리는 다음과 같습니다.&lt;/p&gt;
+&lt;h4 id=&quot;학습과-지속적인-피드백&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%95%99%EC%8A%B5%EA%B3%BC-%EC%A7%80%EC%86%8D%EC%A0%81%EC%9D%B8-%ED%94%BC%EB%93%9C%EB%B0%B1&quot; aria-label=&quot;학습과 지속적인 피드백 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;학습과 지속적인 피드백&lt;/h4&gt;
+&lt;p&gt;공식 문서와 다양한 레퍼런스를 참고하여 테스트에 적용하고 실험하였습니다.
+피드백을 주고받으며 테스트 학습과 성장을 도모하였고,
+테스트 관점에서의 시야를 확장할 수 있는 기회를 가질 수 있었습니다.&lt;/p&gt;
+&lt;h4 id=&quot;테스트-코드-작성-전략과-고민&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1-%EC%A0%84%EB%9E%B5%EA%B3%BC-%EA%B3%A0%EB%AF%BC&quot; aria-label=&quot;테스트 코드 작성 전략과 고민 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;테스트 코드 작성 전략과 고민&lt;/h4&gt;
+&lt;p&gt;초반에는 Happy Case 방식으로 단순한 테스트 코드를 작성하였으나,
+시간이 흐를수록 테스트가 고도화되면서 많은 엣지 케이스도 경험할 수 있었습니다.
+Locator 규칙과 웹 접근성에 대해 고민하며 테스트 코드를 작성하였으며,
+이는 나중에 유지보수에 도움이 될 것으로 기대됩니다.
+또한, 개발 변경에 더 효과적으로 대응하기 위해 점진적으로 유연한 테스트 코드를 작성하기 위해 노력하였습니다.&lt;/p&gt;
+&lt;h4 id=&quot;전역-설정과-안정성-재사용성을-위한-노력&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%A0%84%EC%97%AD-%EC%84%A4%EC%A0%95%EA%B3%BC-%EC%95%88%EC%A0%95%EC%84%B1-%EC%9E%AC%EC%82%AC%EC%9A%A9%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-%EB%85%B8%EB%A0%A5&quot; aria-label=&quot;전역 설정과 안정성 재사용성을 위한 노력 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;전역 설정과 안정성, 재사용성을 위한 노력&lt;/h4&gt;
+&lt;p&gt;프로젝트에서 중요한 API 응답 값의 다수 사용 문제에 대응하고, 전역 설정을 개선하였습니다.
+데이터와 테스트의 의존성을 최소화하면서 안정적인 테스트를 유지하기 위해서 노력하였습니다.
+또한, 코드의 반복과 양이 늘어날 때마다 코드 리펙토링과 재사용성에 대해 고민하였습니다.
+테스트 함수의 동적 생성과 공통 함수 활용을 통해 코드의 가독성을 높이고 유지보수를 용이하게 만들어주었습니다.&lt;/p&gt;
+&lt;h4 id=&quot;테스트-직관성-향상&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%A7%81%EA%B4%80%EC%84%B1-%ED%96%A5%EC%83%81&quot; aria-label=&quot;테스트 직관성 향상 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;테스트 직관성 향상&lt;/h4&gt;
+&lt;p&gt;테스트 레포트의 가시성을 높이기 위해 중첩된 테스트 구조와 훅을 활용한 코드를 작성하였습니다.
+사용자 시나리오와 테스트 간의 싱크를 맞추어 테스트 결과를 쉽게 도출할 수 있도록 노력하였습니다.&lt;/p&gt;
+&lt;h3 id=&quot;결론&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B2%B0%EB%A1%A0&quot; aria-label=&quot;결론 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;결론&lt;/h3&gt;
+&lt;p&gt;E2E 테스트를 처음부터 진행하는 것은 끊임없는 도전의 연속이었습니다.
+단순한 테스트 코드에서부터 시작하여 다양한 측면에서 발생한 문제를 마주하고 시도하며 성장하는 과정이었습니다.
+이번 경험을 통해 얻은 노하우와 고민이 E2E 테스트를 진행하는 분들에게 많은 도움이 되었으면 좋겠습니다.&lt;/p&gt;
+&lt;p&gt;사용자 시나리오와 요구사항의 명확한 이해가 개발과 테스트에 매우 중요하다는 것을 깨달았습니다.
+하나의 문화와 프로세스로 정착되기까지 더 큰 노력이 필요하겠지만,
+더 나은 소프트웨어 품질과 안정성을 위해 노력하고 발전해 나가겠습니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2]]></title><description><![CDATA[글 목록 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2 사용자 동작을 중심으로 Playwright로 E2E…]]></description><link>http://onepredict.github.io/playwright-e2e-part2/</link><guid isPermaLink="false">http://onepredict.github.io/playwright-e2e-part2/</guid><pubDate>Tue, 16 Jan 2024 15:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;글 목록&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/playwright-e2e-part1/&quot;&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/playwright-e2e-part3/&quot;&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 3&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/blockquote&gt;
 &lt;div class=&quot;table-of-contents&quot;&gt;
@@ -124,7 +489,7 @@
 하지만 저는 Configure globalSetup, globalTeardown 방식을 사용하였는데, 그 이유로는 다음과 같습니다.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;전역 설정이나 해제할 내용이 많지 않고, 거의 모든 테스트에 동일한 전역 설정과 해제를 하는 환경이었습니다.&lt;/li&gt;
-&lt;li&gt;복잡한 디펜던시 설정이 필요하지 않dms 단순한 프로젝트 환경이었습니다.&lt;/li&gt;
+&lt;li&gt;복잡한 디펜던시 설정이 필요하지 않는 단순한 프로젝트 환경이었습니다.&lt;/li&gt;
 &lt;li&gt;전역 설정/해제 파일을 분리하고 해당 파일만 업데이트하는 편리성이 있었습니다.&lt;/li&gt;
 &lt;li&gt;Project Dependencies 환경에서는 코드를 새로 작성하거나 수정하고 테스트를 실행할 때마다 매 번 디펜던시 테스트가 실행되는 오버헤드가 존재합니다.&lt;/li&gt;
 &lt;/ul&gt;
@@ -328,11 +693,12 @@ playwright에 다국어와 타임존 설정에 대한 설명은 &lt;a href=&quot
 이런 경우에는 먼저 테스트 코드를 작성하고, 이후에 점진적으로 리팩토링을 진행하는 것이 좋습니다.&lt;/p&gt;
 &lt;h2 id=&quot;그리고&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EA%B7%B8%EB%A6%AC%EA%B3%A0&quot; aria-label=&quot;그리고 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;그리고...&lt;/h2&gt;
 &lt;p&gt;Part 2에서는 간단한 playwright 설정 방식과 E2E 코드를 작성 시 테스트 그룹화 및 요소를 찾는 방식에 대해 작성하였습니다.
-다음 파트에서는 찾은 요소들을 활용하는 방식에 대해 작성해 보고자 합니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1]]></title><description><![CDATA[글 목록 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2 Intro. E2E 테스트 ATDD…]]></description><link>http://onepredict.github.io/playwright-e2e-part1/</link><guid isPermaLink="false">http://onepredict.github.io/playwright-e2e-part1/</guid><pubDate>Wed, 06 Dec 2023 09:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+다음 파트에서는 찾은 요소들을 활용하는 방식에 대해 작성해 보고자 합니다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1]]></title><description><![CDATA[글 목록 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2 사용자 동작을 중심으로 Playwright로 E2E…]]></description><link>http://onepredict.github.io/playwright-e2e-part1/</link><guid isPermaLink="false">http://onepredict.github.io/playwright-e2e-part1/</guid><pubDate>Wed, 06 Dec 2023 09:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;글 목록&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/playwright-e2e-part2/&quot;&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/playwright-e2e-part3/&quot;&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 3&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/blockquote&gt;
 &lt;div class=&quot;table-of-contents&quot;&gt;
