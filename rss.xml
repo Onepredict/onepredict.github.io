@@ -1,4 +1,769 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 31 Jan 2024 05:26:00 GMT</lastBuildDate><item><title><![CDATA[사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 3]]></title><description><![CDATA[글 목록 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2 사용자 동작을 중심으로 Playwright로 E2E…]]></description><link>http://onepredict.github.io/playwright-e2e-part3/</link><guid isPermaLink="false">http://onepredict.github.io/playwright-e2e-part3/</guid><pubDate>Wed, 24 Jan 2024 15:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 14 Feb 2024 07:54:15 GMT</lastBuildDate><item><title><![CDATA[우당탕탕! 쿠버네티스 설치기]]></title><description><![CDATA[여정(?) 의 시작 쿠버네티스는 뭘까? 쿠버네티스의 주요 기능 쿠버네티스 설치하기 Postgres 구동 하기 minikube Log 확인 qemu…]]></description><link>http://onepredict.github.io/chaotic-kubernetes-setup/</link><guid isPermaLink="false">http://onepredict.github.io/chaotic-kubernetes-setup/</guid><pubDate>Tue, 06 Feb 2024 15:00:00 GMT</pubDate><content:encoded>&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%97%AC%EC%A0%95-%EC%9D%98-%EC%8B%9C%EC%9E%91&quot;&gt;여정(?) 의 시작&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EB%8A%94-%EB%AD%98%EA%B9%8C&quot;&gt;쿠버네티스는 뭘까?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EC%9D%98-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5&quot;&gt;&lt;strong&gt;쿠버네티스의 주요 기능&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0&quot;&gt;쿠버네티스 설치하기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#postgres-%EA%B5%AC%EB%8F%99-%ED%95%98%EA%B8%B0&quot;&gt;Postgres 구동 하기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#minikube-log-%ED%99%95%EC%9D%B8&quot;&gt;minikube Log 확인&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#qemu-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0&quot;&gt;qemu 설치하기&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%A7%88%EB%AC%B4%EB%A6%AC&quot;&gt;마무리&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;여정-의-시작&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%97%AC%EC%A0%95-%EC%9D%98-%EC%8B%9C%EC%9E%91&quot; aria-label=&quot;여정 의 시작 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;여정(?) 의 시작&lt;/h2&gt;
+&lt;p&gt;팀에서 ‘&lt;strong&gt;백엔드에서도 인프라를 좀 더 자세하게 알고 있는 분이 계시면 좋겠습니다.&lt;/strong&gt;’ 라는 한 마디에 자원하게 되었다.&lt;/p&gt;
+&lt;p&gt;평소에 인프라에 관심도가 높았고(높기만 하다 정말로) 언젠가는 쿠버네티스로 인프라를 구축해 보면 좋겠다는 생각을 마음 한구석에 간직하고 있었기 때문이다.&lt;/p&gt;
+&lt;p&gt;호기롭게 자원한 것과는 별개로 실제로 아는 게 별로 없었다.  쿠버네티스가 더 이상 도커 런타임과 도커 엔진을 지원하지 않는다는 것, 가상 머신과 다르게 비종속적으로 의존관계 없이 어플리케이션이 구동될 수 있어서 많은 관련자의 선택을 받고 있다는 것 정도였다.&lt;/p&gt;
+&lt;h2 id=&quot;쿠버네티스는-뭘까&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EB%8A%94-%EB%AD%98%EA%B9%8C&quot; aria-label=&quot;쿠버네티스는 뭘까 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;쿠버네티스는 뭘까?&lt;/h2&gt;
+&lt;p&gt;쿠버네티스(Kubernetes)는 컨테이너화된 애플리케이션을 자동으로 배포, 스케일링 및 관리해 주는 오픈소스 플랫폼이다. 대규모의 컨테이너화된 환경을 효과적으로 관리하도록 설계되어 있으며 &lt;strong&gt;클라우드 네이티브&lt;/strong&gt;하게 사용자 앱을 개발 및 운영할 수 있는 플랫폼이다. 이는 원래 구글에서 개발되었으며, 현재는 Cloud Native Computing Foundation에서 관리하고 있다고 한다.&lt;/p&gt;
+&lt;h2 id=&quot;쿠버네티스의-주요-기능&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EC%9D%98-%EC%A3%BC%EC%9A%94-%EA%B8%B0%EB%8A%A5&quot; aria-label=&quot;쿠버네티스의 주요 기능 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;쿠버네티스의 주요 기능&lt;/strong&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;서비스 디스커버리 및 로드 밸런싱&lt;/strong&gt;:  DNS 이름 또는 자체 IP 주소를 사용하여 서비스를 찾을 수 있다. 트래픽이 많아질 경우, 쿠버네티스는 로드 밸런싱과 분산을 통해 트래픽을 관리할 수 있다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;스토리지 오케스트레이션&lt;/strong&gt;:  로컬 시스템, 공용 클라우드 제공자의 스토리지 시스템, 네트워크 파일 시스템 등을 자동으로 마운트할 수 있다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;자동화된 롤아웃 및 롤백&lt;/strong&gt;:  애플리케이션의 원하는 상태를 서술하고, 현재 상태를 원하는 상태로 변경하는 방법을 제어할 수 있다. 예를 들어, 애플리케이션을 배포하고 새 버전으로 업데이트하는 경우에 자동으로 롤백하는 것이 가능하다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;자동화된 빈 패킹&lt;/strong&gt;:  리소스가 필요한 컨테이너를 클러스터 내의 노드에 자동으로 배치할 수 있습니다. 이는 리소스를 보다 효율적으로 사용하면서, 애플리케이션의 가용성을 유지할 수 있게 해준다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;셀프힐링&lt;/strong&gt;:  실패(혹은 장애)한 컨테이너를 재시작하고, 노드가 정상이 아닌 경우에는 컨테이너를 다른 노드에 재배치하며, 사용자가 정의한 헬스 체크에 응답하지 않는 컨테이너를 교체하고, 서비스를 클라이언트에게 광고하기 전에 준비가 되었는지 확인한다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;시크릿 및 구성 관리&lt;/strong&gt;: 암호, OAuth 토큰, SSH 키 등의 민감한 정보를 저장하고 관리할 수 있으며, 이를 컨테이너에 안전하게 배포할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;쿠버네티스-설치하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0&quot; aria-label=&quot;쿠버네티스 설치하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;쿠버네티스 설치하기&lt;/h2&gt;
+&lt;p&gt;쿠버네티스에 대해서 간략(?)하게 알아보았으니 이제 쿠버네티스의 문을 두드려보기로 하자.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;설치 환경
+&lt;ul&gt;
+&lt;li&gt;MacBook M2 pro&lt;/li&gt;
+&lt;li&gt;MacOS sonoma 14.2.1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;HA(high availability) 환경을 구성할 것은 아니기 때문에 minikube 로 찍먹만 해보기로 하자.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://minikube.sigs.k8s.io/docs/start/&quot;&gt;https://minikube.sigs.k8s.io/docs/start/&lt;/a&gt; 로 접속하면 설치법을 알 수 있다.&lt;/p&gt;
+&lt;p&gt;(사실 난 홈브류로 깔았다.ㅋㅋㅋ)&lt;/p&gt;
+&lt;p&gt;설치가 끝났으면 minikube start 와 minikube status 로 설치결과를 확인하자&lt;/p&gt;
+&lt;h2 id=&quot;postgres-구동-하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#postgres-%EA%B5%AC%EB%8F%99-%ED%95%98%EA%B8%B0&quot; aria-label=&quot;postgres 구동 하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Postgres 구동 하기&lt;/h2&gt;
+&lt;p&gt;가장 만만한 것 중에 하나가 db 서버이니 여기서는 postgres 서버를 쿠버네티스로 구동해보자.&lt;/p&gt;
+&lt;p&gt;우선 구동에 필요한 yaml 파일들이 있어야 할 것이다.&lt;/p&gt;
+&lt;p&gt;postgres-deploy.yml&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yaml&quot;&gt;&lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; apps/v1
+&lt;span class=&quot;token key atrule&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Deployment
+&lt;span class=&quot;token key atrule&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postgres&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;deployment
+&lt;span class=&quot;token key atrule&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;replicas&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;matchLabels&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postgres
+  &lt;span class=&quot;token key atrule&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token key atrule&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postgres
+    &lt;span class=&quot;token key atrule&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token key atrule&quot;&gt;containers&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postgres
+        &lt;span class=&quot;token key atrule&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postgres&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;latest
+        &lt;span class=&quot;token key atrule&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; POSTGRES_USER
+            &lt;span class=&quot;token key atrule&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; root
+          &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; POSTGRES_PASSWORD
+            &lt;span class=&quot;token key atrule&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; test1234
+        &lt;span class=&quot;token key atrule&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;token key atrule&quot;&gt;limits&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;token key atrule&quot;&gt;memory&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;128Mi&quot;&lt;/span&gt;
+            &lt;span class=&quot;token key atrule&quot;&gt;cpu&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;500m&quot;&lt;/span&gt;
+        &lt;span class=&quot;token key atrule&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;containerPort&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;5432&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;postgres-service.yml&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yaml&quot;&gt;&lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; v1
+&lt;span class=&quot;token key atrule&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Service
+&lt;span class=&quot;token key atrule&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postgres&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;service
+&lt;span class=&quot;token key atrule&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postgres
+  &lt;span class=&quot;token key atrule&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;30000&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; NodePort&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;로컬에서 로컬의 쿠버네티스 노드로 접속하기 위해서는 service type 을 &lt;code class=&quot;language-text&quot;&gt;NodePort&lt;/code&gt; 로 지정하고 이 때 사용할 수 있는 포트는 30000-32767 이라고 한다.&lt;/p&gt;
+&lt;p&gt;설정파일도 완벽하다. 이젠 안될리가 없다! 노드포트를 30000번으로 지정했으니 당연히 되는거다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7d41c120ecda7c67544662da7897e1ac/f98ee/minikube_ip_psql_conn.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 22.400000000000002%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAwElEQVR42o3N6wvBYBQG8P3//4PyRS5jJkahxNQml5hLuWdY7+Y+rHjV492wL1I+/DrP6dR5uCMpYjlOwjbLeJxV3E8KqO1SQVl+7erfuPMij4NegENKeOyrPrqTQd/5vq18uf3AWXIApCdg3YzB7CRgaQmQdhwbTYDVFWC0eNijNK4TCZdxhpE87v7hTLM+zpSDsAYi9EYU81rYm4t6BHrTnVFMlRAMVrBmj93bihUbbR67QQrbvojTMA1nlvM9AVd8G2MdH92AAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;minikube_ip_psql_conn 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/7d41c120ecda7c67544662da7897e1ac/0b533/minikube_ip_psql_conn.png&quot;
+        srcset=&quot;/static/7d41c120ecda7c67544662da7897e1ac/fac75/minikube_ip_psql_conn.png 125w,
+/static/7d41c120ecda7c67544662da7897e1ac/63868/minikube_ip_psql_conn.png 250w,
+/static/7d41c120ecda7c67544662da7897e1ac/0b533/minikube_ip_psql_conn.png 500w,
+/static/7d41c120ecda7c67544662da7897e1ac/1d69c/minikube_ip_psql_conn.png 750w,
+/static/7d41c120ecda7c67544662da7897e1ac/00d43/minikube_ip_psql_conn.png 1000w,
+/static/7d41c120ecda7c67544662da7897e1ac/f98ee/minikube_ip_psql_conn.png 1808w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;어라라…?&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e24a8148a07f8dd627e7d93676774344/e9d87/mococo_question.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 82.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAIAAACZeshMAAAACXBIWXMAAAsSAAALEgHS3X78AAAC00lEQVR42n2T3U+SURzH+Se68CK5a63lTWtrba0bs9w0KQXNd0RMm7lcYnmRpa0XW4mkm1AuKc2cECg+WjgqdWhD0MQeTNSpiKhE+PKAID5vvx6QaDbt7Fyc/c757Ps953x/LDhg0KGxtwRA7amw/kOG4W0CDDZwenY3gD4YZgCKopgFtoFhm1iwhJNgdsCoHTa3wbL6LxzSIJnJYLtqy47loqab9YiMWZOM2Xk3tb4FLi+oJ8CPR/gwHBEmCWJrzVP5rub0S+59eR3tDZ1c8oDLR7s8sIKBbhqw7V2TQXht3WsY6tB/ltptToVOHVfF40guX1NelPQXKSdqPpmVxuk+h8NOOrywisHievjyjHIAh5EvoomeQygSPTtegSC9FfJS2UpyN/DVVLYKMhtmOfniM48HuGPTw4wNkiIjPllbfjDriwkbm3bEwE/2wmiJ3FymhTw1JVAQfAQKak1XzsXGSa2pih/3MJefYSJPw/IHQN9XtjN3GJZiwHHEaDwvx/gP+5MaprhqEDQP8hraE976shEQNs7yKt+UzMyj5E5YmzU+NrBoZIMzhrQfB/tRLXq21pp+LPpEjiiegeufX2iqSVBBngYEkslLohFeLZrbb+qE4H/TLLfbOd53EmxRxAIbn4pqQ061+fLEwxlyR24Xw9DCbihQEDlilCObS271XL07kyW1ZK8s/gp/1YzV9FV3a2zwdnfXo9ji6yJNvHyN14Klt3oyG+dSxOakJ6bEF0u8TshXA7/6g/DjUCeO40E4dHUaJyBABK3UIc8KtSkPTGkSlPP0G0dmS33tzlSRAg0UvKcEHZDW8r10g0lLKB2hkARfj4kkSfhAY62qtCRWW4Q9kKOkspSQoYT0djqtjeYq6KxeuDGJ6fzewF84HOkgD0Z08M6r8ua1Qi2U66gqPS020FIDSFFQOQHFwf+nv/btKooxgAdggwJi/4YDKhLn33KRE5DfAR9sAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;mococo_question 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/e24a8148a07f8dd627e7d93676774344/0b533/mococo_question.png&quot;
+        srcset=&quot;/static/e24a8148a07f8dd627e7d93676774344/fac75/mococo_question.png 125w,
+/static/e24a8148a07f8dd627e7d93676774344/63868/mococo_question.png 250w,
+/static/e24a8148a07f8dd627e7d93676774344/0b533/mococo_question.png 500w,
+/static/e24a8148a07f8dd627e7d93676774344/1d69c/mococo_question.png 750w,
+/static/e24a8148a07f8dd627e7d93676774344/00d43/mococo_question.png 1000w,
+/static/e24a8148a07f8dd627e7d93676774344/e9d87/mococo_question.png 1176w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/39f01c7fdd263b3a9abc7cbbe52c60dd/6f278/kubectl_get_pod_only.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 12.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAcElEQVR42o3OSwqAIBSFYfe/mxpF9IJeK2jSoIIsCVJzUlHBSa0FOPg4cCf3J3KKIKdEi3GsOR5V496qj/r2kqUzQlsPfeODdQFOfTh4YZ2ixP7vbZ44InyMsLEUQhcqlkHQGJzq6jnBMoS2/DKVjl7FndqqEffznQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;kubectl_get_pod_only 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/39f01c7fdd263b3a9abc7cbbe52c60dd/0b533/kubectl_get_pod_only.png&quot;
+        srcset=&quot;/static/39f01c7fdd263b3a9abc7cbbe52c60dd/fac75/kubectl_get_pod_only.png 125w,
+/static/39f01c7fdd263b3a9abc7cbbe52c60dd/63868/kubectl_get_pod_only.png 250w,
+/static/39f01c7fdd263b3a9abc7cbbe52c60dd/0b533/kubectl_get_pod_only.png 500w,
+/static/39f01c7fdd263b3a9abc7cbbe52c60dd/1d69c/kubectl_get_pod_only.png 750w,
+/static/39f01c7fdd263b3a9abc7cbbe52c60dd/00d43/kubectl_get_pod_only.png 1000w,
+/static/39f01c7fdd263b3a9abc7cbbe52c60dd/6f278/kubectl_get_pod_only.png 1488w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;뭐하고 있니….pod 랑 service 올려야지…&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/63564e126a858d7e6a275c0c1eb7d47f/e515d/kubectl_apply_get_pod_get_svc.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 57.599999999999994%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAACAElEQVR42k1TbVvaQBDk//+T1lZBRXwBLRZE/WD1sQIqEQIIgQABApW3sJ3ZSzQf5rnN3d7uztwkMe5kZdjKyqidk3HnQubupfwb/FYwnrsmnvUvDXr5r7hvclfjq08kGtVvYldTUi/vS7t2JJW7H/LysCvlux2p/kF8vyvW3yRyDqQJNCr7GjcqAO50rYwWWk9KioTfQ3fXTDPpXsjHqCALgN8Lr6jxYlSUYH4r2xBBCI1nN7KaxCZ0mwfSq2fEqZ/IoJmVfuNUXPsU8ZmJm4ghSQ/nvcaJ5jF2ca5A7sewIJtpOKFTPxTnLSOtlzQOz8QGFca1xz3pgM7XRbP2bcI0HEJ3rmSxjgouvZIKS6oz0Iy04Pib6bVs/RvZglag662ugX+t4D4Rv5Ow8SgdKw2hD8V7P9cLLBQAXJfeldETOrIxL27Cs+j1jdZFM2G9nIRdzlWvYRv2ec+BmrGSh33aiWcT5xeckFKazOH3ILTbFFaiHGyilOk1Cjvr52MvW8B06BqzBLEMp9EzTgvq67gPW6/f4aW0tJ7TOtEaFmASu63GJaUcJUeFzDeKxRp9+tB62oN2OdWJG/raGH8Ofd6eUmpiFqE9ao9JZcHGz/c/9c9iQ+61X4/UOomudaxWoC4+tKDHqBkLRp6bQi8+GH3KyagfC/AeNfWdvOpJBv8Bb+hd8PLaKeoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;kubectl_apply_get_pod_get_svc 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/63564e126a858d7e6a275c0c1eb7d47f/0b533/kubectl_apply_get_pod_get_svc.png&quot;
+        srcset=&quot;/static/63564e126a858d7e6a275c0c1eb7d47f/fac75/kubectl_apply_get_pod_get_svc.png 125w,
+/static/63564e126a858d7e6a275c0c1eb7d47f/63868/kubectl_apply_get_pod_get_svc.png 250w,
+/static/63564e126a858d7e6a275c0c1eb7d47f/0b533/kubectl_apply_get_pod_get_svc.png 500w,
+/static/63564e126a858d7e6a275c0c1eb7d47f/1d69c/kubectl_apply_get_pod_get_svc.png 750w,
+/static/63564e126a858d7e6a275c0c1eb7d47f/00d43/kubectl_apply_get_pod_get_svc.png 1000w,
+/static/63564e126a858d7e6a275c0c1eb7d47f/e515d/kubectl_apply_get_pod_get_svc.png 1430w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;이번엔 분명히 될 것이다!&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/1e777d7a0b6e9952b6ca0e42744c0ada/93582/psql_fourth_try.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAYAAAB/Ca1DAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB80lEQVR42lVTW1fiYAzs//8H+rIeRaqICNaqT+oe17WKUi+LyLVyKWARLCDg25hJy7r7MCdpTr4kM0mNwcUagmIGr/e7GD7lMKkcYCR29JTFuGwhfLbwXsqJ3cfCO4rQ+B/z+iHmjUO1RudkBW13Cy+OifL5OuqXm6j82lDfu0qi4SRRPPshsXUEjxn4hRTaN9voujvouWn079IY/tnD4GFXGxvjKxMz71gmyOk0YWkfY5kmjMGkcWwHUjB4yOCNBWI/lPisZuOjeiCwYfR+rqLlmmjnt7Uzk/3bFDoCPgikM31O8ul9U6TlN/0PFhSwsBGcr+GtlEW3sCMUTbxcxxC6bECfMhAdodvMizyS17zeUpA6NR887ilLpTwXyhx5VhNhBREFW7sztlDBbUxkSdOKpbkTsVzgMi/KJeWzVTQLJlrSjRORZtdNaedXocvtt+IlLOpH2oBF+HhWj7SbxqD/l3JPHizpkgotG5Bi7XdCt+3HlFt50jXV90m5mNUl6ZbfnQTCqoWhBEnpXzrTJaqRjWSxvxdBuiLHJxfEZYlv+KcraN4m4ckdVi82dCrPSSraN9E0jHvOppyPhZFMMZSj5+FzItrleXEQY3SZwER04XH2RS+eB3WjTz3792n0JMYroI48IfodPa1Ic/5RWrBs4QsQ0PBwGG6HFwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;psql_fourth_try 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/1e777d7a0b6e9952b6ca0e42744c0ada/0b533/psql_fourth_try.png&quot;
+        srcset=&quot;/static/1e777d7a0b6e9952b6ca0e42744c0ada/fac75/psql_fourth_try.png 125w,
+/static/1e777d7a0b6e9952b6ca0e42744c0ada/63868/psql_fourth_try.png 250w,
+/static/1e777d7a0b6e9952b6ca0e42744c0ada/0b533/psql_fourth_try.png 500w,
+/static/1e777d7a0b6e9952b6ca0e42744c0ada/1d69c/psql_fourth_try.png 750w,
+/static/1e777d7a0b6e9952b6ca0e42744c0ada/00d43/psql_fourth_try.png 1000w,
+/static/1e777d7a0b6e9952b6ca0e42744c0ada/93582/psql_fourth_try.png 1524w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6a61f9212e678b4492e6cdcc8d6c3143/0b533/mococo_tears.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsSAAALEgHS3X78AAACm0lEQVR42rWS/U9SYRTH+YvMH1u1ftDM3qaiZiIoXi+gEimkRaKmpIgv0Vo49aolYopc4Aq4NKspyNay5Vw550uZtUlqvuVLYHDvebrq1lrd9AfX2dnZs2fPZ9/vOc/hoSME7//CzF4AwJGUf/GwF4fA+y+8Xi/ZZf0892nfxe8872AyGAgQzYRpoPPuA8P7qRn2xu/3r6+u0SE6HArxDu6WrcYG4zlCIHUVluu1btKlLS2/rimUqLIph+MQGBB8mJ45IYyOMYlOymNlVYoyT901X1mk4hTRSBxkG4AJBnbGXo8rC3OSG+KyXihi7gsiVVER4uMlutLtzS1umKZpti59Wamo1N54yLdvZjuRrDOEawbOy6rPqJU3F+e/ck+bVQwEvy8vrCk02L23/EGkoBiMZDIphD0BqQcp22dzi7QFK0urPC7Z8I9AWK1V1ozG9qPsipcXzeuiHoTbAGtbFrYupvUhqW4wrlKn43H+kM1mv+WMciK83S+p8vHrxuKN08kdG6LaNwk1IwkOBrcz6bouKYfy9redglqxG2Xon6dEn75Q7kgaQDLLTqYTYU0TWUq1PN8abUVXRulHvL9lJ8dnVYak3pFc7W25KqfYNKlsnk2pNFwyLQgaXomL8yosjzWe9atjYOVS3gjml2K2jhyLIc/uMTxDauPw5fqIs/Xu9P6tvDbqTi+h6Z+Sv0M27p59QyNYTRQ7mM5gGgliMiwm5jJ6QrkkSreEhCRkmiF5Av6xYS0tLWUuPjswByNxAE4h3IVwO2C7Z5BQILWCcAKoP2Ga2V2PVnNTYtGxxvlEGxJZINWCBF1MajcIuhGbad1IaEbxk9DLbTscovvcT60zJT5UPcTovVA7DHUe0LM5BDoPVPvAsAYffwKic+bUP+cfowAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;mococo_tears 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/6a61f9212e678b4492e6cdcc8d6c3143/0b533/mococo_tears.png&quot;
+        srcset=&quot;/static/6a61f9212e678b4492e6cdcc8d6c3143/fac75/mococo_tears.png 125w,
+/static/6a61f9212e678b4492e6cdcc8d6c3143/63868/mococo_tears.png 250w,
+/static/6a61f9212e678b4492e6cdcc8d6c3143/0b533/mococo_tears.png 500w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;뭣 때문에 접속이 안되는 거냐고오!&lt;/p&gt;
+&lt;p&gt;구글형한테 이것저것 물어보며 꽤나 긴 시간을 삽질한 결과 minikube 도 log 가 있고 이를 볼 수 있는 방법을 찾았다.&lt;/p&gt;
+&lt;h2 id=&quot;minikube-log-확인&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#minikube-log-%ED%99%95%EC%9D%B8&quot; aria-label=&quot;minikube log 확인 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;minikube Log 확인&lt;/h2&gt;
+&lt;p&gt;log 를 파일로 추출해보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;powershell&quot;&gt;&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;minikube logs &lt;span class=&quot;token operator&quot;&gt;--&lt;/span&gt;file=&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;원하는 경로&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;원하는 파일명&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;log 를 볼 때 드륵드륵 마우스 휠을 내리려는 습관이 있는데 조금만 참고 차분히 살펴보다 err 부분을 발견했다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;I0130 09:03:27.557167   10329 network_create.go:284  error running [docker network inspect minikube]: docker network inspect minikube: exit status 1
+stdout:
+[]
+
+stderr:
+Error response from daemon: network minikube not found
+I0130 09:03:27.557179   10329 network_create.go:286  output of [docker network inspect minikube]: -- stdout --
+[]
+
+-- /stdout --
+** stderr **
+Error response from daemon: network minikube not found
+
+** /stderr **&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;docker 의 &lt;code class=&quot;language-text&quot;&gt;minikube&lt;/code&gt; 라는 네트워크를 찾을 수 없단 얘기다. 그렇지! 내가 생성하지 않았으니까!&lt;/p&gt;
+&lt;p&gt;생성 하면 접속 되겠지!&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/2f64e42bd99a685215ad904d955fdd6a/511f0/docker_network_create_minikube.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 16%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAYAAACTWi8uAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAp0lEQVR42lWOzQ/BQBTE+/9fncRJRBOUKlsHTi44qGrKVrUcRIvVqq+ex+6mkfTwy8y89zJ5ChtXwaiOyGoh3eh47QbIPANPATWQcfLAxDcgkjwU3iyUlHYCJR5VcHLqOC9VeFOuVhuHeRPHhSo1nDXw9oey5LMnJURBOZtQbpMaEp8g3fYR2RoSrox/Gq81MLcns/B3PmOujkvho1Xnn69OV94+qIEfsjrNhTDkqOEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;docker_network_create_minikube 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/2f64e42bd99a685215ad904d955fdd6a/0b533/docker_network_create_minikube.png&quot;
+        srcset=&quot;/static/2f64e42bd99a685215ad904d955fdd6a/fac75/docker_network_create_minikube.png 125w,
+/static/2f64e42bd99a685215ad904d955fdd6a/63868/docker_network_create_minikube.png 250w,
+/static/2f64e42bd99a685215ad904d955fdd6a/0b533/docker_network_create_minikube.png 500w,
+/static/2f64e42bd99a685215ad904d955fdd6a/1d69c/docker_network_create_minikube.png 750w,
+/static/2f64e42bd99a685215ad904d955fdd6a/00d43/docker_network_create_minikube.png 1000w,
+/static/2f64e42bd99a685215ad904d955fdd6a/511f0/docker_network_create_minikube.png 1172w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;??? : 응 아니야. 접속 불가.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;이보시오. 도커 양반 이게 어찌 된 일이오?!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;이미 생성되어 있는 minikube network 를 Minikube 가 찾지 못하고 있다.&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;qemu-설치하기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#qemu-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0&quot; aria-label=&quot;qemu 설치하기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;qemu 설치하기&lt;/h2&gt;
+&lt;p&gt;요즘은 괴롭혀도 양심의 가책을 느끼지 않을 만한 대상이 많다.&lt;/p&gt;
+&lt;p&gt;예를 들면 GPT 3.5 라든가 GPT 4.0 이라든가…&lt;/p&gt;
+&lt;p&gt;한참을 그렇게 ChatGPT 와 뤼튼을 괴롭히며 도돌이표 같은 대화를 하다가 구글형 까지 불렀다.&lt;/p&gt;
+&lt;p&gt;그러다 결국 발견한 것이다. 신의 은총을!&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://devopscube.com/minikube-mac/&quot;&gt;How to Setup Minikube on MAC M1/M2&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;이미 생성되어 있는 minikube network 를 Minikube 가 못찾는 현상은 Backlog 로 남겨놓은뒤&lt;/p&gt;
+&lt;p&gt;minikube 의 네트워크를 살리기 위해 은혜로우신 인도데브옵스형님의 포스팅에 가이드를 따라 진행한다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/2afd95f0e89715c8fe3eb76cce8255c9/43142/brew_install_qemu.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 28.799999999999997%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAABYlAAAWJQFJUiTwAAABL0lEQVR42p2Q7U7CQBBF+/4voeIHFBBjagRKFVAI3ZZWWqlUUb4VqAWjIPBDuM4uxAfwx8nsndnsnKz09arho6cibKexGOWxCgpYjv+PFPYVDFtpDJqXeHvJ4L2XAxYm1jOGzdzA5tvY1h3rXW89Z+LM+Znpf0ifZDVqZTDuZOnBNMbtLMK+hungCgH1+AKeJwMNQVcVOeioYh72c5jQbDkpCVbTEqS2fwGHReEaMdT0KBp2AnVDRtNNiXxPZ89KoHGXhEPZt5Oi90D3PCuOTkPBiCSGJMWRHt0z6Pl9GMUIKtd7sMvHqN4ewqUl5k0EVvlIVJN6rHhA823mdzh+7VTw5KTEt0nP3rkw5Fu5gVclQ1MWcFufzLi9y2JbM7Lly3h2mYxa5UTM62YcXV/BL+X8nU7qRlAXAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;brew_install_qemu 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/2afd95f0e89715c8fe3eb76cce8255c9/0b533/brew_install_qemu.png&quot;
+        srcset=&quot;/static/2afd95f0e89715c8fe3eb76cce8255c9/fac75/brew_install_qemu.png 125w,
+/static/2afd95f0e89715c8fe3eb76cce8255c9/63868/brew_install_qemu.png 250w,
+/static/2afd95f0e89715c8fe3eb76cce8255c9/0b533/brew_install_qemu.png 500w,
+/static/2afd95f0e89715c8fe3eb76cce8255c9/43142/brew_install_qemu.png 599w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;qemu 설치&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5051645651247f3183f93e0fe9af42ee/5bf79/brew_install_socket_vmnet.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 32.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABbUlEQVR42l1S2VLCUAzt//+EDjtFNjfgAVlsWUsLtEV2GFEoqFABBZSZY+6t8uBDenKSTHKSW8EaJTDp3sCeZrB7k7C2svh4yXPczLM4rov4fneM+cd16cT/xxgK1vgS3UYUnXoY0/4t+REMjBj6epTjl13gxQdbxmElY7+UyGQeP6wc268czuJCT4/BrIloa2Ho1SA1icNUQhi1rmhIBK1aiDc3FREG5dWCF81ygHOWaxHWSz48qBdolPwQTCUIreijQgpqQTQrZzTAw1GvnsMapWANk5gOEpgNkpiPU6fYnJAZ47OhkxPatKIiuflkRXLRpAD5LnQaIvSKj5/gsX2NHiHz9UqAb9NrRn+NbSFiaMa5asGgD5PaKPv5CqrsJWUiNFJsELLbslXZOar3blIe4KiRAFajyh4+hPVoqSEIk16CiI+T7SKP1fMdvW6OMM1fmx3881U65baLHJZPadizDDbks9q/v2K3lPEDK5fgvSuoIK4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;brew_install_socket_vmnet 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/5051645651247f3183f93e0fe9af42ee/0b533/brew_install_socket_vmnet.png&quot;
+        srcset=&quot;/static/5051645651247f3183f93e0fe9af42ee/fac75/brew_install_socket_vmnet.png 125w,
+/static/5051645651247f3183f93e0fe9af42ee/63868/brew_install_socket_vmnet.png 250w,
+/static/5051645651247f3183f93e0fe9af42ee/0b533/brew_install_socket_vmnet.png 500w,
+/static/5051645651247f3183f93e0fe9af42ee/1d69c/brew_install_socket_vmnet.png 750w,
+/static/5051645651247f3183f93e0fe9af42ee/5bf79/brew_install_socket_vmnet.png 966w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;socket_vmnet 설치&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c2778aa95be12da2b128a5878b1421f1/1bba8/brew_tap_homebrew.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 20%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAYAAACOXx+WAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAtklEQVR42nWPSwuCQBSF/f9/QiLoAS0KN20MMnMMIXoIPYgwWlSUplKOWXG6M0q0sMXHuTPMnHOukoUMAh4MkfgmkssAz4jhHdt4fWE/c454U4byCC1EBx0nr4vdSsPW7SA+9qXx7WxI5UEeJPHpTMF/DXlgYOOq8JYV7NcaHKNKpm1YugrWUzFhNcxGDUztOhbjFuZOU84ZFSlveLWQ0rqckoXeqVVarM8LZEtScZ/KtibEvzI+0OQf5EltTCkAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;brew_tap_homebrew 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/c2778aa95be12da2b128a5878b1421f1/0b533/brew_tap_homebrew.png&quot;
+        srcset=&quot;/static/c2778aa95be12da2b128a5878b1421f1/fac75/brew_tap_homebrew.png 125w,
+/static/c2778aa95be12da2b128a5878b1421f1/63868/brew_tap_homebrew.png 250w,
+/static/c2778aa95be12da2b128a5878b1421f1/0b533/brew_tap_homebrew.png 500w,
+/static/c2778aa95be12da2b128a5878b1421f1/1bba8/brew_tap_homebrew.png 642w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;homebrew/services&lt;/code&gt; 기능을 Homebrew에 추가&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/9f8cd4b920a7b4d5cf5c64dfb6d2ac94/eee07/minikube_reinstall.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 58.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAABYlAAAWJQFJUiTwAAAB30lEQVR42oWSa1PaUBCGz///FZ1+6DjtoAG5FAEv9cqo41DUYjABEslFCYRcwcu83T3BOrVx+uGZc3Y32bPv7grfbmHu7CL19hE//MCjf4Tn4IQ4zpi/Y+V7ou/yEIZaxLBXhqXVoF0V4QzqCNw9+PYOZtYO3XcR0UNMuPKzjx994sTvEFOtgkCvIhltYXHXREwnEw23EA7rf+w3fx0RnanZzEUY55+hHX6Cc/EN/rVCFDG7UhCrm0j65Q+J1XxEdNdCQNUkVF1kNhDS63OSnY5bWNrbWFr/smAonuYgxloJZr8Kd9SApVOi6SGW1NzEO0A82Zc2w7ZkeiDtR/8YL1H7jbCNZ0LoJLF3UUD/Z4GGsg7rtgaXKhzfVmHeVKRtqhWMaHCj3qa8Mzy8B6MhuSdVE6NJQ9yG6HUK6LTX0D39QonXYNyU5Q+D6xL63Q05ee1SkXBChmMa9VnGuwrUzrpkQMUJnT7ggE1y70m2S/209e9UYQ2OnlXh0fR8WqGEWsCkLJ3vdC64BV4G20KnCi7PvsokjDusSwl88sK/hNm+LWdHq2U/+YAsJrh0We6vkpSSSVVkz7haj7bAow3gHgXOXu4y/7XYLO21uZyAbR7ImCbP/eQBsZ+Z0Fr9L+FvIz1VC0yIlmIAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;minikube_reinstall 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/9f8cd4b920a7b4d5cf5c64dfb6d2ac94/0b533/minikube_reinstall.png&quot;
+        srcset=&quot;/static/9f8cd4b920a7b4d5cf5c64dfb6d2ac94/fac75/minikube_reinstall.png 125w,
+/static/9f8cd4b920a7b4d5cf5c64dfb6d2ac94/63868/minikube_reinstall.png 250w,
+/static/9f8cd4b920a7b4d5cf5c64dfb6d2ac94/0b533/minikube_reinstall.png 500w,
+/static/9f8cd4b920a7b4d5cf5c64dfb6d2ac94/1d69c/minikube_reinstall.png 750w,
+/static/9f8cd4b920a7b4d5cf5c64dfb6d2ac94/00d43/minikube_reinstall.png 1000w,
+/static/9f8cd4b920a7b4d5cf5c64dfb6d2ac94/eee07/minikube_reinstall.png 1628w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;혹시 몰라서 minikube 도 재설치&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/786f5ac2cfeb718c42d95b9ee1293d9c/eee07/minikube_start_qemu.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 35.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAHCAYAAAAIy204AAAACXBIWXMAABYlAAAWJQFJUiTwAAABKklEQVR42oVR207CUBDk///FCKSUQhVpEIqPRqJWKFBaSlt6BeTiJePuOYgmkvgwmc1uds7OnFLua/DHFaReC7nfwtLRkRFHThPLmS6wTTr4XN/hvTD/RWnlNzAfKfCGKnGdoMIjuC81hJMGYhJchwZWgYF92sVb3iOYAmcFD8ktfBKyB2UpNqxh+lQVFy7GGgISDYhjupzn/AjPtnEHH6v+X8HEZbFLOM8KZpYi2Lq/gEu1Pahg8lg99WP3CoesR5CXnr1wl5lwLCnGtrlO59fCnlg8CjB+L35b/mH5QKmgbPiK0UNZ5MZXsTjblZY1aZmy5AW2KWEeLfdPPSH4GuiUoUrLMpuFrYlMObtw2qQeze06IqqL4AabyKBPah/ZwIZBdRG0sUu6+AKaBfTI9tf8BwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;minikube_start_qemu 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/786f5ac2cfeb718c42d95b9ee1293d9c/0b533/minikube_start_qemu.png&quot;
+        srcset=&quot;/static/786f5ac2cfeb718c42d95b9ee1293d9c/fac75/minikube_start_qemu.png 125w,
+/static/786f5ac2cfeb718c42d95b9ee1293d9c/63868/minikube_start_qemu.png 250w,
+/static/786f5ac2cfeb718c42d95b9ee1293d9c/0b533/minikube_start_qemu.png 500w,
+/static/786f5ac2cfeb718c42d95b9ee1293d9c/1d69c/minikube_start_qemu.png 750w,
+/static/786f5ac2cfeb718c42d95b9ee1293d9c/00d43/minikube_start_qemu.png 1000w,
+/static/786f5ac2cfeb718c42d95b9ee1293d9c/eee07/minikube_start_qemu.png 1628w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;minikube 를 구동하면서 가상머신 드라이버는 먼저 설치한 qemu 로 지정하고 네트워크를 socket_vmnet 으로 설정해서 qemu 가 minikube 의 가상머신 네트워크에 직접 연결하도록 해준다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/7644e88f826deebbdd6acc8eea33990b/3dde1/stone_bridge.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 51.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABvUlEQVR42p2RWVPiQBSF+/8/WzpllTsjoDJuGKFmRFQWHXeHsIagUZLIajYIqHXmdqOWVvmiD1/d26dPn+7csEE3Da95ANvcQ7+TxqOdxbCbwfDhezDnfgdaKQQ1H0Bd2YBlJPFsH+LRyn4L5nZSMK9j0FUJRi2O1u0fPPFAjvN1mCuvw6dX9SjIr+9gYCQwNHYx0BPo0/o9/gufaa+wRnwCzUIE2tEizPNldHKraF79gl3cQE/ZEvQVSVSvsvWm9V56rxKFW47C45DG9PgYlJMpqNkAigfzxBzk5Cza8hpcMj9QcLewDru0CZcCHNKs8qi3qfq1GIY3MQxobH5tG+xOGkcpG0Q18xM3f4OopBagZAJQ0gHk92ZR2J+DeriIEl3GPUVa857v8XpNZ+qnYTobEo9gWnSMAslIBu04JEw8UE7OILc7gzJdcH8VQSW9IPbKqXnhyyWmUTsKisp9Z/FJ6GdLYEbsB3SaWYfS2/IqWjTDNp/jv1HP4Z/cIM8r7fya0Kzipqh8LBbh0BxZ4/ckWrTh0Ixuj8MwLyKo003aSZheNgrQ6WcZFyswL1dwRzrXvKqEvrr9gV5Vwn9uULkK6GLgXwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;stone_bridge 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/7644e88f826deebbdd6acc8eea33990b/0b533/stone_bridge.png&quot;
+        srcset=&quot;/static/7644e88f826deebbdd6acc8eea33990b/fac75/stone_bridge.png 125w,
+/static/7644e88f826deebbdd6acc8eea33990b/63868/stone_bridge.png 250w,
+/static/7644e88f826deebbdd6acc8eea33990b/0b533/stone_bridge.png 500w,
+/static/7644e88f826deebbdd6acc8eea33990b/1d69c/stone_bridge.png 750w,
+/static/7644e88f826deebbdd6acc8eea33990b/00d43/stone_bridge.png 1000w,
+/static/7644e88f826deebbdd6acc8eea33990b/3dde1/stone_bridge.png 1018w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;돌다리도 두드리고 건너야지. 핑테스트도 진행&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e53e5f61bcfbb1a4a2f238e5ced6d681/82c1e/kubectl_re_apply_pod_svc.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 72%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAACLUlEQVR42o1U2XLaQBDU/39KKmUHbDACDIjDR/KUcmwnWOaWAF1IgAS2gfH06HCR5MEPU7PaXc10T7ekhHaD7FGR5gOVZj2VVnON9qsb2i0/4i24/nQo7rhEhn5K4+4Zjf6ck2dcUjCr08Ko0cKskT2s0Npqfr7gW3BDW++aNl6HtosObdz20YWXxZXk/er2CDnWaeD81b+SUDyjRKPuF9LvThhlgdEWqfcrR4PHPPUfctS/zwny4WPMADHg9fD3OZ/He2CCwq8+I1zbTaHpT+ty4I6r5IwqZA3LNOur5E0uyRqU5Xzrdihy2km0JEK7lbEQypGj8UsqF6pkhUNuEjqIFs9PS15sEppLtuKcFkVklH2TkQxyTCFPU1YZqPS7b/TMtJFBbfJUlHEgJk+FhHqBzOcLCZvZ7D4QttkqTVrOGqJuwAgjRgf7YO9/Su6W/+5lCEOnTs64wDOL0YHOYc2KciDj5dSLsbq3R/78OytmDxRORQwUBDIUTTNsBJHgS2TcyWbK88UHAVYui4e7Smi3eUNLKNbJN+MQgTiD9pLPNl5b1lA9SO6hIIpAZTR/YR8rG1fj7iX+/MocVVH2EP1gut+F3iGMs5ib14coft7jnJ/TGe7X8TgUUz9jg34VOuiKjnP2XSyWJsq6k6rMyOLPEM9Agz1DvxAzY9bwMFgp3qTGM+SfQ7+cza1/nxczB9MGN8vzmSoGxrymvZKgx7r780R+KACCGXtGjd4BWTfv8Ij42h4AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;kubectl_re_apply_pod_svc 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/e53e5f61bcfbb1a4a2f238e5ced6d681/0b533/kubectl_re_apply_pod_svc.png&quot;
+        srcset=&quot;/static/e53e5f61bcfbb1a4a2f238e5ced6d681/fac75/kubectl_re_apply_pod_svc.png 125w,
+/static/e53e5f61bcfbb1a4a2f238e5ced6d681/63868/kubectl_re_apply_pod_svc.png 250w,
+/static/e53e5f61bcfbb1a4a2f238e5ced6d681/0b533/kubectl_re_apply_pod_svc.png 500w,
+/static/e53e5f61bcfbb1a4a2f238e5ced6d681/1d69c/kubectl_re_apply_pod_svc.png 750w,
+/static/e53e5f61bcfbb1a4a2f238e5ced6d681/00d43/kubectl_re_apply_pod_svc.png 1000w,
+/static/e53e5f61bcfbb1a4a2f238e5ced6d681/82c1e/kubectl_re_apply_pod_svc.png 1398w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;pod 와 service 생성&lt;/p&gt;
+&lt;p&gt;두근두근..과연 될 것인가….&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f5cf172068c8447fa16d0dfb538a3eae/5f78c/psql_fifth_try.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 115.19999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAXCAYAAAALHW+jAAAACXBIWXMAABYlAAAWJQFJUiTwAAADfElEQVR42l2UW1dTQQyF+/9/gPDgqoBICwUt5SCu5QXlIuIFEJBS6BWwhV4OLW0FfYn5MjNQfciadE4nyU72TqKzOSGtfFau8znpFZZkcLosveOc3JwsSV99jPthcVnuKiveXsldeUVu1b/lLL+UX3oOSy8lcfH6kdR2UlLempHC+pRUP6fkZPOpFDam5OxLWkpbz+TgXVLOv85K5zArP3fm5HJvXlr7z6W5vyCdH1mz+CgrvwjY3ZyWoWakquv8opn5R4vO/N2VPm4dEERNz6vvCxJroMFpJP2TyE5QJBrvxuV8Ny0XX+eksZuRhmanCh4SgMqaBwvyu/rK4AJvWFo2qFTUP43ug1rAy9XH0uChwisrvMqnGakpbKCeabDix2mpbM9okoy1oKzf+U1rSEyl7cMXZvQ/EWvf4kKkH1xljd15q5LK6lpxMJKQrErwb3Pmc28t0daEihOdtSfSPnaXveMluSnk/JQjmy4PgMOfgQts/PDbTdndGeSfb8bkTHtY1YzABE5NoQHpQivJr03qOavBczbN1sGLe4hYmDC+Vdj6MCHNI0cHgtAn4FoP1Qdq6Cl2svHUknLyP6bf0fcDrc7TZkr6pRXpetp0PU3i/ANlgA4HoYl90/ZQEW8YxNAHc7R5Oy5nOw5eyBjogw+Ja5/T9tgoU3wIMDAlRaYqfAf5fVJi/TNBHORZC04Qd6YMIvBpC1Q6155CM6ZMtfS1ZwlXgDwp15qhp1ru+0xAvMFMAcu+guhet6bdkpvwqLatwjqQdcq17ZQUt6Ytu5H304xVRIXHOmmqAXaYMpPFuOvaYsm5gLEugb5Gh4fNEcGjVx7SR+7ppZNlxtpDAv5rAb05Yq8npZ3Pmm7D1MgYfKDio1/0/GfEfnuod74Vjtivldg7EDslp7q2kBb6ZYUF/h2uJm0oJIXk9b2MVYwZ2Q+fG6Wswl5YX3DQ+uF41/M+i5cBjSqjoyctoU0BReCjDmVMat8QfcqtKu1LUAuPLnVpsIVivwDCunI8jIwJtt293lV6ykOd0JUnMIGAhW9T1uCVbSfJ+og84WtdB0SVqIjTS29SepoptvLdkux7CLaJix6SV8f/PLz9fyi2sffSBrnidx1VYvhUWPz4zODTW8e/f3VO7+8ht9cmVCmRtPVB3Tg2b1sYngUtB97xzZ0ZkyW8JBiDIjAB/wL3MSXnXErTagAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;sql_fifth_try 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/f5cf172068c8447fa16d0dfb538a3eae/0b533/psql_fifth_try.png&quot;
+        srcset=&quot;/static/f5cf172068c8447fa16d0dfb538a3eae/fac75/psql_fifth_try.png 125w,
+/static/f5cf172068c8447fa16d0dfb538a3eae/63868/psql_fifth_try.png 250w,
+/static/f5cf172068c8447fa16d0dfb538a3eae/0b533/psql_fifth_try.png 500w,
+/static/f5cf172068c8447fa16d0dfb538a3eae/1d69c/psql_fifth_try.png 750w,
+/static/f5cf172068c8447fa16d0dfb538a3eae/00d43/psql_fifth_try.png 1000w,
+/static/f5cf172068c8447fa16d0dfb538a3eae/5f78c/psql_fifth_try.png 1606w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;접속 불가!&lt;/p&gt;
+&lt;p&gt;로그도 확인했고 드라이버도 바꾸어주었는데…이제 의심갈만한건 postgres 설정 파일 뿐이다.&lt;/p&gt;
+&lt;p&gt;친절하신 인공지능들을 또 괴롭혀 본다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b241f7055aad36f589ca11796554ffde/bc3ae/chatgpt_nodeport.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 73.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAABYlAAAWJQFJUiTwAAAB+0lEQVR42p2TW3PTMBSEJdny/RInsR0Sp1Pa4QXa0kmTlA68xHZCCjMpBfr/f8pyJNeeFpLC8PDNKkfKaqUjs3J9h832O7ZfH1B/vsfm9gfK+k6rqiu9pbntl59Y1TvUm3ua32FNa+vNN1SEqqu1q2oHVq2pSFzf1FhcV1h+qEhLPW60fFZv9Ckl5ssV5lpLsMvZDS4ul3h7NsO78yvN2W88rXfjiznO3ysWuFp8wmz+EcqLjSdHGPYHSKIe4ihGFBOtHiBJ+hgOhximqdYsy5GmGfLRGCwJE/SZhdh04Vo2mDTAGHsRIUSHYRjgnOu67bhgeZyiMEL4QQjhu+C0iNOkhhbuw7KsDtu2ybgJ4TgeWBj0kAsPA+mDBQ4VaBefNCA1xN6EKpWUUmOa5vOESdhHJlzYwoSgSW2iMGlXfvjYbdp23Bn6QYyQS+QyhCPpDi0yfVyw7+5UOoVKpmjHQnA4Lh3ZCyJE1JTcCsEcMou8Jt1fDNumqDsXj43pDF0mdMIetyGdf+v0PvSRlaFkHCMyzGSARHowOO3K+P8Z+mEMg36c2gNMzQi54ePE7sMSpm7KoaejnkrTYdE1RT8blTCgI0fShQg9SM+F5OLFJJyzPx51l3B69AajrMDo1RQpfYbpmMgnyPLiIJPiuGFyjKJ4jVz9N5tgXJzgFzRWaFJa5bm5AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;chatgpt_nodeport 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b241f7055aad36f589ca11796554ffde/0b533/chatgpt_nodeport.png&quot;
+        srcset=&quot;/static/b241f7055aad36f589ca11796554ffde/fac75/chatgpt_nodeport.png 125w,
+/static/b241f7055aad36f589ca11796554ffde/63868/chatgpt_nodeport.png 250w,
+/static/b241f7055aad36f589ca11796554ffde/0b533/chatgpt_nodeport.png 500w,
+/static/b241f7055aad36f589ca11796554ffde/1d69c/chatgpt_nodeport.png 750w,
+/static/b241f7055aad36f589ca11796554ffde/00d43/chatgpt_nodeport.png 1000w,
+/static/b241f7055aad36f589ca11796554ffde/bc3ae/chatgpt_nodeport.png 1268w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;postgres-service.yml 파일을 인공지능이 알려준 대로 수정한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;yaml&quot;&gt;&lt;pre class=&quot;language-yaml&quot;&gt;&lt;code class=&quot;language-yaml&quot;&gt;&lt;span class=&quot;token key atrule&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; v1
+&lt;span class=&quot;token key atrule&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; Service
+&lt;span class=&quot;token key atrule&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postgres&lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;service
+&lt;span class=&quot;token key atrule&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token key atrule&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;token key atrule&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; postgres
+  &lt;span class=&quot;token key atrule&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;token key atrule&quot;&gt;protocol&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; TCP
+    &lt;span class=&quot;token key atrule&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 5432  // 30000 으로 지정되어 있던 것을 postgres 포트로 변경
+    &lt;span class=&quot;token key atrule&quot;&gt;targetPort&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 5432 // pod 내의 포트&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; 서비스가 트래픽을 전달하는 대상의 포트
+    &lt;span class=&quot;token key atrule&quot;&gt;nodePort&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; 30000 // NodePort 서비스 타입을 사용할 때 쿠버네티스 클러스터 외부 접근가능 포트
+  &lt;span class=&quot;token key atrule&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt; NodePort&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5e8884a75ee6150addfe86f6f9db074c/121b3/conn_success.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 48.800000000000004%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAKCAYAAAC0VX7mAAAACXBIWXMAABYlAAAWJQFJUiTwAAABfUlEQVR42qVSyVICQQzl/39EDxSI7LuyCXqwpFDZmZVlmIVtEFB8poMDlh48cHiVTjr98pKObzerYGUUsRjf4n1+dzZ8tp6A3LqE1LzAqB/H1qmcR+joGYx6UejdMCGG5eSgVCj37Ol8d7Qe/hDuZlU6VNn5WFQZ+2WNrYidztVjzMsT+Eku4HOnN1ibebjTIhw9x7DUDM2U4lYR40ESJvmraQFziq2MAmajPOeJbjz1R4WGHMawF6T5JWmOYcivEcjNCPRODKaSgdqO0n2cSUb9BJMKX6EcUezTvacuhNpvQkHUfAxA44cJKK0IBi/XRBqGrWdhaVkms4X6YY7mneCYLUD3oqDaisKQ09RlgRRKKfQbIQqk0KkH0XkKUAE/JCLtkt9tXHGB/nOIbbseYBJLy2AiJRmi/a1T5vZ9YjYLmoWYh6hsaTkYlGQqaWzsEieuzRLerBKv1MYuHz5rVTuBP85bG24jjomaxbjhhyvHsXcfsPtnH711+v0pX4/B0TV8mf3QAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;conn_success 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/5e8884a75ee6150addfe86f6f9db074c/0b533/conn_success.png&quot;
+        srcset=&quot;/static/5e8884a75ee6150addfe86f6f9db074c/fac75/conn_success.png 125w,
+/static/5e8884a75ee6150addfe86f6f9db074c/63868/conn_success.png 250w,
+/static/5e8884a75ee6150addfe86f6f9db074c/0b533/conn_success.png 500w,
+/static/5e8884a75ee6150addfe86f6f9db074c/1d69c/conn_success.png 750w,
+/static/5e8884a75ee6150addfe86f6f9db074c/00d43/conn_success.png 1000w,
+/static/5e8884a75ee6150addfe86f6f9db074c/121b3/conn_success.png 1070w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;접속 성공!&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/db348bef9915fbe40cf2db8c81d89bc9/0a47e/mococo_happy.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 100%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAIAAAAC64paAAAACXBIWXMAAAsSAAALEgHS3X78AAADa0lEQVR42pWU608TQRDA+z8Y4n9ggsFEbYIfNBqMEctLQBRQEIitBFEwaim14gPhg4qiVSSiSG2lD14RJAiiBjAaWgu15dFqraXQUrBKEFpob3dv3btDqxI/uNnM7e3Ob2Z3ZnZ59H809Nc/b7UKZNsqDNEYMxLBf8IIIcy2P3mCQbQ0hRBgTayCiTZFUQQbNgzbrXYyIIZYe5AA0NcLBmOAVYK+mxie9c/7y6dRb+Rn8KOzomtu17A84wp4NBQhJx8AgwB6W1kYrMAc5nK6utq7soSHsvuzxdPiqLwojVpN5oMUDebNwPeSssmgJf/n4dltc6TD7uDHbxbc2ZPcsFc0ICx1S9J70kvPl3KHZyTp396ggAMtL0CfnYv8Cuxf9O9I3J7amlJoKozYsJafszkybt0uQUyxuOhqVZXzs5OzQlTBoDakPIagn/gPb3vWO5OZfTBifcTRstT7ndIe683eCbnOeElWc3h36tbyyxUhCtAoGFQcBwYde2wUhj2e6eSMhHtdJVO4w0U/+YCbHbhlkm53405zSCWSJWQdyfMvzNHDrfD79G8wzcD7M9Oq2058w8/toPl9UPWRbjb4Hw8tqao0xTmnE33v79aeTEpKTlgG4FcWeVw8erp7U4QxXtzxdrYuV7q3zXSl1XQlL2njhcoD76DarL+2oCnDhru5Cfwb8ltEHwA2VQAwhXGqRFx2MRV71E+v5VfdFjpxe7XupGLTmuslAjNum/76aKnvOh5vqLt8SFSQzwYPhD3nFYjkpxLxqxuhjoqg9f5H3DQ411BcFFvfKXHgNjOl/jzzELpVooyt0nPniT6pRQbmSlJWdil2RyQaqQu8lX8Zqx0F6g9IZ0MtNtQ0AhrHoGaE1lhxk0SeExO3bcg0zGWORz56vSEtV6Dov2gNNtoXlGOU2op0+mXFHXd55cTZR1+u2pB2FGgsocZlPCCUxp0RSzjnDFxbe29X+ibWg3aU1hE5DrUWoJZ7yitdsr7AAxvSjQGtHbdUKvIT0wQTrgku4AwcCAQkUumWnRuNi/WjtNIClBaoGkeNRJoBMxiBSjJvDNTvy4p3Od3hVK3cV1IkXrcvZJ+lzZPotRO9+AS7HajLgZ454HMX7PfSQ2R1bv5r+Kr+ulWATT2mVzpXOYg8ADRkn4Lf5lH4MfoBDq/WDzV08scAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;mococo_happy 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/db348bef9915fbe40cf2db8c81d89bc9/0b533/mococo_happy.png&quot;
+        srcset=&quot;/static/db348bef9915fbe40cf2db8c81d89bc9/fac75/mococo_happy.png 125w,
+/static/db348bef9915fbe40cf2db8c81d89bc9/63868/mococo_happy.png 250w,
+/static/db348bef9915fbe40cf2db8c81d89bc9/0b533/mococo_happy.png 500w,
+/static/db348bef9915fbe40cf2db8c81d89bc9/0a47e/mococo_happy.png 600w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&quot;마무리&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%A7%88%EB%AC%B4%EB%A6%AC&quot; aria-label=&quot;마무리 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;마무리&lt;/h2&gt;
+&lt;p&gt;이번 포스팅은 이걸로 마무리…..&lt;/p&gt;
+&lt;p&gt;아! 잠깐! 우리는 Backlog 하나를 남겨두었다.&lt;/p&gt;
+&lt;p&gt;이를 해결하기 위해 다시 log 를 살펴보자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;I0130 09:03:27.557167   10329 network_create.go:284] error running [docker network inspect minikube]: docker network inspect minikube: exit status 1
+stdout:
+[]
+
+stderr:
+Error response from daemon: network minikube not found
+I0130 09:03:27.557179   10329 network_create.go:286] output of [docker network inspect minikube]: -- stdout --
+[]
+
+-- /stdout --
+** stderr **
+Error response from daemon: network minikube not found
+
+** /stderr **&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이부분 바로 뒤에 아래와 같은 로그를 확인할 수 있다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;I0131 15:14:07.594844    7033 cli_runner.go:164] Run: docker network inspect bridge --format &quot;{&quot;Name&quot;: &quot;{{.Name}}&quot;,&quot;Driver&quot;: &quot;{{.Driver}}&quot;,&quot;Subnet&quot;: &quot;{{range .IPAM.Config}}{{.Subnet}}{{end}}&quot;,&quot;Gateway&quot;: &quot;{{range .IPAM.Config}}{{.Gateway}}{{end}}&quot;,&quot;MTU&quot;: {{if (index .Options &quot;com.docker.network.driver.mtu&quot;)}}{{(index .Options &quot;com.docker.network.driver.mtu&quot;)}}{{else}}0{{end}}, &quot;ContainerIPs&quot;: [{{range $k,$v := .Containers }}&quot;{{$v.IPv4Address}}&quot;,{{end}}]}&quot;
+I0131 15:14:07.634053    7033 network.go:209] using free private subnet 192.168.49.0/24: &amp;amp;{IP:192.168.49.0 Netmask:255.255.255.0 Prefix:24 CIDR:192.168.49.0/24 Gateway:192.168.49.1 ClientMin:192.168.49.2 ClientMax:192.168.49.254 Broadcast:192.168.49.255 IsPrivate:true Interface:{IfaceName: IfaceIPv4: IfaceMTU:0 IfaceMAC:} reservation:0x140023f4650}
+I0131 15:14:07.634071    7033 network_create.go:124] attempt to create docker network minikube 192.168.49.0/24 with gateway 192.168.49.1 and MTU of 65535 ...
+I0131 15:14:07.634109    7033 cli_runner.go:164] Run: docker network create --driver=bridge --subnet=192.168.49.0/24 --gateway=192.168.49.1 -o --ip-masq -o --icc -o com.docker.network.driver.mtu=65535 --label=created_by.minikube.sigs.k8s.io=true --label=name.minikube.sigs.k8s.io=minikube minikube
+I0131 15:14:07.717698    7033 network_create.go:108] docker network minikube 192.168.49.0/24 created
+I0131 15:14:07.717721    7033 kic.go:121] calculated static IP &quot;192.168.49.2&quot; for the &quot;minikube&quot; container&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;대충 로그를 해석해보면 ‘minikube 라는 도커 네트워크를 찾았는데 없어서 내가 만들었어.’ 라는 뜻이다.&lt;/p&gt;
+&lt;p&gt;그렇다. 실제로는 qemu 없이 기본 설정만으로도 분명 네트워킹이 이루어져야할 거 처럼 보인다.&lt;/p&gt;
+&lt;p&gt;대체 원인이 무엇일까? 내가 돌아다녔던 흔적들을 다시 살펴보았고&lt;/p&gt;
+&lt;p&gt;qemu 설치 방법을 소개했던 블로그 포스팅의 마지막 줄을 보면&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;All other setups like Docker, Podman, and Virtualbox run into some sort of issue.&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;MacOS 에서 도커,파드맨, 그리고 버츄얼박스는 실행하는데 제약이 있다는 얘기를 하고 있고&lt;/p&gt;
+&lt;p&gt;또 다른 국내 포스팅을 돌아다니다 스택오버플로우에서도 같은 의견을 찾았다는 흔적도 발견했다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;This is a known issue, Docker Desktop networking doesn&apos;t support ports. You will have to use minikube tunnel.&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;어떤 제약이 있는지 그 제약을 어떻게 확인할 수 있는지는 시간을 더 많이 들여봐야겠지만 이 포스팅의 목적과는 조금 방향이 다르기에 여기서 찐 마무리 하겠다.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 3]]></title><description><![CDATA[글 목록 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1 사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 2 사용자 동작을 중심으로 Playwright로 E2E…]]></description><link>http://onepredict.github.io/playwright-e2e-part3/</link><guid isPermaLink="false">http://onepredict.github.io/playwright-e2e-part3/</guid><pubDate>Wed, 24 Jan 2024 15:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;글 목록&lt;/strong&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;&lt;a href=&quot;/playwright-e2e-part1/&quot;&gt;사용자 동작을 중심으로 Playwright로 E2E 테스트 작성하기 - Part 1&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;
