@@ -1,4 +1,641 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 14 Feb 2024 07:54:15 GMT</lastBuildDate><item><title><![CDATA[우당탕탕! 쿠버네티스 설치기]]></title><description><![CDATA[여정(?) 의 시작 쿠버네티스는 뭘까? 쿠버네티스의 주요 기능 쿠버네티스 설치하기 Postgres 구동 하기 minikube Log 확인 qemu…]]></description><link>http://onepredict.github.io/chaotic-kubernetes-setup/</link><guid isPermaLink="false">http://onepredict.github.io/chaotic-kubernetes-setup/</guid><pubDate>Tue, 06 Feb 2024 15:00:00 GMT</pubDate><content:encoded>&lt;div class=&quot;table-of-contents&quot;&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Onepredict]]></description><link>http://onepredict.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 27 Feb 2024 05:40:03 GMT</lastBuildDate><item><title><![CDATA[서비스 메시와 Kubenetes gateway API]]></title><description><![CDATA[Kubenetes gateway API v1 릴리즈! Kubenetes gateway API를 알기 위해서 서비스 메시(Service mesh)란? Istio란? 사이드카 패턴이란? Istio와 Envoy proxy, 그리고 사이드카 Istio…]]></description><link>http://onepredict.github.io/k8s-gateway-api-setup/</link><guid isPermaLink="false">http://onepredict.github.io/k8s-gateway-api-setup/</guid><pubDate>Tue, 27 Feb 2024 14:00:00 GMT</pubDate><content:encoded>&lt;div class=&quot;table-of-contents&quot;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#kubenetes-gateway-api-v1-%EB%A6%B4%EB%A6%AC%EC%A6%88&quot;&gt;Kubenetes gateway API v1 릴리즈!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#kubenetes-gateway-api%EB%A5%BC-%EC%95%8C%EA%B8%B0-%EC%9C%84%ED%95%B4%EC%84%9C&quot;&gt;Kubenetes gateway API를 알기 위해서&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%A9%94%EC%8B%9Cservice-mesh%EB%9E%80&quot;&gt;서비스 메시(Service mesh)란?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#istio%EB%9E%80&quot;&gt;Istio란?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EC%82%AC%EC%9D%B4%EB%93%9C%EC%B9%B4-%ED%8C%A8%ED%84%B4%EC%9D%B4%EB%9E%80&quot;&gt;사이드카 패턴이란?&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#istio%EC%99%80-envoy-proxy-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%82%AC%EC%9D%B4%EB%93%9C%EC%B9%B4&quot;&gt;Istio와 Envoy proxy, 그리고 사이드카&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#istio%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C-%EC%95%8C%EC%95%84%EB%B3%B8-%EC%9D%B4%EC%9C%A0&quot;&gt;Istio에 대해서 알아본 이유&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#ingress-nginx%EA%B0%80-%EC%95%84%EB%8B%8C-gateway-api%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0&quot;&gt;Ingress-nginx가 아닌 Gateway API를 사용하는 이유&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#kga-%EC%A0%81%EC%9A%A9%ED%95%B4%EB%B3%B4%EA%B8%B0&quot;&gt;KGA 적용해보기&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EC%82%AC%EC%A0%84-%EC%A4%80%EB%B9%84&quot;&gt;사전 준비&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EC%95%B1-%EC%84%9C%EB%B9%84%EC%8A%A4-%EA%B5%AC%EC%B6%95&quot;&gt;앱 서비스 구축&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C&quot;&gt;프론트엔드&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%EB%B0%B1%EC%97%94%EB%93%9C&quot;&gt;백엔드&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#gateway&quot;&gt;Gateway&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#gateway-%EA%B5%AC%EC%B6%95&quot;&gt;Gateway 구축&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#httproute&quot;&gt;HttpRoute&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;#%EB%A7%BA%EC%9D%8C%EB%A7%90&quot;&gt;맺음말&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;kubenetes-gateway-api-v1-릴리즈&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#kubenetes-gateway-api-v1-%EB%A6%B4%EB%A6%AC%EC%A6%88&quot; aria-label=&quot;kubenetes gateway api v1 릴리즈 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Kubenetes gateway API v1 릴리즈!&lt;/h2&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 27.999999999999996%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAGCAYAAADDl76dAAAACXBIWXMAAA7DAAAOwwHHb6hkAAABD0lEQVR42mNgAILpGz5pFc16U9+3+oMJAxj8ZwQSzFDMBMSMSGx0mhFKQ9gNC98Wp058+6dt7a9/GZPf/6+c/7oNyVAGJMOIAewMsT2fLizY/+//msOfvy/e/+t/Yv/Hx////+cESgYwMzMHAelcIE4G4lQgDgfiDCAOgfI9gFgJKh8NxDkMWVM/vpy+9cv/HWe+/pyz4+O/nOkfv5968R+kqIqRkXkCkG4C4gggbgHiOCCuhlrSA6XVgXgyEHcBcSZDxqQ3tfnz/v1vWf3rd+mi//8T+15PhrpeGUgIQL3CDPU6AxINkhOBslmAWAgSUv//s1YtfFsa2fFqevncN3VAPi9UHNkAZIzNcBhgBACC7Gawehc7+AAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;KGA&quot;
+        title=&quot;&quot;
+        src=&quot;/static/f075fd11ed751056c3bd42dcd4913cb3/0b533/0.png&quot;
+        srcset=&quot;/static/f075fd11ed751056c3bd42dcd4913cb3/fac75/0.png 125w,
+/static/f075fd11ed751056c3bd42dcd4913cb3/63868/0.png 250w,
+/static/f075fd11ed751056c3bd42dcd4913cb3/0b533/0.png 500w,
+/static/f075fd11ed751056c3bd42dcd4913cb3/1d69c/0.png 750w,
+/static/f075fd11ed751056c3bd42dcd4913cb3/1cfc2/0.png 900w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;
+  쿠버네티스에서 ingress와 로드밸런서 구성의 늪에 빠진 수많은 개발자가 있다. 필자도 쿠버네티스의 로드밸런서를 구성하면서 날먹(?)할 수 있는 방법을 갈구하게 됐다. 그러던 도중 알게 된 사실. Gateway API의 v1이 23년 10월에 정식 출시 되었다는 사실!!! 근데 &lt;a href=&quot;(https://gateway-api.sigs.k8s.io/)&quot;&gt;Kubenetes Gateway API&lt;/a&gt;가 뭔데?&lt;/p&gt;
+&lt;h2 id=&quot;kubenetes-gateway-api를-알기-위해서&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#kubenetes-gateway-api%EB%A5%BC-%EC%95%8C%EA%B8%B0-%EC%9C%84%ED%95%B4%EC%84%9C&quot; aria-label=&quot;kubenetes gateway api를 알기 위해서 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Kubenetes gateway API를 알기 위해서&lt;/h2&gt;
+&lt;p&gt;  아.. 이름이 너무 길다. 이제부터 필자는 이 글에서 Kubenetes gateway API를 KGA로 줄여서 부를 것이다.
+공식 문서의 설명을 인용하면&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt; 
+&quot;Gateway API는 Kubernetes의 L4 및 L7 라우팅에 초점을 맞춘 공식 Kubernetes 프로젝트입니다. 이 프로젝트는 차세대 Kubernetes 수신, 로드 밸런싱 및 서비스 메시 API를 나타냅니다. 처음부터 일반적이고 표현력이 풍부하며 역할 지향적으로 설계되었습니다.&quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;  이라 한다. 오... 차세대 서비스 메시 API라니... 듣기만 해도 군침이 싸악 돈다. 우리는 쿠버네티스를 운영해 보면서 무엇인가 아름답게 정리되었단 느낌을 받은 적이 있었을까? 필자는 드디어 그 아름다움을 표현해 줄 수 있는 것이 모습을 드러내고 있다고 생각한다.&lt;/p&gt;
+&lt;p&gt;  KGA는 Service mesh, Istio, Envoy Proxy, Sidecar 등 사전에 알아야 할 것이 많다. 이 글을 보는 독자들의 시간은 소중하기에 큼직한 개념들을 간단하게 짚어보고 넘어가려 한다. 사실 필자의 글을 읽는 수준 높은 독자들은 득달같이 구현해 보고자 하는 욕구를 참기 어려울 것이다. 게다가 아래의 글을 읽으며 따라 해보기만 해도 구현된 하찮고 아름다운 무언가를 볼 수 있기까지 할 것이다. (아마도..?) 하지만 필자는 클라우드라는 환경을 한 도화지에 그려보고자 하는 쿠버네티스라는 성의 철학과 그 안의 마이크로서비스들이 평화로운 가정을 꾸릴 수 있도록 노력해 온 수많은 사람들의 노고를 독자들이 이해했으면 하기에 독자들이 꾹 참고 천천히 읽어줬으면 하는 바램을 갖고 있다.&lt;/p&gt;
+&lt;h2 id=&quot;서비스-메시service-mesh란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%A9%94%EC%8B%9Cservice-mesh%EB%9E%80&quot; aria-label=&quot;서비스 메시service mesh란 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;서비스 메시(Service mesh)란?&lt;/h2&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/889702d0bf29aadc56a786febac1062b/2bef9/1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 54.400000000000006%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACFElEQVR42o2RzW8SQRjG9//xH/HuzYMx8WD0ILHGlMb0YALaYppIjxo/OKiHpiZIca1dcYHKh5UKbBd22LXs7Af7yX4BWbYsrFNNMPFgfOfJ5PdO5skzkxeLomixWKD9e7P1MvNq923W9/3l4b8LQ5fCMESUy+N3V+8lkinbdlAbhvP5fPGXfnsQhmgt5tgyhGMBjuP1WiUIpv+bDAVI07TrWrW2+BpnsiSXLYC9IsgVwTsS7JEgRzK7B92dj518CTiuhzxVhXpKZ9/DKiYIkOXYwPe2MvUr6x9uPiBiqc93torxdHltuxzfLt/aJG8kP11PEPF0UTXQj+ZrpUeX8NVYMYVpmspxLM/3Fc1QNb3LyX1BkRUdSirdk3hRHajn3GXlgapNJqMo9DYamZXD9Hr9CYZs7XaLpk/6PGx2+IfPqzv7lKYpZL238aK2f8ggzhbo5LNq9ZidjJ1oNmroIM9/qSgU5jjOcGha1hCKiigpjR7gxQFipKMeI8oqDwe/GKBo13Wj2XCltBk7fHytkEBm2zB00zRMQ2934UHllPxGAUiVm4Co/PjaOunwFHHUISqnXYbxXCOaj68S9y+8uXwxdxuzbUvXNeRHUlVFEAYMz3F8A8oSCwVeElh43BP6gqTJEvQsGT3bnnriSDN9BwvQWP+Uj7qz4MzzFNPuDx1o2nBkccFYn441f6QGHoxm3nLOPwFeNjiWjqLE5wAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;레포트 상세 이미지&quot;
+        title=&quot;&quot;
+        src=&quot;/static/889702d0bf29aadc56a786febac1062b/0b533/1.png&quot;
+        srcset=&quot;/static/889702d0bf29aadc56a786febac1062b/fac75/1.png 125w,
+/static/889702d0bf29aadc56a786febac1062b/63868/1.png 250w,
+/static/889702d0bf29aadc56a786febac1062b/0b533/1.png 500w,
+/static/889702d0bf29aadc56a786febac1062b/1d69c/1.png 750w,
+/static/889702d0bf29aadc56a786febac1062b/00d43/1.png 1000w,
+/static/889702d0bf29aadc56a786febac1062b/2bef9/1.png 1024w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;  서비스 메시(&lt;a href=&quot;https://medium.com/dtevangelist/service-mesh-%EB%9E%80-8dfafb56fc07&quot;&gt;Service mesh&lt;/a&gt;)는 서비스가 애플리케이션 수명 주기 전반에 걸쳐 데이터와 일관성을 공유하며 서로 통신할 수 있도록 지원하는 사전 구성된 애플리케이션 서비스이다. 서비스 메시는 컨테이너의 쓰기 가능한 얇은 계층을 사용하여 마이크로서비스를 관리하는 데 사용된다.&lt;/p&gt;
+&lt;p&gt;  쉽게 설정하고 배포할 수 있도록 구축된 서비스 메시는 마이크로서비스의 가치를 실현하여 기업이 새로운 서비스를 쉽게 발견하고 API 제품으로 관리할 수 있도록 한다. 즉 MSA에서 각각의 마이크로서비스가 서로 사이좋게 지낼 수 있게 해준다는 의미다. 그렇다면 대표적인 서비스 메시에는 무엇이 있을까?&lt;/p&gt;
+&lt;h2 id=&quot;istio란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#istio%EB%9E%80&quot; aria-label=&quot;istio란 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Istio란?&lt;/h2&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f5e64025e9e29c79faf77373de69d460/c0255/2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 43.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABLElEQVR42p2S3UrDMBTH+4A+hFeC+AJeCOobiHjnlbAJynSb4liVzYHiFyhSdBMtq+vYxkq3rl27L23/plnipm0VduCQf3JyfslJjoAQ8zwPs5rwDWGjZQ9Qa1oMzN0LahaPBrJouWpgJ/lItTuV8TuZw/8AjsfshYz55RR0o8duPMTzm0aTfV1WDciVFgyrj15/FA7kJ1VqHaxsnGNuYRd7mSe6prVsHJ6WkDwrQbyUET+WcPVQhUgOTmSLJO78qJACXXc88Utd2yxgaT2DxdUTjD4+0ekO6K3jRxISYhH5awX5GwUHRMfSEtS6GQTySeH2HVuxO2zv3yOde4HtDGmsS0pt6jZMAtfbDi3X/zy1YUa/IbdXRUdds/5tj6jOEqI28faY6KC7Ib/8BSy/r0G/asfeAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Istio 추상화&quot;
+        title=&quot;&quot;
+        src=&quot;/static/f5e64025e9e29c79faf77373de69d460/0b533/2.png&quot;
+        srcset=&quot;/static/f5e64025e9e29c79faf77373de69d460/fac75/2.png 125w,
+/static/f5e64025e9e29c79faf77373de69d460/63868/2.png 250w,
+/static/f5e64025e9e29c79faf77373de69d460/0b533/2.png 500w,
+/static/f5e64025e9e29c79faf77373de69d460/1d69c/2.png 750w,
+/static/f5e64025e9e29c79faf77373de69d460/c0255/2.png 920w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;  &lt;a href=&quot;https://cloud.google.com/learn/what-is-istio?hl=ko&quot;&gt;Istio&lt;/a&gt;는 애플리케이션 네트워크 기능을 유연하고 쉽게 자동화할 수 있는 투명한 언어 독립적 방법을 제공하는 현대화된 서비스 네트워킹 레이어인 서비스 메시이다. 클라우드 기반 애플리케이션을 구성하는 다양한 마이크로서비스를 관리하기 위해 널리 사용되는 솔루션이다. Istio는 이러한 마이크로서비스가 서로 통신하고 데이터를 공유하는 방법을 지원한다.&lt;/p&gt;
+&lt;p&gt;  각 마이크로서비스가 사이좋게 지내기 위한 언어와 언어의 조작을 제공하는 실제화된 서비스 메시인 것이다! Istio는 마이크로 서비스 간의 모든 네트워크 통신을 담당할 수 있는 프록시인 Envoy Proxy를 이용한다. Envoy Proxy는 C++로 개발된 고성능 프록시로써 사이드카 패턴을 이용해서 서비스 메시의 모든 서비스에 대한 inbound/outbound 트래픽을 처리한다. 그렇다면 사이드카는 무엇일까?&lt;/p&gt;
+&lt;h1 id=&quot;사이드카-패턴이란&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%82%AC%EC%9D%B4%EB%93%9C%EC%B9%B4-%ED%8C%A8%ED%84%B4%EC%9D%B4%EB%9E%80&quot; aria-label=&quot;사이드카 패턴이란 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;사이드카 패턴이란?&lt;/h1&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/b3485cfe9f8cd51393804aebd2eccbfe/7e076/3.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 75.2%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAABAACBv/EABUBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAHKAlZ6eNM//8QAGhABAQACAwAAAAAAAAAAAAAAAwIBEgQRI//aAAgBAQABBQJ21zHK8zqtLimehTFD3gv/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAIAQMBAT8ByK//xAAVEQEBAAAAAAAAAAAAAAAAAAAAEf/aAAgBAgEBPwGI/8QAHRAAAgEEAwAAAAAAAAAAAAAAAAESAxEhMVFhgf/aAAgBAQAGPwKGV6PkVyp0aFLZ/8QAHBABAQEAAgMBAAAAAAAAAAAAAREAITFBUXGB/9oACAEBAAE/IfBAbTtrQBH5xkP2S4opzhdFT74cT/pv/9oADAMBAAIAAwAAABAn/wD/xAAWEQEBAQAAAAAAAAAAAAAAAAABABH/2gAIAQMBAT8QQMl3/8QAFhEBAQEAAAAAAAAAAAAAAAAAAREA/9oACAECAQE/EF2mnf/EAB4QAQEAAgEFAQAAAAAAAAAAAAERACExQVGBkbHw/9oACAEBAAE/EN/6wRR8N3xibzdRGg2z9w4icFC3kyOAAFoISHvAykMIpL2cadZWmytmf//Z&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;사이드카 패턴&quot;
+        title=&quot;&quot;
+        src=&quot;/static/b3485cfe9f8cd51393804aebd2eccbfe/41099/3.jpg&quot;
+        srcset=&quot;/static/b3485cfe9f8cd51393804aebd2eccbfe/aa2ed/3.jpg 125w,
+/static/b3485cfe9f8cd51393804aebd2eccbfe/0479a/3.jpg 250w,
+/static/b3485cfe9f8cd51393804aebd2eccbfe/41099/3.jpg 500w,
+/static/b3485cfe9f8cd51393804aebd2eccbfe/acb04/3.jpg 750w,
+/static/b3485cfe9f8cd51393804aebd2eccbfe/7e076/3.jpg 799w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;  사이드카 패턴은 클라우드 네이티브 애플리케이션 설계와 구현을 위한 쿠버네티스 패턴 24개 중 하나이다. 원래 사용하려고 했던 기본 컨테이너의 기능을 확장하거나 보조하는 용도의 컨테이너를 추가하는 패턴으로써 기본 컨테이너와 독립적으로 동작하는 별도의 컨테이너를 붙이는 패턴이기 때문에 애플리케이션 컨테이너의 변경이나 수정 없이 독립적으로 동작하는 컨테이너를 붙였다 뗐다 할 수 있다. 사이드카 패턴을 이용하면 Istio는 각 서비스에 쉽게 프록시를 부착하여 네트워크를 포착하고 이를 감시 및 통제할 수 있게 된다.&lt;/p&gt;
+&lt;h1 id=&quot;istio와-envoy-proxy-그리고-사이드카&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#istio%EC%99%80-envoy-proxy-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EC%82%AC%EC%9D%B4%EB%93%9C%EC%B9%B4&quot; aria-label=&quot;istio와 envoy proxy 그리고 사이드카 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Istio와 Envoy proxy, 그리고 사이드카&lt;/h1&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d5ad7726fb04cdebc64272e873e67a6d/5b587/4.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 76.8%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAPCAYAAADkmO9VAAAACXBIWXMAAAsTAAALEwEAmpwYAAACDElEQVR42nVU2Y7iMBDk/7+J53lEiBUjpACBQAIhl+OcXKnp8qojmGUtmcZ2udxHdSaQ8Xg88Hw+cb/f3+anoVhaxd1uNwzD4M4n/MmyDLPZDEmSIE1TN4ui+Eh4vV6xWCyw2+1Q5Lm7c7lcHOkb4R+C9iH2wQFRFDnCqqrFGjRNg1wuV1WFvu/x/b2Et95i7R8RhkfEceweGgmNMbC1wTYsEacGeZaiNAX6rsP5FKEsC6SJeHHt0bUtSpsjSkr4gi+NeCkRjYQDBtjSornUCKIUcZKjFY/OiUHVPpDkFfzgjCguYJs7LqaDjS1SWYfnxGEZxRuhycRDr8Qh2ON4CFDVNQ6nDLYdUPcQ+0TVPdHKnTATAs8g2cfY+BvxvnTpYCrGkJmjQsJi3phP2kZIP1b5fhNsjlRwiuVk1UfC18HyUxYcfX+V1+WC5Jj2JhKhOniumN9jQgLVEEuvQFqugyDAZrORaobj+Ste/486ZDJ938dqtXLa4gH3XoEUrz6k678R9DidTliv10463HcetiIFasxa++aFktSST82RdhTXxPKMhVGsy+F8Pnedwtc60Z622NfXF5bLJbbbrbvIwQJMp1Mnfs/zXKfoQyOhtpx2AskYNluKklBZcI+KYHh8gA3B9T+9rIV5DZOSYDHoHXPL//SI4b0WQe1YZd3kK7+/NjrpsU79uvzvq/QDi9aGGcNQWmUAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;Istio 아키텍처&quot;
+        title=&quot;&quot;
+        src=&quot;/static/d5ad7726fb04cdebc64272e873e67a6d/0b533/4.png&quot;
+        srcset=&quot;/static/d5ad7726fb04cdebc64272e873e67a6d/fac75/4.png 125w,
+/static/d5ad7726fb04cdebc64272e873e67a6d/63868/4.png 250w,
+/static/d5ad7726fb04cdebc64272e873e67a6d/0b533/4.png 500w,
+/static/d5ad7726fb04cdebc64272e873e67a6d/1d69c/4.png 750w,
+/static/d5ad7726fb04cdebc64272e873e67a6d/00d43/4.png 1000w,
+/static/d5ad7726fb04cdebc64272e873e67a6d/5b587/4.png 1010w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+  아아.. 알아야 될 것이 뭐 이리도 많은 것일까? 하지만 개발을 개발세발 공부하다 보면 결국 앞에서부터 다시 보는 브루트포스 참사가 발생하니 꾹 참고 조금만 더 들여다 봐주길 바란다.
+Istio 아키텍처를 조금만 더 자세히 알아보자.&lt;/p&gt;
+&lt;p&gt;  위 사진은 Istio 아키텍처를 나타낸다. Istio는 크게 두가지 Plain으로 나뉜다. Data Plane은 Envoy를 사이드카 패턴으로 배포하여 Envoy를 통해 돌아다니는 트래픽을 통제한다. Control Plane은 Envoy의 트래픽 관리 및 설정을 전달하는 역할을 한다. Control Plane의 구성요소로는 Pilot, Citadel, Galley가 있다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Pilot&lt;/strong&gt;: Envoy 설정 관리를 수행하는 모듈이다. Envoy가 호출하는 서비스의 주소를 얻을 수 있는 서비스 디스커버리 기능, 서비스에서 서비스로 호출하는 경로를 컨트롤하는 서비스 트래픽 라우팅 기능 제공. 서비스 안정성을 위해 서비스 간 호출 시 재시도와 서킷브레이커 및 타임아웃 등의 기능을 제공한다. 또한 Pilot 에서 Envoy의 설정을 추상화시켜두어 Istio는 하나의 설정으로 Kubernetes, consol, nomad 등의 다양한 환경에서 사용 할 수 있게 된다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Citadel&lt;/strong&gt;: 보안 관련 기능을 수행하는 모듈이다. 내장된 인증 방식을 이용하여 서비스와 서비스, 엔드포인트유저와 엔드포인트유저 사이의 인증을 강화하거나, 서비스에 접근 가능한 권한을 제어 할 수 있게 된다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Galley&lt;/strong&gt;: Istio의 구성 관리 서비스를 제공한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;  정리하면 Istio는 Envoy를 사이드카 형식으로 배포해 트래픽을 통제하고 내부의 Control Plane으로 설정 관리 및 보안 관련 기능을 수행하는 서비스 메시이다.&lt;/p&gt;
+&lt;p&gt;  자, 우리는 KGA를 알기 위해서 많은 개념을 훑어보고 왔다. 물론 이를 더 자세히 알기 위해선 L4/L7 라우팅과 로드밸런서 등 네트워크 지식이 더 필요하다. 하지만 이러한 계층적인 지식까지 다 알아보는 것은 독자들이 원하지 않을뿐더러 훌륭한 우리 블로그의 독자들은 너무도 궁금해서 유심히 알아볼 것이라 필자는 굳게 믿고 있으니 걱정하지 않는다.&lt;/p&gt;
+&lt;h1 id=&quot;istio에-대해서-알아본-이유&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#istio%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C-%EC%95%8C%EC%95%84%EB%B3%B8-%EC%9D%B4%EC%9C%A0&quot; aria-label=&quot;istio에 대해서 알아본 이유 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Istio에 대해서 알아본 이유&lt;/h1&gt;
+&lt;p&gt;  KGA를 적용하기 위해선 KGA와 같이 사용하기 위한 서비스 메시를 골라야 한다. 필자는 Istio를 해당 서비스 메시로 골랐기 때문에 Istio에 대해서 심층적으로 더 알아보았다. 그렇다면 다른 서비스 메시는 무엇이 있을까?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Linkerd: 가볍고 사용하기 쉽도록 설계된 오픈소스이다. Istio와 달리 &lt;a href=&quot;https://github.com/linkerd/linkerd2-proxy&quot;&gt;linkerd2-proxy&lt;/a&gt;라는 마이크로 프록시위에 구축되었으며 WebSocket 프록시, 자동 TLS, 자동 대기 시간 인식, L7 LB 등을 포함한 여러 주요 기능을 제공함.&lt;/li&gt;
+&lt;li&gt;Consul: 인프라 자동화 소프트웨어 분야의 선도적인 제공업체인 HashiCorp가 개발한 서비스 메시 플랫폼이다. Consul 서비스 검색, 트래픽 관리, 보안을 포함한 여러 주요 기능을 제공한다.&lt;/li&gt;
+&lt;li&gt;AWS 앱 메시: AWS App Mesh는 AWS 클라우드 서비스와 함께 사용하도록 명시적으로 설계된 서비스 메시 플랫폼이다. 또한 트래픽 관리, 보안, 관찰 가능성을 포함한 여러 주요 기능을 제공한다.&lt;/li&gt;
+&lt;li&gt;Google Anthos: Google은 여러 클라우드 환경에서 마이크로서비스 아키텍처를 관리하는 통합 방법을 제공하도록 설계된 서비스 메시 플랫폼이다. 이 또한 여러 주요 기능을 제공한다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;  위와 같이 많은 서비스 메시는 이미 상용화된 서비스들로써 존재하고 있으며 널리 사용되고 있다. 하지만 필자가 Istio를 선택한 이유는 Istio는 아래와 같이 빅테크들의 후원을 받고 있는 서비스 메시이며 이미 수많은 프로덕션에서 채용했기 때문에 Istio를 선택하였다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/102bdcec45f16efb1b326fbaba16c08f/e40ed/providers.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 69.60000000000001%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAYAAAAvxDzwAAAACXBIWXMAABYlAAAWJQFJUiTwAAACLklEQVR42mVU22rbQBDVJ+cT8tr+RSEvpS8JJW5IKYmp7b60lBrHkGKI77VlV7JlSbvaXel0Zi9GJYLDLnN2hp2zZxQZYxCgtT7v67pGm2vDctrntHJPpxMipTSErCCVgSJCVrSvFAwlVZ4LKIWkmOMEnQmxktaiFEjSAxckQlPyIUYyX0Ko2hZ1BZUtrjXfpLax80qcokvUTUM3btDQyrd1BasaaTzC9/EEhXAFua20VIgLiZfpDM/PvzF+GmO1WoO/ycUFxpeXuH3s4lOng+vrG2y2MSKumh6OeFmssdzEiHd7eysueCw1klxiR7HtZovZfIG/SYKGCqb9AZL7z1hQfLlcETdHXpSIuK1SkEakRVsvY7jlyt62IsGVb9utBhW1qKhV4yWwMhAXccBqRFB+ZTR0OMT44SwqbWOsmaIuLAKnnEP+K9hG7QuyHdpxZ5vmVdxxNbes4WCsdry3tmEL0SHBkM5KAZzIzmDrWNsIto2zVCTpMD8Kg72UZScStyA7AFWWQex3lKhtIvPBo3K/RlXk0LTndrXXNkro1R4fuhgMvmE0esLw1xCz6dRaI/14i92btxhSvN/rof+1h8lkgpq45ucdfnQfcPX+Bp27L3h39QGr9aY1Kfb6wrftpyEvUR4yGqkcGY0Vr3wmmD45Zlgs1/hDdpstVjjlhdNQSGX1kH6cgm0kc6zpWWcH1pfHze7t9LgHUdY2PqBbg84Io2RaXEhkzv0QXr/yPz/PNdDjlDGmAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;providers&quot;
+        title=&quot;&quot;
+        src=&quot;/static/102bdcec45f16efb1b326fbaba16c08f/0b533/providers.png&quot;
+        srcset=&quot;/static/102bdcec45f16efb1b326fbaba16c08f/fac75/providers.png 125w,
+/static/102bdcec45f16efb1b326fbaba16c08f/63868/providers.png 250w,
+/static/102bdcec45f16efb1b326fbaba16c08f/0b533/providers.png 500w,
+/static/102bdcec45f16efb1b326fbaba16c08f/1d69c/providers.png 750w,
+/static/102bdcec45f16efb1b326fbaba16c08f/00d43/providers.png 1000w,
+/static/102bdcec45f16efb1b326fbaba16c08f/e40ed/providers.png 1378w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+  위 사진은 대표적인 예시들이다. 실제론 더 많은 기업들이 있으며 구글, IBM, Red Hat, HUAWEI 등 클라우드 빅테크 기업은 거의 다 후원하고 있다. 그러면 적어도 나의 프로덕션이 갑자기 시한부 판정을 받는 일은 없을 것이다!&lt;/p&gt;
+&lt;h2 id=&quot;ingress-nginx가-아닌-gateway-api를-사용하는-이유&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#ingress-nginx%EA%B0%80-%EC%95%84%EB%8B%8C-gateway-api%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0&quot; aria-label=&quot;ingress nginx가 아닌 gateway api를 사용하는 이유 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Ingress-nginx가 아닌 Gateway API를 사용하는 이유&lt;/h2&gt;
+&lt;p&gt;  Nginx는 2023년 기준 세계 1위 프록시 서비스를 개발 및 배포하고 있는 기업이다. 독자들은 이전까진 Nginx사의 Ingress를 사용해서 앱으로의 접근을 구현했을 것이다. 그렇다면 왜 그 거대한 Nginx의 Ingress가 아닌 Gateway API를 써야 할까? 게다가 Gateway API도 L4/L7 라우팅 기능을 제공하는 Ingress와 같은 개념의 진입점이기도 한데 말이다. 하지만 그럼에도 우리가 새로운 도전을 해야 하는 이유는 크게 5가지로 본다.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;지원 기능 수&lt;/strong&gt;: 카나리아 릴리즈, A/B 테스트, 요청 및 응답 조작, 리디렉션 요청, 트래픽 미러링, 네임스페이스 간 트래픽 라우팅 등을 추가로 지원한다. 특히 카나리아 릴리즈, A/B 테스트는 로드밸런서의 구성이 연관된 문제인 만큼 이것들의 구성이 가능하고 또한 쉬워졌다는 것은 전체적인 테스트 환경 구성 및 프로덕션의 네트워크 구성이 용이해졌다는 것을 의미한다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;강력한 확장성&lt;/strong&gt;: Gateway API에는 여러 확장 지점, 사용자 정의 필터, 정책 첨부 및 대상이 포함된 강력한 어노테이션이 없는 확장성 모델이 포함되어 있다. 이 모델을 사용하면 게이트웨이 API가 유효성 검사를 제공하는 사용자 지정 리소스를 통해 고급 Data Plane 기능을 제공할 수 있다.. 또한 사용자는 라우팅 규칙과 같은 리소스 부분별로 확장을 적용하여 세부성을 더욱 높일 수 있다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;역할 분리&lt;/strong&gt;: 게이트웨이 API는 인프라 제공자, 클러스터 운영자, 애플리케이션 개발자 라는 세 가지 역할 간에 인프라 프로비저닝 및 구성에 대한 책임을 나눈다. 위의 역할은 RBAC에 의한 책임 분리를 가능하게 한다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;이식성&lt;/strong&gt;: 많은 기능을 사용하면 게이트웨이 API 구현별 확장 API에 의존할 필요성이 줄어든다. 즉, 사용자가 해당 API에 덜 묶여 있게 됩니다. 이와 대조적으로 Ingress 사용자는 Ingress 컨트롤러와 관련된 확장 프로그램에 크게 의존한다. 또한 Gateway API에는 구현에서 API 기능이 지원되는 방식의 일관성을 보장하기 위한 테스트가 함께 제공된다.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;커뮤니티&lt;/strong&gt;: Gateway API는 커뮤니티 중심 프로젝트다. 프로젝트에 기여하고 싶다면 누구나 역량을 발휘하여 기여할 수 있는 기회를 &lt;a href=&quot;https://gateway-API.sigs.k8s.io/contributing/&quot;&gt;여기&lt;/a&gt;서 가질 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;  사유를 제외하고도 Experimental한 기능들도 지속적으로 추가되고 있다. 예를 들어 v0.8.0에서 추가된 &lt;a href=&quot;https://gateway-api.sigs.k8s.io/mesh/&quot;&gt;GAMMA initiative&lt;/a&gt; 같은 기능은 South-North, East-west traffic을 효과적으로 관리할 수 있는 서비스 메시 기능이 있다. 게다가 KGA는 Kubernetes의 서비스 네트워킹을 개선하고 표준화하기 위해 구축되고 있는 &lt;a href=&quot;https://github.com/kubernetes/community/tree/master/sig-network&quot;&gt;Sig-Network&lt;/a&gt;의 프로젝트로써 쿠버네티스의 차기 표준 API가 될 가능성이 매우 높다는 의미이다. 이 정도면 KGA를 해보고자 하는 의지가 이미 독자들을 아래 예제로 이끌고 있을 것이다. 우리가 알아볼 것은 충분히 알아봤으니 드디어 정말로 아주 간단하지만 명확한 예제를 손으로 직접 해볼 차례다.&lt;/p&gt;
+&lt;h1 id=&quot;kga-적용해보기&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#kga-%EC%A0%81%EC%9A%A9%ED%95%B4%EB%B3%B4%EA%B8%B0&quot; aria-label=&quot;kga 적용해보기 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;KGA 적용해보기&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;설치 환경&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;OS&lt;/th&gt;
+&lt;th&gt;Input method&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CPU&lt;/td&gt;
+&lt;td&gt;Intel i3 13100f&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;RAM&lt;/td&gt;
+&lt;td&gt;16GB RAM&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;DISK&lt;/td&gt;
+&lt;td&gt;1TB SSD&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OS&lt;/td&gt;
+&lt;td&gt;Windows 11 with wsl2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;VM&lt;/td&gt;
+&lt;td&gt;3 Each Ubuntu22.02 in virtualbox were made by vagrant&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NODE&lt;/td&gt;
+&lt;td&gt;1 Master Node and 2 Worker Node&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;  본 글은 KGA에 대해서 다루는 글이기 때문에 쿠버네티스는 이미 구축되어 있다는 것을 전제로 진행한다. 쿠버네티스는 노드당 최소 1개의 프로세서 할당 및 16GB RAM, VM당 20GB 이상의 스토리지 용량을 권장하고 있으니 참고하자. 필자는 접근성을 높이기 위해 비교적 낮은 사양으로 준비했다.&lt;/p&gt;
+&lt;h2 id=&quot;사전-준비&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%82%AC%EC%A0%84-%EC%A4%80%EB%B9%84&quot; aria-label=&quot;사전 준비 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;사전 준비&lt;/h2&gt;
+&lt;p&gt;Istio를 다운받자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# istio 다운
+curl -L https://istio.io/downloadIstio | sh -
+cd istio-1.20.3&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;그리고 istio를 실행하기 위해 환경 변수를 잡아주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;# istio 권한 부여
+export PATH=$PWD/bin:$PATH
+sudo chmod 777 $PWD/bin
+sudo cp -f $PWD/bin/istioctl /usr/bin&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;이제 우리가 본격적으로 다뤄볼 Gateway API의 CRD를 설치하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;kubectl get crd gateways.gateway.networking.k8s.io &amp;amp;&gt; /dev/null || \
+  { kubectl kustomize &quot;github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.0.0&quot; | kubectl apply -f -; }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;  CRD는 쿠버네티스의 커스텀 리소스로서 쿠버네티스 개념이므로 넘어간다.
+이제 istio를 minimal 모드로 설치한다. istio는 &lt;a href=&quot;https://istio.io/latest/docs/setup/additional-setup/config-profiles/&quot;&gt;여러 설치 모드&lt;/a&gt;를 지원하며 우리에겐 minimal이면 충분하다.
+설치가 완료된 모습은 아래와 같다.
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 10.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAAAsSAAALEgHS3X78AAAAcklEQVR42j2LywqDMBBFXScZtJlxYmgjfaQg+gGCC///r26T0HZxOFwup9uOFeGpuD5uSPcFrAluCKBLBFUPCuql4XmEMENEwF9XVLWZiNDt5445zcjvjJxfiHEqJ7fQe/+PRg0lDLDWwhjT/KPuinMOH+B1McJh3lkRAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;istio 설치&quot;
+        title=&quot;&quot;
+        src=&quot;/static/402ba150f2b962ea24d3466497422396/0b533/5.png&quot;
+        srcset=&quot;/static/402ba150f2b962ea24d3466497422396/fac75/5.png 125w,
+/static/402ba150f2b962ea24d3466497422396/63868/5.png 250w,
+/static/402ba150f2b962ea24d3466497422396/0b533/5.png 500w,
+/static/402ba150f2b962ea24d3466497422396/1d69c/5.png 750w,
+/static/402ba150f2b962ea24d3466497422396/5b481/5.png 846w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;istio-system namespace에 생긴 istiod pod는 아래와 같다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/97669f054ee7866250de9d46b036d59d/99272/6.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 10.4%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAYAAABYBvyLAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAeElEQVR42lXMOw6DMBBAQWoEIvGy/gPGxkUiJfe/3QttimlnuD4XphhkM1gfEVd4SKS0NzY1jvYi5IpLlbN/SVul9wvvPSLCuq6oKiEElmVh2HrGnoorlph2fO6o328HT83koxPSidiMsTui8c4c8zwzjuOfaZr4AV8QMzJGqzB5AAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;k8s istio resources&quot;
+        title=&quot;&quot;
+        src=&quot;/static/97669f054ee7866250de9d46b036d59d/0b533/6.png&quot;
+        srcset=&quot;/static/97669f054ee7866250de9d46b036d59d/fac75/6.png 125w,
+/static/97669f054ee7866250de9d46b036d59d/63868/6.png 250w,
+/static/97669f054ee7866250de9d46b036d59d/0b533/6.png 500w,
+/static/97669f054ee7866250de9d46b036d59d/99272/6.png 669w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;  우리는 gcr(Google Container Registry)의 훌륭한 예제를 가지고 실습을 진행할 것이다. 실습은 아주 간단하고 쉬운 예제를 들고 왔으니 걱정할 필요는 없다.&lt;/p&gt;
+&lt;h2 id=&quot;앱-서비스-구축&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EC%95%B1-%EC%84%9C%EB%B9%84%EC%8A%A4-%EA%B5%AC%EC%B6%95&quot; aria-label=&quot;앱 서비스 구축 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;앱 서비스 구축&lt;/h2&gt;
+&lt;p&gt;  일단 프론트, 백엔드 파드와 서비스를 배포해 우리의 서비스를 구축해보자.&lt;/p&gt;
+&lt;h3 id=&quot;프론트엔드&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C&quot; aria-label=&quot;프론트엔드 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;프론트엔드&lt;/h3&gt;
+&lt;p&gt;frontend-deploy.yaml 디플로이는 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: hello
+      tier: frontend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hello
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+        - name: nginx
+          image: &quot;gcr.io/google-samples/hello-frontend:1.0&quot;
+          lifecycle:
+            preStop:
+              exec:
+                command: [&quot;/usr/sbin/nginx&quot;,&quot;-s&quot;,&quot;quit&quot;]
+...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;아래 명령어로 리소스를 적용해주자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;kubectl apply -f ./frontend-deploy.yaml&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;모든 리소스는 위의 명령에서 파일 이름만 바꿔서 적용한다.&lt;/p&gt;
+&lt;p&gt;frontend-scv.yaml 서비스는 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: hello
+    tier: frontend
+  ports:
+  - protocol: &quot;TCP&quot;
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;백엔드&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%B0%B1%EC%97%94%EB%93%9C&quot; aria-label=&quot;백엔드 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;백엔드&lt;/h3&gt;
+&lt;p&gt;backend-deploy.yaml 디플로이는 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello
+spec:
+  selector:
+    matchLabels:
+      app: hello
+      tier: backend
+      track: stable
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: hello
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: hello
+          image: &quot;gcr.io/google-samples/hello-go-gke:1.0&quot;
+          ports:
+            - name: http
+              containerPort: 80&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;backend-scv.yaml 서비스는 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;apiVersion: v1
+kind: Service
+metadata:
+  name: hello
+spec:
+  selector:
+    app: hello
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;gateway&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#gateway&quot; aria-label=&quot;gateway permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Gateway&lt;/h2&gt;
+&lt;p&gt;  게이트웨이는 논리적 로드밸런서의 인스턴스화를 나타낸다. 이는 가상의 istio 템플릿으로 만들어졌으며 게이트웨이는 포트 80에서 HTTP 트래픽을 수신한다. 게이트웨이는 EXTERNAL-IP 주소를 자동으로 할당한다.&lt;/p&gt;
+&lt;h3 id=&quot;gateway-구축&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#gateway-%EA%B5%AC%EC%B6%95&quot; aria-label=&quot;gateway 구축 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Gateway 구축&lt;/h3&gt;
+&lt;p&gt;gateway.yaml 게이트웨이는 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: hello-gateway
+  annotations:
+    service.beta.kubernetes.io/port_80_no_probe_rule: &quot;true&quot; # FOR AZURE
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: default
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;httproute&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#httproute&quot; aria-label=&quot;httproute permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;HttpRoute&lt;/h2&gt;
+&lt;p&gt;  HTTpRoute는 ParentRefs를 사용하여 연결하려는 게이트웨이를 지정한다. 게이트웨이가 이 연결을 허용하는 한 (기본적으로 동일한 네임스페이스의 경로는 신뢰 됨) 이를 통해 경로가 상위 게이트웨이로부터 트래픽을 수신할 수 있다. BackendRefs는 트래픽이 전송될 백엔드를 정의한다. 아래에서는 게이트웨이 수신기의 트래픽이 백엔드로 라우팅 되는 방식을 정의한다. 지정된 호스트 경로가 없기 때문에 이 HTTPRoute는 로드 밸런서의 포트 80에 도착하는 모든 HTTP 트래픽을 일치시켜 서비스 포드로 보낸다.&lt;/p&gt;
+&lt;p&gt;  HTTPRoute는 다양한 백엔드(잠재적으로 소유자가 다를 수 있음)에 대한 트래픽을 필터링하는 데 사용되는 경우가 많지만, 이번에는 단일 서비스 백엔드를 사용하여 가능한 가장 간단한 경로를 보여준다. 이 예시는 서비스 소유자가 게이트웨이와 HTTPRoute를 모두 단독으로 배포하여 가장 쉽고 간단하게 서비스를 제공하는 방법을 보여준다.&lt;/p&gt;
+&lt;p&gt;hello-httproute.yaml 라우트는 아래와 같다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: hello-route
+spec:
+  parentRefs:
+    - name: hello-gateway
+  rules:
+    - filters:
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            add:
+              - name: Controller
+                value: ISTIO
+      backendRefs:
+        - name: frontend
+          port: 80&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;  이제 게이트웨이와 HTTPRoute까지 리소스를 적용했으므로 전체 리소스를 확인한다. 확인은 아래 명령어로 한다.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;kubectl get all&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;뒤에 -n 옵션을 붙이면 네임스페이스 별로 조회할 수 있다. 붙이지 않으면 기본 네임스페이스인 default 네임스페이스의 리소스를 조회한다. 조회한 모습은 아래와 같다.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/8d3f76edbf3ae37a17e3aade047ae44c/4d08a/7.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 61.6%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAACXBIWXMAAA7DAAAOwwHHb6hkAAABlklEQVR42k2TR5bCQAxEe0kywTibZMA24cES7n8y4V8zmmGh10FSqVStDo/Hw/b7vazrOrter9Y0jeV5bpPJRBbHsW02G91dLhfLssyOx6Pi8H3Hh9vtJpD7/W7v99ter5f2RVHYYrGQpWmqRICez6dVVWXz+dzG47FATqeT4jkHR8cIZMW52+3EysEwfNvtVnvuV6uVTafTv/zZbGaBgOVyqYqwIYBgnACTHEWRJUmiIuv1WrEU48w9+eCwD2hHYlmWAqIFqlGdOwIBAbiua5m3Tzw+zHECVUiiIkGYMwGQe8A5uyScAWbvcuBjDYfDwdq21cMguIM7AGek4Oz3tIwPhrRLARhCJtA3baIdNhqNlAQIOvpLYzAAAE2/YzCK6FEYEdCpiPnLegGq4qcwGrksyAEoI0MhSAmQYaZlxgcn+gEMAK3Ev6LDwFnA0icCyfD/A/ad1VVtWZpZPlT2eSQQZgQhA8k8hE+DjwlnN/0UfbkB9Nye9fWa4Uv1fW98Sb5XUZRinefFwOxnkGmRFZbo6dMA4Adu7i/upFzjpAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;k8s 모든 리소스&quot;
+        title=&quot;&quot;
+        src=&quot;/static/8d3f76edbf3ae37a17e3aade047ae44c/0b533/7.png&quot;
+        srcset=&quot;/static/8d3f76edbf3ae37a17e3aade047ae44c/fac75/7.png 125w,
+/static/8d3f76edbf3ae37a17e3aade047ae44c/63868/7.png 250w,
+/static/8d3f76edbf3ae37a17e3aade047ae44c/0b533/7.png 500w,
+/static/8d3f76edbf3ae37a17e3aade047ae44c/4d08a/7.png 709w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;  hello-gateway-istio의 EXTERNAL-IP가 실제 쿠버네티스의 외부에서 접속할 수 있는 IP이므로 기억해 두자. frontend의 경우엔 컨테이너 내부의 nginx를 부팅하기 때문에 6번 정도 restart한 후에 Running으로 변경된다.&lt;/p&gt;
+&lt;p&gt;  아래 명령어로 위의 hello-gateway-istio 의 EXTERNAL-IP가 실제로 네트워크 어뎁터에 추가되었는지 확인하자.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;ip a&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;조회한 모습은 아래와 같다.
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e1542ca538ddf9ab430563ca8d5dcdc8/0d292/8.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 43.99999999999999%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAABYlAAAWJQFJUiTwAAABAUlEQVR42pWSW4+DIBCF++wlMWoMoNaCCLqbXrL//7/Nzhlbk14e7MPJAIEv58xw6LqOnHM0jiPN80whBFqWRfY4h4ZhINxTSpExhpqmIa01FUVBaZpSlmWbDlVVyQOAAIG89wLHGud4jMtJkjzpFbYB+76naZpE3q/AGCNZawVYlqU8zvP8DfAGrOt6A3o/CezhDBXncPjJzUcgHB6PAHpxhwoIIqN/cPoVEA1uW8uwHwb9sqvIsgJHZLgEcE9cAZo2cOTIsAvryoAz1z+e9JnXTiaOye6BrUDT8ZfQFANHvjtzzrNu7NDJ/qvIWg8cuZV+YSBrBfRKp5OVniq1P/I/WBPj8uLya88AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;ip a&quot;
+        title=&quot;&quot;
+        src=&quot;/static/e1542ca538ddf9ab430563ca8d5dcdc8/0b533/8.png&quot;
+        srcset=&quot;/static/e1542ca538ddf9ab430563ca8d5dcdc8/fac75/8.png 125w,
+/static/e1542ca538ddf9ab430563ca8d5dcdc8/63868/8.png 250w,
+/static/e1542ca538ddf9ab430563ca8d5dcdc8/0b533/8.png 500w,
+/static/e1542ca538ddf9ab430563ca8d5dcdc8/1d69c/8.png 750w,
+/static/e1542ca538ddf9ab430563ca8d5dcdc8/00d43/8.png 1000w,
+/static/e1542ca538ddf9ab430563ca8d5dcdc8/0d292/8.png 1620w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;  curl로 hello-gateway-istio 의 EXTERNAL-IP 로 http 요청을 날려 연결을 확인해 보자. 만약 가상 어댑터가 보이는데 연결이 안된다면 각 가상머신 혹은 디바이스에서 ipv4 포워드가 설정되어 있는지 확인해 보자.&lt;/p&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 500px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/0630f5414201274931ecc0a0e86383dc/d0cc0/9.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 45.599999999999994%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAYAAAAywQxIAAAACXBIWXMAAAsSAAALEgHS3X78AAABRElEQVR42pWSzW6DMBCEuYZ/sAnGGNskiAblDXLrob01Cmre/1Wm3k1TKVJbtYdPxkYzO2tvdHo+oTQFzEGjtx52dwws6N0TROsgW8uI1kMqj94Y1HUNKSWUUmjbFkVRIEkSpGmK6Pp+hTUWx+WI/X4P7yz6XgdBzWwbiUYKCFFB1BW22wZ5lmOz2SCOY+Zuxobr5YJOd/Cj54pKdSGBeBDEcRJEKQtpT8Isy764m7Hh+XwOVbcYhoENqR1qo2kaPqfvPM8fUvxGdAkJtdZsSC1bG+5LCIbMib8YPRiSyTzPbEirc44Zx5H//SshtUx3OE0TdrtbQkolhERV3dIlafp3w3VdoVqFwQwwYSToFWkMqqpkyjLwuSfB/VV/Inp9e0HtK/SHDp1xYRYX6GEKc3iA8eHbzuF8gnYLVFgpORXkQt/wAR+X4XHtit6DAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;helloworld!&quot;
+        title=&quot;&quot;
+        src=&quot;/static/0630f5414201274931ecc0a0e86383dc/0b533/9.png&quot;
+        srcset=&quot;/static/0630f5414201274931ecc0a0e86383dc/fac75/9.png 125w,
+/static/0630f5414201274931ecc0a0e86383dc/63868/9.png 250w,
+/static/0630f5414201274931ecc0a0e86383dc/0b533/9.png 500w,
+/static/0630f5414201274931ecc0a0e86383dc/d0cc0/9.png 732w&quot;
+        sizes=&quot;(max-width: 500px) 100vw, 500px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;
+위와 같이 {&quot;message&quot;:&quot;Hello&quot;} 메세지를 확인할 수 있다. 드디어
+우리는 쿠버네티스가 지향하는 아름다운 방법으로 우리의 작은 세상의 첫 문을 열었다&lt;/p&gt;
+&lt;h1 id=&quot;맺음말&quot; style=&quot;position:relative;&quot;&gt;&lt;a href=&quot;#%EB%A7%BA%EC%9D%8C%EB%A7%90&quot; aria-label=&quot;맺음말 permalink&quot; class=&quot;anchor before&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; focusable=&quot;false&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;맺음말&lt;/h1&gt;
+&lt;p&gt;  실제로 구축을 해본 독자들은 깨달을 것이다. Gateway API의 리소스 yaml 파일들은 굉장히 간소하고 직관적이다. 외부 세상과 첫 접점이 되는 Gateway를 만들어주며 해당 Gateway에 서비스가 직접 연결되는 것처럼 보인다. 이는 서비스의 개요를 파악하는 데 있어서 굉장히 큰 이점을 가져다준다. 그렇다면 이제 무엇을 더 할 수 있을까?&lt;/p&gt;
+&lt;p&gt;  아쉽게도 본 글에서 준비한 것은 여기까지이다. 이미 많은 개념을 늘어놓은 데다가 각각의 개념이 쉽지 않기에, 여기서 더 하진 않기로 했다. 하지만 KGA는 HttpRoute,TLSRoute, TCPRoute를 넘어 IoT의 메세지 큐 플랫폼을 위한 gRPCRoute도 실험적 기능으로 지원한다. 그리고 경로 규칙을 통해 로드밸런싱을 지원하며 가중 라우팅을 이용해 카나리아 테스트, A/B 테스트, 스트랭글러 패턴 개발, 트래픽 할당량 조절 등 수많은 기능들을 손쉽게 구현해 볼 수 있다. 또한 &lt;a href=&quot;https://istio.io/v1.16/blog/2022/get-started-ambient/&quot;&gt;엠비언트 메쉬&lt;/a&gt;를 이용하면 사이드카 패턴이 가지는 서비스와 1대1 매칭에서 가지는 리소스 핸들링의 어려움 등의 단점을 극복할 수도 있다.&lt;/p&gt;
+&lt;p&gt;  필자는 다음 글에선 독자들의 숨길 수 없는 빛나는 눈빛을 만족시켜 주기 위해서 심화 예제를 가져와 독자들에게 소개해 볼 예정이다. 다음 글을 즐겁게 쓸 수 있도록 이 글의 독자는 아래 채용 블로그를 참고하여 원프레딕트에 합류해 더 넓은 세상을 같이 고민해 볼 수 있는 기회를 가져보도록 하자.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[우당탕탕! 쿠버네티스 설치기]]></title><description><![CDATA[여정(?) 의 시작 쿠버네티스는 뭘까? 쿠버네티스의 주요 기능 쿠버네티스 설치하기 Postgres 구동 하기 minikube Log 확인 qemu…]]></description><link>http://onepredict.github.io/chaotic-kubernetes-setup/</link><guid isPermaLink="false">http://onepredict.github.io/chaotic-kubernetes-setup/</guid><pubDate>Tue, 06 Feb 2024 15:00:00 GMT</pubDate><content:encoded>&lt;div class=&quot;table-of-contents&quot;&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;#%EC%97%AC%EC%A0%95-%EC%9D%98-%EC%8B%9C%EC%9E%91&quot;&gt;여정(?) 의 시작&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;#%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4%EB%8A%94-%EB%AD%98%EA%B9%8C&quot;&gt;쿠버네티스는 뭘까?&lt;/a&gt;&lt;/li&gt;
